@@ -22,7 +22,7 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
-  - jekyll-compress-html
+  # jekyll-compress-html 插件已移除（RubyGems 上不可用）
 
 # 分页
 paginate: 10
@@ -119,15 +119,8 @@ exclude:
 sass:
   style: compressed
 
-# 压缩输出
-compress_html:
-  clippings: all
-  comments: all
-  endings: all
-  blanklines: false
-  profile: false
-  ignore:
-    envs: [development]
+# HTML 压缩配置已移除（jekyll-compress-html 插件不可用）
+# 如需压缩 HTML，可以使用其他方法或通过构建后处理
 
 # 缓存控制
 keep_files:
