@@ -44,8 +44,6 @@ navigation:
     url: /about/
   - title: 归档
     url: /archive/
-  - title: 登录
-    url: /login.html
 
 # 社交媒体
 social:
@@ -63,22 +61,7 @@ comments:
     issue_term: pathname
     theme: github-light
 
-# 认证系统配置
-auth:
-  github:
-    client_id: "YOUR_GITHUB_CLIENT_ID"  # 需要在GitHub创建OAuth App
-    redirect_uri: "/auth/callback.html"
-  admin_users:
-    - "your-github-username"  # 管理员GitHub用户名列表
-  local_users:
-    - username: "admin"
-      password: "admin123"  # 实际应该使用哈希密码
-      name: "管理员"
-      role: "admin"
-    - username: "user"
-      password: "user123"
-      name: "普通用户"
-      role: "user"
+# 认证系统配置已移除
 
 # 主页分类配置（参考少数派风格）
 # 注意：slug 必须与文章中的 categories 字段匹配
@@ -114,8 +97,11 @@ exclude:
   - .github
   - README.md
   - SETUP.md
-  - AUTH_SETUP.md
   - COMMENTS_SETUP.md
+  - login.html
+  - profile.html
+  - admin
+  - auth
 
 # 优化配置
 sass:

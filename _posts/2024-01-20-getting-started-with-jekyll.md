@@ -2,7 +2,7 @@
 layout: post
 title: "Jekyll 入门指南"
 date: 2024-01-20 14:30:00 +0800
-categories: [technology]
+categories: [efficiency]
 tags: [Jekyll, 教程, 静态网站]
 author: Your Name
 ---

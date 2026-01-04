@@ -22,10 +22,5 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
-    // 初始化认证系统（如果auth.js已加载）
-    if (typeof auth !== 'undefined') {
-        auth.updateUI();
-    }
 });
 

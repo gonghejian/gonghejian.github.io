@@ -13,23 +13,8 @@
                         </a>
                     </li>
                     {% endfor %}
-                    <li class="nav-item" id="adminPanelLink" style="display: none;">
-                        <a href="{{ '/admin/' | relative_url }}" class="nav-link">管理</a>
-                    </li>
                 </ul>
             </nav>
-            <div class="header-right">
-                <div id="userMenu" class="user-menu" style="display: none;">
-                    <img src="" alt="" class="user-avatar" style="display: none;">
-                    <div class="user-dropdown">
-                        <span class="user-name"></span>
-                        <div class="user-dropdown-menu">
-                            <a href="{{ '/admin/' | relative_url }}" id="adminPanelLinkMenu" class="user-dropdown-item" style="display: none;">管理面板</a>
-                            <button id="logoutBtn" class="user-dropdown-item" style="display: none; border: none; background: none; width: 100%; text-align: left; cursor: pointer;">登出</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <button class="mobile-menu-toggle" aria-label="菜单">
                 <span></span>
                 <span></span>
