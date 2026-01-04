@@ -17,7 +17,10 @@
     <header class="site-header">
         <div class="container">
             <div class="header-content">
-                <a href="preview.html" class="site-title">弓箭的博客</a>
+                <a href="preview.html" class="site-title">
+                    <img src="favicon.ico" alt="Logo" class="site-logo" onerror="this.src='ico.jpg'; this.onerror=null;">
+                    <span class="site-title-text">弓箭的博客</span>
+                </a>
                 <nav class="site-nav">
                     <ul class="nav-list">
                         <li class="nav-item">
@@ -27,31 +30,13 @@
                             <a href="preview-categories.html" class="nav-link">分类</a>
                         </li>
                         <li class="nav-item">
-                            <a href="preview-posts.html" class="nav-link active">文章</a>
+                            <a href="preview-archive.html" class="nav-link">归档</a>
                         </li>
                         <li class="nav-item">
                             <a href="preview-about.html" class="nav-link">关于</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="preview-archive.html" class="nav-link">归档</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="preview-login.html" class="nav-link" id="loginLink">登录</a>
-                        </li>
                     </ul>
                 </nav>
-                <div class="header-right">
-                    <div id="userMenu" class="user-menu" style="display: none;">
-                        <img src="" alt="" class="user-avatar" style="display: none;">
-                        <div class="user-dropdown">
-                            <span class="user-name"></span>
-                            <div class="user-dropdown-menu">
-                                <a href="admin/index.html" id="adminPanelLinkMenu" class="user-dropdown-item" style="display: none;">管理面板</a>
-                                <button id="logoutBtn" class="user-dropdown-item" style="display: none; border: none; background: none; width: 100%; text-align: left; cursor: pointer;">登出</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <button class="mobile-menu-toggle" aria-label="菜单">
                     <span></span>
                     <span></span>
@@ -126,7 +111,6 @@
         </div>
     </footer>
     
-    <script src="assets/js/auth.js"></script>
     <script src="assets/js/main.js"></script>
     
     <style>
