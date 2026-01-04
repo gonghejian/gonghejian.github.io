@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon 预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Noto Sans SC", "Segoe UI", sans-serif;
+            background: #f5f5f7;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .preview-container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .favicon-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .favicon-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 30px;
+            background: #f5f5f7;
+            border-radius: 8px;
+            width: 100%;
+        }
+        
+        .favicon-size {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .size-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #d2d2d7;
+        }
+        
+        .size-label {
+            font-size: 12px;
+            color: #86868b;
+            font-weight: 500;
+        }
+        
+        .size-preview {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed #d2d2d7;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+        
+        .size-16 { width: 16px; height: 16px; }
+        .size-32 { width: 32px; height: 32px; }
+        .size-48 { width: 48px; height: 48px; }
+        .size-64 { width: 64px; height: 64px; }
+        .size-128 { width: 128px; height: 128px; }
+        
+        .browser-preview {
+            margin-top: 30px;
+            padding: 20px;
+            background: #1d1d1f;
+            border-radius: 8px;
+        }
+        
+        .browser-tab {
+            background: #2d2d2f;
+            padding: 10px 15px;
+            border-radius: 6px 6px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .browser-icon {
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 2px;
+        }
+        
+        .browser-title {
+            color: #86868b;
+            font-size: 12px;
+            flex: 1;
+        }
+        
+        .info-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f7;
+            border-radius: 8px;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #d2d2d7;
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-size: 14px;
+            color: #86868b;
+        }
+        
+        .info-value {
+            font-size: 14px;
+            color: #1d1d1f;
+            font-weight: 500;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-warning {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        
+        .tips {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-left: 4px solid #007AFF;
+            border-radius: 4px;
+        }
+        
+        .tips-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #007AFF;
+            margin-bottom: 8px;
+        }
+        
+        .tips-content {
+            font-size: 13px;
+            color: #1d1d1f;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <h1>🎨 Favicon 预览</h1>
+        
+        <div class="favicon-preview">
+            <div class="favicon-display">
+                <h2 style="font-size: 18px; color: #1d1d1f; margin-bottom: 10px;">当前 Favicon</h2>
+                <img src="favicon.ico" alt="Favicon" style="width: 64px; height: 64px; image-rendering: -webkit-optimize-contrast;" onerror="this.src='ico.jpg'; this.onerror=null;">
+                <img src="ico.jpg" alt="Favicon (JPG)" style="width: 64px; height: 64px; display: none;" id="jpg-fallback" onload="document.querySelector('img[src=\'favicon.ico\']').style.display='none'; this.style.display='block';">
+                <div id="error-message" style="display: none; color: #c33; text-align: center;">
+                    <p>❌ 未找到 favicon 文件</p>
+                    <p style="font-size: 12px; margin-top: 5px;">请确保 favicon.ico 或 ico.jpg 文件在项目根目录</p>
+                </div>
+            </div>
+            
+            <div class="favicon-size">
+                <div class="size-item">
+                    <div class="size-label">16×16</div>
+                    <div class="size-preview size-16">
+                        <img src="favicon.ico" alt="16x16" style="width: 16px; height: 16px;" onerror="this.src='ico.jpg'; this.onerror=null;">
+                    </div>
+                </div>
+                <div class="size-item">
+                    <div class="size-label">32×32</div>
+                    <div class="size-preview size-32">
+                        <img src="favicon.ico" alt="32x32" style="width: 32px; height: 32px;" onerror="this.src='ico.jpg'; this.onerror=null;">
+                    </div>
+                </div>
+                <div class="size-item">
+                    <div class="size-label">48×48</div>
+                    <div class="size-preview size-48">
+                        <img src="favicon.ico" alt="48x48" style="width: 48px; height: 48px;" onerror="this.src='ico.jpg'; this.onerror=null;">
+                    </div>
+                </div>
+                <div class="size-item">
+                    <div class="size-label">64×64</div>
+                    <div class="size-preview size-64">
+                        <img src="favicon.ico" alt="64x64" style="width: 64px; height: 64px;" onerror="this.src='ico.jpg'; this.onerror=null;">
+                    </div>
+                </div>
+                <div class="size-item">
+                    <div class="size-label">128×128</div>
+                    <div class="size-preview size-128">
+                        <img src="favicon.ico" alt="128x128" style="width: 128px; height: 128px;" onerror="this.src='ico.jpg'; this.onerror=null;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="browser-preview">
+            <div class="browser-tab">
+                <div class="browser-icon">
+                    <img src="favicon.ico" alt="Favicon" style="width: 16px; height: 16px;" onerror="this.src='ico.jpg'; this.onerror=null;">
+                </div>
+                <div class="browser-title">弓箭的博客 - Favicon 预览</div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-item">
+                <span class="info-label">文件路径</span>
+                <span class="info-value">/favicon.ico</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">配置状态</span>
+                <span class="info-value">
+                    <span class="status status-success">✓ 已配置</span>
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">HTML 链接</span>
+                <span class="info-value">已添加到 default.html</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Jekyll 配置</span>
+                <span class="info-value">已添加到 _config.yml</span>
+            </div>
+        </div>
+        
+        <div class="tips">
+            <div class="tips-title">💡 使用提示</div>
+            <div class="tips-content">
+                <p>1. 确保 favicon.ico 文件在项目根目录（与 _config.yml 同级）</p>
+                <p>2. 建议使用 16×16、32×32 或 48×48 像素的 ICO 格式</p>
+                <p>3. 部署后清除浏览器缓存才能看到新图标</p>
+                <p>4. 如果图标未显示，检查文件路径和文件名是否正确</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

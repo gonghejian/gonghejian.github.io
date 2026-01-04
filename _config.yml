@@ -83,6 +83,8 @@ home_categories:
 include:
   - assets
   - CNAME
+  - favicon.ico
+  - ico.jpg
 
 # 排除文件
 exclude:
