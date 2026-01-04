@@ -33,7 +33,7 @@ layout: default
                         {% endfor %}
                     </div>
                     {% if category_posts.size > 5 %}
-                    <a href="{{ '/categories.html' | relative_url }}#{{ category.slug }}" class="category-more" aria-label="查看 {{ category.name }} 分类的所有文章">查看更多 →</a>
+                    <a href="{{ '/categories/' | relative_url }}#{{ category.slug }}" class="category-more" aria-label="查看 {{ category.name }} 分类的所有文章">查看更多 →</a>
                     {% endif %}
                 </div>
                 {% endif %}
@@ -47,7 +47,7 @@ layout: default
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">最新文章</h2>
-                <a href="{{ '/posts/' | relative_url }}" class="section-more" aria-label="查看所有文章">查看全部 →</a>
+                <a href="{{ '/categories/' | relative_url }}" class="section-more" aria-label="查看所有文章">查看全部 →</a>
             </div>
             <div class="posts-list">
                 {% assign sorted_posts = site.posts | sort: "date" | reverse %}

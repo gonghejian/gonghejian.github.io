@@ -1,11 +1,15 @@
 ---
 layout: default
 title: 分类
+permalink: /categories/
 ---
 
 <div class="categories-page">
     <div class="container">
-        <h1 class="page-title">文章分类</h1>
+        <div class="page-header">
+            <h1 class="page-title">文章分类</h1>
+            <p class="page-description">按主题浏览所有文章</p>
+        </div>
         
         <div class="categories-list">
             {% for category_config in site.home_categories %}
@@ -77,11 +81,22 @@ title: 分类
     padding: var(--spacing-xl) 0;
 }
 
+.page-header {
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+}
+
 .page-title {
     font-size: var(--font-size-h1);
     font-weight: 700;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-xs);
     color: var(--color-text);
+}
+
+.page-description {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    margin: 0;
 }
 
 .categories-list {
