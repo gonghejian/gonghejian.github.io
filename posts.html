@@ -1,0 +1,34 @@
+---
+layout: default
+title: 所有文章
+---
+
+<div class="posts-page">
+    <div class="container">
+        <h1 class="page-title">所有文章</h1>
+        
+        <div class="posts-list">
+            {% for post in site.posts %}
+            <article class="post-card">
+                <div class="post-card-content">
+                    <h3 class="post-card-title">
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </h3>
+                    <p class="post-card-excerpt">
+                        {{ post.excerpt | strip_html | truncatewords: 30 }}
+                    </p>
+                    <div class="post-card-meta">
+                        <time datetime="{{ post.date | date: '%Y-%m-%d' }}" class="post-card-date">
+                            {{ post.date | date: "%Y年%m月%d日" }}
+                        </time>
+                        {% if post.categories.size > 0 %}
+                        <span class="post-card-category">{{ post.categories.first }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+

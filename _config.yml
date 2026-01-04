@@ -1,0 +1,134 @@
+# Jekyll配置
+title: "弓箭的博客"
+description: "记录思考、分享知识、探索世界"
+author: "Your Name"
+email: "your.email@example.com"
+url: "https://yourusername.github.io"
+baseurl: ""
+
+# 语言设置
+lang: zh-CN
+locale: zh_CN
+
+# 构建设置
+markdown: kramdown
+highlighter: rouge
+permalink: /:year/:month/:day/:title/
+
+# 插件
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-compress-html
+
+# 分页
+paginate: 10
+paginate_path: "/page:num/"
+
+# 主题设置
+theme: null
+
+# 导航菜单
+navigation:
+  - title: 首页
+    url: /
+  - title: 分类
+    url: /categories.html
+  - title: 文章
+    url: /posts/
+  - title: 关于
+    url: /about/
+  - title: 归档
+    url: /archive/
+  - title: 登录
+    url: /login.html
+
+# 社交媒体
+social:
+  github: yourusername
+  twitter: yourusername
+  email: your.email@example.com
+
+# 评论系统配置
+# 可选值: utterances, gitalk, custom
+# custom: 支持匿名评论，使用 localStorage 存储（仅用于演示）
+comments:
+  provider: custom  # 改为 custom 启用匿名评论功能
+  utterances:
+    repo: yourusername/your-repo-name  # 修改为你的GitHub仓库
+    issue_term: pathname
+    theme: github-light
+
+# 认证系统配置
+auth:
+  github:
+    client_id: "YOUR_GITHUB_CLIENT_ID"  # 需要在GitHub创建OAuth App
+    redirect_uri: "/auth/callback.html"
+  admin_users:
+    - "your-github-username"  # 管理员GitHub用户名列表
+  local_users:
+    - username: "admin"
+      password: "admin123"  # 实际应该使用哈希密码
+      name: "管理员"
+      role: "admin"
+    - username: "user"
+      password: "user123"
+      name: "普通用户"
+      role: "user"
+
+# 主页分类配置（参考少数派风格）
+home_categories:
+  - name: 效率工具
+    slug: efficiency
+    icon: ⚡
+    description: 提升工作效率的工具和方法
+  - name: 生活方式
+    slug: lifestyle
+    icon: 🌟
+    description: 生活感悟、日常思考
+  - name: 阅读笔记
+    slug: reading
+    icon: 📚
+    description: 读书笔记和读后感
+
+# 包含文件（确保assets目录被处理）
+include:
+  - assets
+  - CNAME
+
+# 排除文件
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git
+  - .gitignore
+  - preview.html
+  - preview-*.html
+  - .github
+  - README.md
+  - SETUP.md
+  - AUTH_SETUP.md
+  - COMMENTS_SETUP.md
+
+# 优化配置
+sass:
+  style: compressed
+
+# 压缩输出
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  blanklines: false
+  profile: false
+  ignore:
+    envs: [development]
+
+# 缓存控制
+keep_files:
+  - .git
+  - .gitignore
+

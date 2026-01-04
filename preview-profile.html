@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 弓箭的博客</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="preview.html" class="site-title">弓箭的博客</a>
+                <nav class="site-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="preview.html" class="nav-link">首页</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-categories.html" class="nav-link">分类</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-posts.html" class="nav-link">文章</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-about.html" class="nav-link">关于</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-archive.html" class="nav-link">归档</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-login.html" class="nav-link" id="loginLink">登录</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="header-right">
+                    <div id="userMenu" class="user-menu" style="display: flex;">
+                        <div class="user-dropdown">
+                            <span class="user-name">user</span>
+                            <div class="user-dropdown-menu">
+                                <a href="preview-profile.html" class="user-dropdown-item">个人中心</a>
+                                <button id="logoutBtn" class="user-dropdown-item" onclick="window.location.href='preview.html'" style="display: block; border: none; background: none; width: 100%; text-align: left; cursor: pointer;">登出</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="profile-page">
+        <div class="container">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <div class="avatar-circle">U</div>
+                </div>
+                <div class="profile-info">
+                    <h1 class="profile-name">user</h1>
+                    <p class="profile-role">普通用户</p>
+                    <p class="profile-email">user@example.com</p>
+                </div>
+            </div>
+
+            <div class="profile-tabs">
+                <button class="profile-tab active" data-tab="overview">概览</button>
+                <button class="profile-tab" data-tab="posts">我的文章</button>
+                <button class="profile-tab" data-tab="comments">我的评论</button>
+                <button class="profile-tab" data-tab="settings">设置</button>
+            </div>
+
+            <div class="profile-tab-content active" id="tab-overview">
+                <div class="profile-stats">
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div class="stat-value">1</div>
+                            <div class="stat-label">我的文章</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">我的评论</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">获赞数</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-card">
+                    <h3 class="profile-card-title">最近活动</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">📝</div>
+                            <div class="activity-content">
+                                <p class="activity-text">发布了文章 <a href="#">Jekyll 入门指南</a></p>
+                                <p class="activity-time">2 天前</p>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">💬</div>
+                            <div class="activity-content">
+                                <p class="activity-text">评论了文章 <a href="#">欢迎来到我的博客</a></p>
+                                <p class="activity-time">5 天前</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-tab-content" id="tab-posts">
+                <div class="profile-card">
+                    <div class="profile-card-header">
+                        <h3 class="profile-card-title">我的文章</h3>
+                        <a href="#" class="btn btn-primary">写文章</a>
+                    </div>
+                    <div class="posts-list">
+                        <div class="post-item">
+                            <h4 class="post-item-title"><a href="#">Jekyll 入门指南</a></h4>
+                            <p class="post-item-meta">技术分享 · 2024-01-20 · 已发布</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-tab-content" id="tab-comments">
+                <div class="profile-card">
+                    <h3 class="profile-card-title">我的评论</h3>
+                    <div class="comments-list">
+                        <div class="comment-item">
+                            <p class="comment-text">这是一条评论内容，表达了对文章的看法和想法...</p>
+                            <p class="comment-meta">在 <a href="#">欢迎来到我的博客</a> · 5 天前</p>
+                        </div>
+                        <div class="comment-item">
+                            <p class="comment-text">很有帮助的文章，学到了很多！</p>
+                            <p class="comment-meta">在 <a href="#">Jekyll 入门指南</a> · 3 天前</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-tab-content" id="tab-settings">
+                <div class="profile-card">
+                    <h3 class="profile-card-title">个人设置</h3>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>昵称</label>
+                            <input type="text" class="form-input" placeholder="输入昵称" value="user">
+                        </div>
+                        <div class="form-group">
+                            <label>个人简介</label>
+                            <textarea class="form-input" rows="4" placeholder="介绍一下自己...">普通用户，喜欢阅读和分享</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>邮箱</label>
+                            <input type="email" class="form-input" placeholder="your@email.com" value="user@example.com">
+                        </div>
+                        <button class="btn btn-primary" onclick="alert('设置已保存（演示功能）')">保存设置</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 标签页切换
+        document.querySelectorAll('.profile-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
+                
+                document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                document.querySelectorAll('.profile-tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById('tab-' + tabName).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
+

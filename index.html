@@ -1,0 +1,84 @@
+---
+layout: default
+---
+
+<div class="home">
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">{{ site.title }}</h1>
+            <p class="hero-description">{{ site.description }}</p>
+        </div>
+    </section>
+    
+    <!-- 分类导航区块 -->
+    <section class="categories-section">
+        <div class="container">
+            <div class="categories-grid">
+                {% for category in site.home_categories %}
+                {% assign category_posts = site.posts | where_exp: "post", "post.categories contains category.slug" %}
+                {% if category_posts.size > 0 %}
+                <div class="category-block">
+                    <div class="category-header">
+                        <span class="category-icon">{{ category.icon }}</span>
+                        <h2 class="category-title">{{ category.name }}</h2>
+                        <span class="category-count">({{ category_posts.size }})</span>
+                    </div>
+                    <p class="category-description">{{ category.description }}</p>
+                    <div class="category-posts">
+                        {% for post in category_posts limit: 5 %}
+                        <article class="category-post-item">
+                            <time class="category-post-date">{{ post.date | date: "%m-%d" }}</time>
+                            <a href="{{ post.url | relative_url }}" class="category-post-link">{{ post.title }}</a>
+                        </article>
+                        {% endfor %}
+                    </div>
+                    <a href="{{ '/categories.html' | relative_url }}#{{ category.slug }}" class="category-more">查看更多 →</a>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- 最新文章区块 -->
+    <section class="posts-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">最新文章</h2>
+                <a href="{{ '/posts/' | relative_url }}" class="section-more">查看全部 →</a>
+            </div>
+            <div class="posts-list">
+                {% for post in site.posts limit: 6 %}
+                <article class="post-card">
+                    <div class="post-card-content">
+                        <div class="post-card-header">
+                            {% if post.categories.size > 0 %}
+                            <span class="post-card-category">{{ post.categories.first }}</span>
+                            {% endif %}
+                            <time datetime="{{ post.date | date: '%Y-%m-%d' }}" class="post-card-date">
+                                {{ post.date | date: "%Y年%m月%d日" }}
+                            </time>
+                        </div>
+                        <h3 class="post-card-title">
+                            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                        </h3>
+                        <p class="post-card-excerpt">
+                            {{ post.excerpt | strip_html | truncatewords: 25 }}
+                        </p>
+                        <div class="post-card-footer">
+                            {% if post.tags.size > 0 %}
+                            <div class="post-card-tags">
+                                {% for tag in post.tags limit: 3 %}
+                                <span class="post-tag">#{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理面板 - 弓箭的博客</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="preview.html" class="site-title">弓箭的博客</a>
+                <nav class="site-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="preview.html" class="nav-link">首页</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-categories.html" class="nav-link">分类</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-posts.html" class="nav-link">文章</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-about.html" class="nav-link">关于</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-archive.html" class="nav-link">归档</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-admin.html" class="nav-link active">管理</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="header-right">
+                    <div id="userMenu" class="user-menu" style="display: flex;">
+                        <div class="user-dropdown">
+                            <span class="user-name">admin</span>
+                            <div class="user-dropdown-menu">
+                                <a href="preview-admin.html" class="user-dropdown-item">管理面板</a>
+                                <a href="preview-profile.html" class="user-dropdown-item">个人中心</a>
+                                <button id="logoutBtn" class="user-dropdown-item" onclick="window.location.href='preview.html'" style="display: block; border: none; background: none; width: 100%; text-align: left; cursor: pointer;">登出</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-panel">
+        <div class="container">
+            <div class="admin-header">
+                <div class="admin-header-content">
+                    <div>
+                        <h1 class="admin-title">管理面板</h1>
+                        <p class="admin-subtitle">欢迎回来，admin</p>
+                    </div>
+                    <div class="admin-header-actions">
+                        <a href="#" class="btn btn-primary">新建文章</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="overview">概览</button>
+                <button class="admin-tab" data-tab="posts">文章管理</button>
+                <button class="admin-tab" data-tab="users">用户管理</button>
+                <button class="admin-tab" data-tab="settings">设置</button>
+            </div>
+
+            <div class="admin-tab-content active" id="tab-overview">
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-content">
+                            <div class="stat-value">2</div>
+                            <div class="stat-label">总文章数</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📂</div>
+                        <div class="stat-content">
+                            <div class="stat-value">6</div>
+                            <div class="stat-label">分类数</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏷️</div>
+                        <div class="stat-content">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">标签数</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-content">
+                            <div class="stat-value">2</div>
+                            <div class="stat-label">用户数</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-grid">
+                    <div class="admin-card">
+                        <h3 class="admin-card-title">最近文章</h3>
+                        <div class="admin-list">
+                            <div class="admin-list-item">
+                                <div class="list-item-content">
+                                    <h4 class="list-item-title">Jekyll 入门指南</h4>
+                                    <p class="list-item-meta">技术分享 · 2024-01-20</p>
+                                </div>
+                                <div class="list-item-actions">
+                                    <button class="btn-icon" title="编辑">✏️</button>
+                                    <button class="btn-icon" title="删除">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="admin-list-item">
+                                <div class="list-item-content">
+                                    <h4 class="list-item-title">欢迎来到我的博客</h4>
+                                    <p class="list-item-meta">生活方式 · 2024-01-15</p>
+                                </div>
+                                <div class="list-item-actions">
+                                    <button class="btn-icon" title="编辑">✏️</button>
+                                    <button class="btn-icon" title="删除">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <h3 class="admin-card-title">系统信息</h3>
+                        <div class="admin-info-list">
+                            <div class="info-item">
+                                <span class="info-label">博客版本</span>
+                                <span class="info-value">v1.0.0</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Jekyll 版本</span>
+                                <span class="info-value">4.3+</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">最后更新</span>
+                                <span class="info-value">刚刚</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="tab-posts">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">文章列表</h3>
+                        <div class="admin-filters">
+                            <select class="filter-select">
+                                <option>全部分类</option>
+                                <option>技术分享</option>
+                                <option>生活方式</option>
+                            </select>
+                            <input type="text" class="filter-search" placeholder="搜索文章...">
+                        </div>
+                    </div>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>标题</th>
+                                <th>分类</th>
+                                <th>日期</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Jekyll 入门指南</td>
+                                <td><span class="badge">技术分享</span></td>
+                                <td>2024-01-20</td>
+                                <td><span class="status-badge published">已发布</span></td>
+                                <td>
+                                    <button class="btn-link">编辑</button>
+                                    <button class="btn-link text-danger">删除</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>欢迎来到我的博客</td>
+                                <td><span class="badge">生活方式</span></td>
+                                <td>2024-01-15</td>
+                                <td><span class="status-badge published">已发布</span></td>
+                                <td>
+                                    <button class="btn-link">编辑</button>
+                                    <button class="btn-link text-danger">删除</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="tab-users">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">用户列表</h3>
+                        <button class="btn btn-primary">添加用户</button>
+                    </div>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>角色</th>
+                                <th>登录方式</th>
+                                <th>最后登录</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="user-avatar-small">A</div>
+                                        <span>admin</span>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge admin">管理员</span></td>
+                                <td>本地</td>
+                                <td>-</td>
+                                <td>
+                                    <button class="btn-link">编辑</button>
+                                    <button class="btn-link text-danger">删除</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="user-avatar-small">U</div>
+                                        <span>user</span>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge user">用户</span></td>
+                                <td>本地</td>
+                                <td>-</td>
+                                <td>
+                                    <button class="btn-link">编辑</button>
+                                    <button class="btn-link text-danger">删除</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="tab-settings">
+                <div class="admin-grid">
+                    <div class="admin-card">
+                        <h3 class="admin-card-title">基本设置</h3>
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label>博客标题</label>
+                                <input type="text" value="弓箭的博客" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>博客描述</label>
+                                <textarea class="form-input" rows="3">记录思考、分享知识、探索世界</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>作者名称</label>
+                                <input type="text" value="Your Name" class="form-input">
+                            </div>
+                            <button class="btn btn-primary">保存设置</button>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <h3 class="admin-card-title">安全设置</h3>
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label>修改密码</label>
+                                <input type="password" placeholder="新密码" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>确认密码</label>
+                                <input type="password" placeholder="确认新密码" class="form-input">
+                            </div>
+                            <button class="btn btn-primary">更新密码</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 标签页切换
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
+                
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById('tab-' + tabName).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
+

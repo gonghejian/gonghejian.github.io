@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jekyll 入门指南 - 弓箭的博客</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="preview.html" class="site-title">弓箭的博客</a>
+                <nav class="site-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="preview.html" class="nav-link">首页</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-categories.html" class="nav-link">分类</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-posts.html" class="nav-link">文章</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-about.html" class="nav-link">关于</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-archive.html" class="nav-link">归档</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-login.html" class="nav-link" id="loginLink">登录</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="header-right">
+                    <div id="userMenu" class="user-menu" style="display: none;">
+                        <img src="" alt="" class="user-avatar" style="display: none;">
+                        <div class="user-dropdown">
+                            <span class="user-name"></span>
+                            <div class="user-dropdown-menu">
+                                <a href="admin/index.html" id="adminPanelLinkMenu" class="user-dropdown-item" style="display: none;">管理面板</a>
+                                <button id="logoutBtn" class="user-dropdown-item" style="display: none; border: none; background: none; width: 100%; text-align: left; cursor: pointer;">登出</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <article class="post">
+            <header class="post-header">
+                <a href="preview.html" class="back-link">← 返回首页</a>
+                <h1 class="post-title">Jekyll 入门指南</h1>
+                <div class="post-meta">
+                    <time datetime="2024-01-20" class="post-date">2024年01月20日</time>
+                    <span class="post-author">作者：Your Name</span>
+                    <div class="post-categories">
+                        <span class="category-tag">生活方式</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="post-content">
+                <p>Jekyll 是一个简单、可扩展的静态网站生成器，非常适合创建博客和个人网站。本文将介绍如何开始使用 Jekyll。</p>
+                
+                <h2>什么是 Jekyll？</h2>
+                <p>Jekyll 是一个将纯文本转换为静态网站和博客的工具。它使用 Markdown 和 Liquid 模板引擎，让你专注于内容创作，而不需要担心数据库或服务器配置。</p>
+                
+                <h2>安装 Jekyll</h2>
+                <h3>前置要求</h3>
+                <ul>
+                    <li>Ruby（建议使用 2.5 或更高版本）</li>
+                    <li>RubyGems</li>
+                    <li>GCC 和 Make</li>
+                </ul>
+                
+                <h3>安装步骤</h3>
+                <p>1. 安装 Jekyll 和 Bundler：</p>
+                <pre><code>gem install jekyll bundler</code></pre>
+                
+                <p>2. 创建新站点：</p>
+                <pre><code>jekyll new my-blog
+cd my-blog</code></pre>
+                
+                <p>3. 构建站点并启动服务器：</p>
+                <pre><code>bundle exec jekyll serve</code></pre>
+                
+                <p>访问 <code>http://localhost:4000</code> 即可查看你的网站。</p>
+                
+                <h2>目录结构</h2>
+                <p>一个典型的 Jekyll 站点包含以下目录：</p>
+                <ul>
+                    <li><code>_config.yml</code> - 配置文件</li>
+                    <li><code>_posts/</code> - 博客文章</li>
+                    <li><code>_layouts/</code> - 布局模板</li>
+                    <li><code>_includes/</code> - 可重用组件</li>
+                    <li><code>assets/</code> - CSS、JS、图片等资源</li>
+                </ul>
+                
+                <h2>总结</h2>
+                <p>Jekyll 是一个强大而简单的工具，适合创建静态网站和博客。通过本文的介绍，你应该已经了解了如何开始使用 Jekyll。</p>
+            </div>
+            
+            <footer class="post-footer">
+                <div class="post-tags">
+                    <span class="tags-label">标签：</span>
+                    <a href="#" class="tag-link">#Jekyll</a>
+                    <a href="#" class="tag-link">#教程</a>
+                    <a href="#" class="tag-link">#静态网站</a>
+                </div>
+                
+                <div class="post-navigation">
+                    <a href="#" class="nav-link nav-prev">
+                        <span class="nav-label">上一篇</span>
+                        <span class="nav-title">欢迎来到我的博客</span>
+                    </a>
+                    <div class="nav-link nav-next" style="opacity: 0.5;">
+                        <span class="nav-label">下一篇</span>
+                        <span class="nav-title">暂无</span>
+                    </div>
+                </div>
+            </footer>
+            
+            <!-- 评论区域 -->
+            <div class="comments-section">
+                <h3 class="comments-title">评论 <span id="commentCount" class="comment-count"></span></h3>
+                
+                <!-- 评论表单 -->
+                <div class="comment-form-container">
+                    <form id="commentForm" class="comment-form">
+                        <div class="form-group">
+                            <label for="commentAuthor" class="form-label">昵称（可选）</label>
+                            <input type="text" id="commentAuthor" class="form-input" placeholder="匿名访客" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="commentText" class="form-label">评论内容</label>
+                            <textarea id="commentText" class="form-input" rows="4" placeholder="写下你的评论..." required></textarea>
+                        </div>
+                        <div class="comment-form-actions">
+                            <button type="submit" class="btn btn-primary">发表评论</button>
+                            <span class="comment-tip">支持匿名评论，昵称可选</span>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- 评论列表 -->
+                <div id="commentsList" class="comments-list-container">
+                    <div class="comments-loading" style="text-align: center; padding: 20px; color: var(--color-text-secondary);">
+                        加载评论中...
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2024 弓箭的博客. 保留所有权利。</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="assets/js/comments.js"></script>
+</body>
+</html>
+

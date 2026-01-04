@@ -1,0 +1,31 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author | default: site.title }}. 保留所有权利。</p>
+                <p class="footer-description">{{ site.description }}</p>
+            </div>
+            <div class="footer-social">
+                {% if site.social.github %}
+                <a href="https://github.com/{{ site.social.github }}" class="social-link" target="_blank" rel="noopener">
+                    GitHub
+                </a>
+                {% endif %}
+                {% if site.social.twitter %}
+                <a href="https://twitter.com/{{ site.social.twitter }}" class="social-link" target="_blank" rel="noopener">
+                    Twitter
+                </a>
+                {% endif %}
+                {% if site.social.email %}
+                <a href="mailto:{{ site.social.email }}" class="social-link">
+                    Email
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>使用 <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a> 构建，托管于 <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+        </div>
+    </div>
+</footer>
+

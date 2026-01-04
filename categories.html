@@ -1,0 +1,181 @@
+---
+layout: default
+title: 分类
+---
+
+<div class="categories-page">
+    <div class="container">
+        <h1 class="page-title">文章分类</h1>
+        
+        <div class="categories-list">
+            {% for category_config in site.home_categories %}
+            {% assign category_posts = site.posts | where_exp: "post", "post.categories contains category_config.slug" %}
+            {% if category_posts.size > 0 %}
+            <div class="category-section">
+                <div class="category-section-header">
+                    <span class="category-icon">{{ category_config.icon }}</span>
+                    <h2 class="category-section-title">{{ category_config.name }}</h2>
+                    <span class="category-section-count">({{ category_posts.size }} 篇文章)</span>
+                </div>
+                <p class="category-section-description">{{ category_config.description }}</p>
+                <div class="category-posts-grid">
+                    {% for post in category_posts %}
+                    <article class="category-post-card">
+                        <h3 class="category-post-title">
+                            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                        </h3>
+                        <p class="category-post-excerpt">
+                            {{ post.excerpt | strip_html | truncatewords: 20 }}
+                        </p>
+                        <div class="category-post-meta">
+                            <time datetime="{{ post.date | date: '%Y-%m-%d' }}" class="category-post-date">
+                                {{ post.date | date: "%Y年%m月%d日" }}
+                            </time>
+                            {% if post.tags.size > 0 %}
+                            <div class="category-post-tags">
+                                {% for tag in post.tags limit: 2 %}
+                                <span class="category-tag">#{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+.categories-page {
+    padding: var(--spacing-xl) 0;
+}
+
+.page-title {
+    font-size: var(--font-size-h1);
+    font-weight: 700;
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-text);
+}
+
+.categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.category-section {
+    padding: var(--spacing-lg);
+    background: var(--color-bg-secondary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+}
+
+.category-section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.category-icon {
+    font-size: 32px;
+}
+
+.category-section-title {
+    font-size: var(--font-size-h2);
+    font-weight: 600;
+    color: var(--color-text);
+    flex: 1;
+}
+
+.category-section-count {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+}
+
+.category-section-description {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.6;
+}
+
+.category-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.category-post-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    transition: var(--transition);
+}
+
+.category-post-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 20px rgba(0, 122, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.category-post-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    line-height: 1.4;
+}
+
+.category-post-title a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.category-post-card:hover .category-post-title a {
+    color: var(--color-primary);
+}
+
+.category-post-excerpt {
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-sm);
+}
+
+.category-post-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+}
+
+.category-post-tags {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.category-tag {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+    .category-posts-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .category-section {
+        padding: var(--spacing-md);
+    }
+}
+</style>
+

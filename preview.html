@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>弓箭的博客</title>
+    <meta name="description" content="记录思考、分享知识、探索世界">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="preview.html" class="site-title">弓箭的博客</a>
+                <nav class="site-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="preview.html" class="nav-link active">首页</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-categories.html" class="nav-link">分类</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-posts.html" class="nav-link">文章</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-about.html" class="nav-link">关于</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-archive.html" class="nav-link">归档</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-login.html" class="nav-link" id="loginLink">登录</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="header-right">
+                    <div id="userMenu" class="user-menu" style="display: none;">
+                        <img src="" alt="" class="user-avatar" style="display: none;">
+                        <div class="user-dropdown">
+                            <span class="user-name"></span>
+                            <div class="user-dropdown-menu">
+                                <a href="admin/index.html" id="adminPanelLinkMenu" class="user-dropdown-item" style="display: none;">管理面板</a>
+                                <button id="logoutBtn" class="user-dropdown-item" style="display: none; border: none; background: none; width: 100%; text-align: left; cursor: pointer;">登出</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="mobile-menu-toggle" aria-label="菜单">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <div class="home">
+            <section class="hero">
+                <div class="container">
+                    <h1 class="hero-title">弓箭的博客</h1>
+                    <p class="hero-description">记录思考、分享知识、探索世界</p>
+                </div>
+            </section>
+            
+            <!-- 分类导航区块 -->
+            <section class="categories-section" id="categories">
+                <div class="container">
+                    <div class="categories-grid">
+                        <div class="category-block">
+                            <div class="category-header">
+                                <span class="category-icon">⚡</span>
+                                <h2 class="category-title">效率工具</h2>
+                                <span class="category-count">(0)</span>
+                            </div>
+                            <p class="category-description">提升工作效率的工具和方法</p>
+                            <div class="category-posts">
+                                <article class="category-post-item">
+                                    <time class="category-post-date">01-15</time>
+                                    <a href="preview-post.html" class="category-post-link">示例文章标题</a>
+                                </article>
+                            </div>
+                            <a href="preview-categories.html" class="category-more">查看更多 →</a>
+                        </div>
+                        
+                        <div class="category-block">
+                            <div class="category-header">
+                                <span class="category-icon">🌟</span>
+                                <h2 class="category-title">生活方式</h2>
+                                <span class="category-count">(1)</span>
+                            </div>
+                            <p class="category-description">生活感悟、日常思考</p>
+                            <div class="category-posts">
+                                <article class="category-post-item">
+                                    <time class="category-post-date">01-15</time>
+                                    <a href="preview-post.html" class="category-post-link">欢迎来到我的博客</a>
+                                </article>
+                            </div>
+                            <a href="preview-categories.html" class="category-more">查看更多 →</a>
+                        </div>
+                        
+                        <div class="category-block">
+                            <div class="category-header">
+                                <span class="category-icon">📚</span>
+                                <h2 class="category-title">阅读笔记</h2>
+                                <span class="category-count">(0)</span>
+                            </div>
+                            <p class="category-description">读书笔记和读后感</p>
+                            <div class="category-posts">
+                                <p style="color: var(--color-text-secondary); font-size: 14px; padding: 16px 0;">暂无文章</p>
+                            </div>
+                            <a href="preview-categories.html" class="category-more">查看更多 →</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 最新文章区块 -->
+            <section class="posts-section" id="posts">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">最新文章</h2>
+                        <a href="preview-posts.html" class="section-more">查看全部 →</a>
+                    </div>
+                    <div class="posts-list">
+                        <article class="post-card">
+                            <div class="post-card-content">
+                                <div class="post-card-header">
+                                    <span class="post-card-category">生活方式</span>
+                                    <time datetime="2024-01-20" class="post-card-date">2024年01月20日</time>
+                                </div>
+                                <h3 class="post-card-title">
+                                    <a href="preview-post.html">Jekyll 入门指南</a>
+                                </h3>
+                                <p class="post-card-excerpt">
+                                    Jekyll 是一个简单、可扩展的静态网站生成器，非常适合创建博客和个人网站。本文将介绍如何开始使用 Jekyll。
+                                </p>
+                                <div class="post-card-footer">
+                                    <div class="post-card-tags">
+                                        <span class="post-tag">#Jekyll</span>
+                                        <span class="post-tag">#教程</span>
+                                        <span class="post-tag">#静态网站</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        
+                        <article class="post-card">
+                            <div class="post-card-content">
+                                <div class="post-card-header">
+                                    <span class="post-card-category">生活方式</span>
+                                    <time datetime="2024-01-15" class="post-card-date">2024年01月15日</time>
+                                </div>
+                                <h3 class="post-card-title">
+                                    <a href="preview-post.html">欢迎来到我的博客</a>
+                                </h3>
+                                <p class="post-card-excerpt">
+                                    欢迎来到弓箭的博客！这是使用 Jekyll 构建的博客系统，参考了苹果和少数派的设计风格，专注于提供优雅的中文阅读体验。
+                                </p>
+                                <div class="post-card-footer">
+                                    <div class="post-card-tags">
+                                        <span class="post-tag">#博客</span>
+                                        <span class="post-tag">#Jekyll</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2024 弓箭的博客. 保留所有权利。</p>
+                    <p class="footer-description">记录思考、分享知识、探索世界</p>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/yourusername" class="social-link" target="_blank" rel="noopener">GitHub</a>
+                    <a href="mailto:your.email@example.com" class="social-link">Email</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>使用 <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a> 构建，托管于 <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+

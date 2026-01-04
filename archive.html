@@ -1,0 +1,110 @@
+---
+layout: default
+title: 归档
+---
+
+<div class="archive-page">
+    <div class="container">
+        <h1 class="page-title">文章归档</h1>
+        
+        {% assign postsByYear = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
+        
+        {% for year in postsByYear %}
+        <div class="archive-year">
+            <h2 class="archive-year-title">{{ year.name }}年</h2>
+            <ul class="archive-list">
+                {% for post in year.items %}
+                <li class="archive-item">
+                    <time datetime="{{ post.date | date: '%Y-%m-%d' }}" class="archive-date">
+                        {{ post.date | date: "%m月%d日" }}
+                    </time>
+                    <a href="{{ post.url | relative_url }}" class="archive-link">{{ post.title }}</a>
+                    {% if post.categories.size > 0 %}
+                    <span class="archive-category">{{ post.categories.first }}</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.archive-page {
+    padding: var(--spacing-xl) 0;
+}
+
+.page-title {
+    font-size: var(--font-size-h1);
+    font-weight: 700;
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-text);
+}
+
+.archive-year {
+    margin-bottom: var(--spacing-xl);
+}
+
+.archive-year-title {
+    font-size: var(--font-size-h2);
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 2px solid var(--color-border);
+}
+
+.archive-list {
+    list-style: none;
+    padding: 0;
+}
+
+.archive-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+}
+
+.archive-date {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-small);
+    min-width: 80px;
+}
+
+.archive-link {
+    flex: 1;
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--font-size-base);
+    transition: var(--transition);
+}
+
+.archive-link:hover {
+    color: var(--color-primary);
+}
+
+.archive-category {
+    background: var(--color-bg-secondary);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+    .archive-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+    
+    .archive-date {
+        min-width: auto;
+    }
+}
+</style>
+

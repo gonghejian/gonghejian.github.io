@@ -1,0 +1,63 @@
+{% if site.comments.provider == 'utterances' %}
+<div class="comments-section">
+    <h3 class="comments-title">评论</h3>
+    <script src="https://utterances.client.js"
+            repo="{{ site.comments.utterances.repo }}"
+            issue-term="{{ site.comments.utterances.issue_term }}"
+            theme="{{ site.comments.utterances.theme }}"
+            crossorigin="anonymous"
+            async>
+    </script>
+</div>
+{% elsif site.comments.provider == 'gitalk' %}
+<div class="comments-section">
+    <h3 class="comments-title">评论</h3>
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+    <script>
+        var gitalk = new Gitalk({
+            clientID: '{{ site.comments.gitalk.client_id }}',
+            clientSecret: '{{ site.comments.gitalk.client_secret }}',
+            repo: '{{ site.comments.gitalk.repo }}',
+            owner: '{{ site.comments.gitalk.owner }}',
+            admin: ['{{ site.comments.gitalk.admin }}'],
+            id: location.pathname,
+            distractionFreeMode: false
+        });
+        gitalk.render('gitalk-container');
+    </script>
+</div>
+{% elsif site.comments.provider == 'custom' %}
+<div class="comments-section">
+    <h3 class="comments-title">评论 <span id="commentCount" class="comment-count"></span></h3>
+    
+    <!-- 评论表单 -->
+    <div class="comment-form-container">
+        <form id="commentForm" class="comment-form">
+            <div class="form-group">
+                <label for="commentAuthor" class="form-label">昵称（可选）</label>
+                <input type="text" id="commentAuthor" class="form-input" placeholder="匿名访客" maxlength="20">
+            </div>
+            <div class="form-group">
+                <label for="commentText" class="form-label">评论内容</label>
+                <textarea id="commentText" class="form-input" rows="4" placeholder="写下你的评论..." required></textarea>
+            </div>
+            <div class="comment-form-actions">
+                <button type="submit" class="btn btn-primary">发表评论</button>
+                <span class="comment-tip">支持匿名评论，昵称可选</span>
+            </div>
+        </form>
+    </div>
+    
+    <!-- 评论列表 -->
+    <div id="commentsList" class="comments-list-container">
+        <div class="comments-loading" style="text-align: center; padding: 20px; color: var(--color-text-secondary);">
+            加载评论中...
+        </div>
+    </div>
+</div>
+
+<script src="{{ '/assets/js/comments.js' | relative_url }}"></script>
+{% endif %}
+

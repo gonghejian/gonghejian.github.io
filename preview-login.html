@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>登录 - 弓箭的博客</title>
+    <meta name="description" content="记录思考、分享知识、探索世界">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="preview.html" class="site-title">弓箭的博客</a>
+                <nav class="site-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="preview.html" class="nav-link">首页</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-categories.html" class="nav-link">分类</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-posts.html" class="nav-link">文章</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-about.html" class="nav-link">关于</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-archive.html" class="nav-link">归档</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-login.html" class="nav-link active" id="loginLink">登录</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="header-right">
+                    <div id="userMenu" class="user-menu" style="display: none;">
+                        <img src="" alt="" class="user-avatar" style="display: none;">
+                        <div class="user-dropdown">
+                            <span class="user-name"></span>
+                            <div class="user-dropdown-menu">
+                                <a href="admin/index.html" id="adminPanelLinkMenu" class="user-dropdown-item" style="display: none;">管理面板</a>
+                                <button id="logoutBtn" class="user-dropdown-item" style="display: none; border: none; background: none; width: 100%; text-align: left; cursor: pointer;">登出</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <div class="login-page">
+            <div class="container">
+                <div class="login-container">
+                    <div class="login-header">
+                        <h1 class="login-title">登录</h1>
+                        <p class="login-subtitle">使用 GitHub 账号登录</p>
+                    </div>
+                    
+                    <div class="login-content">
+                        <button id="githubLoginBtn" class="login-btn github-btn">
+                            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            <span>使用 GitHub 登录</span>
+                        </button>
+                        
+                        <div class="login-divider">
+                            <span>或</span>
+                        </div>
+                        
+                        <form id="localLoginForm" class="login-form">
+                            <div class="form-group">
+                                <label for="username">用户名</label>
+                                <input type="text" id="username" name="username" required autocomplete="username" placeholder="输入用户名">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">密码</label>
+                                <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="输入密码">
+                            </div>
+                            <button type="submit" class="login-btn primary-btn">登录</button>
+                        </form>
+                        
+                        <div id="loginError" class="login-error" style="display: none;"></div>
+                    </div>
+                    
+                    <div class="login-footer">
+                        <p class="login-note">提示：测试账号 admin/admin123（管理员）或 user/user123（普通用户）</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2024 弓箭的博客. 保留所有权利。</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="assets/js/auth.js"></script>
+    <script>
+        // 简化版登录功能用于预览
+        document.getElementById('localLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('loginError');
+            
+            // 测试账号验证
+            if ((username === 'admin' && password === 'admin123') || 
+                (username === 'user' && password === 'user123')) {
+                errorDiv.style.display = 'none';
+                alert('登录成功！\n用户名: ' + username + '\n角色: ' + (username === 'admin' ? '管理员' : '普通用户') + '\n\n（这是预览模式，实际功能需要完整部署）');
+            } else {
+                errorDiv.textContent = '用户名或密码错误';
+                errorDiv.style.display = 'block';
+            }
+        });
+        
+        document.getElementById('githubLoginBtn').addEventListener('click', function() {
+            alert('GitHub 登录功能需要配置 GitHub OAuth App\n\n请参考 AUTH_SETUP.md 文档进行配置');
+        });
+    </script>
+</body>
+</html>
+
