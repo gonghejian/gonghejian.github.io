@@ -2,7 +2,8 @@
     <div class="container">
         <div class="header-content">
             <a href="{{ '/' | relative_url }}" class="site-title">
-                {{ site.title }}
+                <img src="{{ '/favicon.ico' | relative_url }}" alt="Logo" class="site-logo" onerror="this.src='{{ '/ico.jpg' | relative_url }}'; this.onerror=null;">
+                <span class="site-title-text">{{ site.title }}</span>
             </a>
             <nav class="site-nav">
                 <ul class="nav-list">

@@ -37,7 +37,7 @@ navigation:
   - title: 首页
     url: /
   - title: 分类
-    url: /categories.html
+    url: /categories/
   - title: 文章
     url: /posts/
   - title: 关于
@@ -104,6 +104,7 @@ exclude:
   - profile.html
   - admin
   - auth
+  # 注意：categories.html 不应该被排除
 
 # 优化配置
 sass:
