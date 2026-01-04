@@ -81,19 +81,20 @@ auth:
       role: "user"
 
 # 主页分类配置（参考少数派风格）
+# 注意：slug 必须与文章中的 categories 字段匹配
 home_categories:
+  - name: 阅读笔记
+    slug: reading
+    icon: 📚
+    description: 读书笔记和读后感，分享阅读心得和思考
+  - name: 生活方式
+    slug: lifestyle
+    icon: 🌟
+    description: 生活感悟、日常思考和个人成长
   - name: 效率工具
     slug: efficiency
     icon: ⚡
     description: 提升工作效率的工具和方法
-  - name: 生活方式
-    slug: lifestyle
-    icon: 🌟
-    description: 生活感悟、日常思考
-  - name: 阅读笔记
-    slug: reading
-    icon: 📚
-    description: 读书笔记和读后感
 
 # 包含文件（确保assets目录被处理）
 include:
