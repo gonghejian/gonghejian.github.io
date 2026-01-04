@@ -37,7 +37,7 @@ navigation:
   - title: 首页
     url: /
   - title: 分类
-    url: /categories/
+    url: /categories.html
   - title: 文章
     url: /posts/
   - title: 关于
