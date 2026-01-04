@@ -75,6 +75,29 @@ git push origin main
    - **重要**：选择 Source 为 **"GitHub Actions"**（不是分支！）
    - 保存后等待几分钟，访问 `https://yourusername.github.io`
 
+### 配置自定义域名
+
+如果你有自定义域名（如 `gonghejian.cn`），可以将其指向 GitHub Pages：
+
+1. **在 GitHub 中设置域名**
+   - 进入 Settings > Pages
+   - 在 Custom domain 输入你的域名
+   - 勾选 "Enforce HTTPS"
+   - 点击 Save
+
+2. **配置 DNS 记录**
+   - 在域名服务商（如阿里云）添加 CNAME 记录
+   - 主机记录：`@`，记录值：`yourusername.github.io`
+   - 等待 DNS 生效（10分钟-48小时）
+
+3. **更新配置文件**
+   - 编辑 `_config.yml`，更新 `url` 为你的域名
+   - 确保 `CNAME` 文件存在且内容正确
+
+详细配置指南请查看：
+- `DOMAIN_SETUP.md` - 完整的域名配置指南
+- `DOMAIN_QUICK_SETUP.md` - 快速操作步骤
+
 ### GitHub Actions 自动部署
 
 项目已配置 GitHub Actions 自动部署，每次推送到 `main` 或 `master` 分支时会自动构建和部署。
