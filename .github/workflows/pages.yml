@@ -35,13 +35,20 @@ jobs:
         uses: actions/configure-pages@v4
         id: pages
       
+      - name: Install dependencies
+        run: bundle install
+        continue-on-error: false
+      
       - name: Build with Jekyll
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
+        continue-on-error: false
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
 
   deploy:
     environment:
