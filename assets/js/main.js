@@ -4,9 +4,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const navList = document.querySelector('.nav-list');
     
     if (menuToggle && navList) {
-        menuToggle.addEventListener('click', function() {
+        // 使用 touchstart 和 click 事件，确保移动端和桌面端都能正常工作
+        const handleMenuToggle = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             navList.classList.toggle('active');
-        });
+        };
+        
+        menuToggle.addEventListener('touchstart', handleMenuToggle, { passive: false });
+        menuToggle.addEventListener('click', handleMenuToggle);
     }
     
     // 平滑滚动
@@ -23,15 +29,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // 微信按钮点击事件
+    // 微信按钮点击事件（支持触摸和点击）
     const wechatButton = document.getElementById('wechatButton');
     if (wechatButton) {
-        wechatButton.addEventListener('click', function() {
+        // 使用 touchstart 和 click 事件，确保移动端和桌面端都能正常工作
+        const handleWechatClick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             // 获取配置的微信号（从 data 属性或全局变量）
-            const wechatId = this.getAttribute('data-wechat-id') || window.siteConfig?.wechatId;
-            if (wechatId && wechatId !== '请配置微信号') {
+            const wechatId = wechatButton.getAttribute('data-wechat-id') || window.siteConfig?.wechatId;
+            if (wechatId && wechatId !== '请配置微信号' && wechatId !== 'your-wechat-id') {
                 // 复制微信号到剪贴板
-                if (navigator.clipboard) {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
                     navigator.clipboard.writeText(wechatId).then(function() {
                         alert('微信号已复制到剪贴板：' + wechatId + '\n\n请在微信中搜索并添加我！');
                     }).catch(function() {
@@ -46,7 +56,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 如果没有配置，显示提示
                 alert('请先在 _config.yml 中配置 wechat_id 或 wechat_private\n\n配置后点击按钮即可复制微信号或查看二维码');
             }
-        });
+        };
+        
+        // 添加触摸和点击事件
+        wechatButton.addEventListener('touchstart', handleWechatClick, { passive: false });
+        wechatButton.addEventListener('click', handleWechatClick);
     }
+    
+    // 移动端菜单点击外部区域关闭
+    document.addEventListener('click', function(e) {
+        const navList = document.querySelector('.nav-list');
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        
+        if (navList && menuToggle && navList.classList.contains('active')) {
+            // 如果点击的不是菜单或菜单按钮，则关闭菜单
+            if (!navList.contains(e.target) && !menuToggle.contains(e.target)) {
+                navList.classList.remove('active');
+            }
+        }
+    });
 });
 
