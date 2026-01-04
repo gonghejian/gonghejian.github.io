@@ -9,11 +9,13 @@ baseurl: ""
 # 语言设置
 lang: zh-CN
 locale: zh_CN
+encoding: utf-8
 
 # 构建设置
 markdown: kramdown
 highlighter: rouge
 permalink: /:year/:month/:day/:title/
+future: true  # 显示未来日期的文章
 
 # 插件
 plugins:
