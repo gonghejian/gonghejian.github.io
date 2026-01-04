@@ -4,6 +4,7 @@ gem "jekyll", "~> 4.3"
 gem "jekyll-feed", "~> 0.12"
 gem "jekyll-sitemap", "~> 1.4"
 gem "jekyll-seo-tag", "~> 2.8"
+gem "jekyll-paginate", "~> 1.1"
 # jekyll-compress-html 插件在 RubyGems 上不可用，已移除
 # 如需 HTML 压缩，可以使用其他方法或插件
 
