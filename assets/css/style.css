@@ -263,6 +263,102 @@ body {
     line-height: 1.6;
 }
 
+/* 开发实验室（首页预览） */
+
+.labs-section {
+    padding: var(--spacing-xl) 0 var(--spacing-lg);
+    background: var(--color-bg-secondary);
+}
+
+.labs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-md);
+}
+
+.lab-card {
+    background: #fff;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition);
+}
+
+.lab-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.lab-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.lab-card-title {
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.lab-card-status {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(0, 122, 255, 0.06);
+    color: #007AFF;
+    border: 1px solid rgba(0, 122, 255, 0.15);
+}
+
+.lab-card-description {
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-sm);
+}
+
+.lab-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.lab-tag {
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.03);
+    color: var(--color-text-secondary);
+}
+
+.lab-card-footer {
+    margin-top: var(--spacing-sm);
+}
+
+.lab-card-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #007AFF;
+    color: #fff;
+    text-decoration: none;
+    font-size: var(--font-size-small);
+    transition: var(--transition);
+}
+
+.lab-card-button:hover {
+    background: #0060d1;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.35);
+}
+
 .hero-social {
     display: flex;
     align-items: center;
@@ -355,6 +451,37 @@ body {
 .category-count {
     font-size: var(--font-size-small);
     color: var(--color-text-secondary);
+}
+
+/* 开发实验室列表页 */
+
+.labs-page .labs-hero {
+    padding: var(--spacing-xl) 0 var(--spacing-lg);
+    background: var(--color-bg);
+}
+
+.labs-page .page-title {
+    font-size: 28px;
+    margin-bottom: var(--spacing-xs);
+}
+
+.labs-page .page-description {
+    max-width: 520px;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+}
+
+.labs-list-section {
+    padding: 0 0 var(--spacing-xl);
+}
+
+.labs-page .labs-grid {
+    margin-top: var(--spacing-md);
+}
+
+.labs-empty {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-small);
 }
 
 .category-description {
@@ -1060,6 +1187,15 @@ body {
     .wechat-description {
         font-size: 12px;
         margin-bottom: var(--spacing-md);
+    }
+    
+    .wechat-button {
+        min-height: 48px;
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: 14px;
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
     }
     
     .categories-grid {

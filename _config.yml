@@ -32,10 +32,18 @@ paginate_path: "/page:num/"
 # 主题设置
 theme: null
 
+# 自定义集合（开发实验室 / 项目）
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/
+
 # 导航菜单
 navigation:
   - title: 首页
     url: /
+  - title: 开发实验室
+    url: /labs/
   - title: 分类
     url: /categories/
   - title: 归档

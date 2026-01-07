@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>我的年度阅读计划</title>
+    <link rel="stylesheet" href="./style.css" />
+    <!-- React & Babel CDN（便于在 GitHub Pages 上直接运行） -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const CURRENT_YEAR = new Date().getFullYear();
+      const MIN_BOOKS = 10;
+      const MAX_BOOKS = 100;
+
+      const STORAGE_KEY_PREFIX = 'reading-lab-';
+      const VISITED_KEY = 'reading-lab-has-visited';
+
+      // Landing 使用 books.json 中的数据展示热门书单
+      // 如果加载失败，将使用内置示例数据兜底
+      const FALLBACK_BOOKS = [
+        {
+          id: 'neiqushixuexi',
+          title: '内驱式学习',
+          author: '张文渊',
+          cover: 'https://img9.doubanio.com/view/subject/l/public/s35191455.jpg',
+          category: '学习方法',
+          year: 2025,
+          source: '国内热门书单',
+          url: 'https://book.douban.com/subject/37397789/',
+          summary: '结合脑科学、认知科学和心理学，讲解内驱式学习的原理与工具，帮助读者从被动应付转向主动、高效的终身学习。'
+        }
+      ];
+
+      // 说明：当前直接从前端尝试抓取豆瓣页面，会受到 CORS 等限制。
+      // 真正上线时，建议配置一个后端代理服务，例如 /api/douban/parse，
+      // 由后端请求豆瓣并解析出 title/author/cover/summary 后以 JSON 返回前端。
+      // 这里保留一个前端尝试的实现，失败时自动回退为“仅使用链接 + 手动补全”。
+      async function fetchBookInfoFromDouban(url) {
+        const result = { title: '', author: '', coverUrl: '' };
+        try {
+          const res = await fetch(url, { mode: 'cors' });
+          if (!res.ok) return result;
+          const html = await res.text();
+
+          // 粗略从 <title> 中提取书名
+          const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
+          if (titleMatch) {
+            // 去掉「(豆瓣)」「(豆瓣读书)」等尾巴
+            const raw = titleMatch[1]
+              .replace(/[\(（].*豆瓣.*?[\)）]/g, '')
+              .replace(/- 豆瓣.*/g, '')
+              .trim();
+            result.title = raw;
+          }
+
+          // 尝试从 og:image 中获取封面
+          const coverMatch = html.match(/property=["']og:image["']\s+content=["']([^"']+)["']/i);
+          if (coverMatch) {
+            result.coverUrl = coverMatch[1];
+          }
+
+          // 作者信息结构较复杂，这里暂不强行解析，留给用户手动填写
+        } catch (e) {
+          console.warn('豆瓣信息自动获取失败，将使用手动填写字段', e);
+        }
+        return result;
+      }
+
+      function loadYearData(year) {
+        const raw = localStorage.getItem(STORAGE_KEY_PREFIX + year);
+        if (!raw) {
+          return {
+            year,
+            target: 20,
+            books: [],
+          };
+        }
+        try {
+          return JSON.parse(raw);
+        } catch (e) {
+          console.error('Failed to parse storage for year', year, e);
+          return {
+            year,
+            target: 20,
+            books: [],
+          };
+        }
+      }
+
+      function saveYearData(year, data) {
+        localStorage.setItem(STORAGE_KEY_PREFIX + year, JSON.stringify(data));
+      }
+
+      const initialBook = {
+        doubanUrl: '',
+        title: '',
+        author: '',
+        coverUrl: '',
+      };
+
+      function App() {
+        const [year, setYear] = useState(CURRENT_YEAR + 1); // 默认下一年，如 2026
+        const [plan, setPlan] = useState(() => loadYearData(CURRENT_YEAR + 1));
+        const [target, setTarget] = useState(plan.target || 20);
+        const [newBook, setNewBook] = useState(initialBook);
+        const [selectedBook, setSelectedBook] = useState(null);
+        const [filterStatus, setFilterStatus] = useState('all');
+        const [aiBusy, setAiBusy] = useState(false);
+        const [mode, setMode] = useState('board'); // board | add
+        const [loadingDouban, setLoadingDouban] = useState(false);
+        const [doubanHint, setDoubanHint] = useState('');
+        const [viewMode, setViewMode] = useState(() =>
+          localStorage.getItem(VISITED_KEY) ? 'app' : 'landing'
+        ); // landing | app
+        const [landingBooks, setLandingBooks] = useState([]);
+        const [loadingLanding, setLoadingLanding] = useState(true);
+
+        useEffect(() => {
+          setPlan(loadYearData(year));
+        }, [year]);
+
+        useEffect(() => {
+          setTarget(plan.target || 20);
+        }, [plan]);
+
+        useEffect(() => {
+          saveYearData(year, plan);
+        }, [year, plan]);
+
+        useEffect(() => {
+          if (viewMode === 'app') {
+            localStorage.setItem(VISITED_KEY, '1');
+          }
+        }, [viewMode]);
+
+        useEffect(() => {
+          // 加载 landing 展示用的书单数据
+          async function loadLandingBooks() {
+            try {
+              const res = await fetch('./books.json');
+              if (!res.ok) {
+                throw new Error('books.json 加载失败');
+              }
+              const data = await res.json();
+              if (Array.isArray(data) && data.length > 0) {
+                setLandingBooks(data);
+              } else {
+                setLandingBooks(FALLBACK_BOOKS);
+              }
+            } catch (e) {
+              console.warn('加载 books.json 失败，将使用内置示例数据', e);
+              setLandingBooks(FALLBACK_BOOKS);
+            } finally {
+              setLoadingLanding(false);
+            }
+          }
+          loadLandingBooks();
+        }, []);
+
+        const finishedCount = plan.books.filter((b) => b.status === 'finished').length;
+
+        const handleTargetChange = (value) => {
+          const num = Math.min(MAX_BOOKS, Math.max(MIN_BOOKS, Number(value) || MIN_BOOKS));
+          setTarget(num);
+          setPlan((prev) => ({ ...prev, target: num }));
+        };
+
+        const handleNewBookChange = (field, value) => {
+          setNewBook((prev) => ({ ...prev, [field]: value }));
+        };
+
+        const handleFetchFromDoubanClick = async () => {
+          if (!newBook.doubanUrl.trim()) {
+            alert('请先粘贴豆瓣图书链接');
+            return;
+          }
+          setLoadingDouban(true);
+          setDoubanHint('正在尝试从豆瓣获取书籍信息…');
+          const info = await fetchBookInfoFromDouban(newBook.doubanUrl.trim());
+          setLoadingDouban(false);
+          if (!info.title && !info.coverUrl) {
+            setDoubanHint('未能自动获取信息，请手动填写书名和封面。');
+            return;
+          }
+          setNewBook((prev) => ({
+            ...prev,
+            title: prev.title || info.title,
+            coverUrl: prev.coverUrl || info.coverUrl,
+          }));
+          setDoubanHint('已从豆瓣获取初步信息，可以检查后保存。');
+        };
+
+        const handleAddBook = () => {
+          if (!newBook.doubanUrl.trim()) {
+            alert('请先粘贴豆瓣图书链接');
+            return;
+          }
+          if (!newBook.title.trim()) {
+            alert('未能自动识别书名，请手动填写书名');
+            return;
+          }
+          const id = Date.now().toString();
+          const book = {
+            id,
+            doubanUrl: newBook.doubanUrl.trim(),
+            title: newBook.title.trim(),
+            author: newBook.author.trim(),
+            coverUrl: newBook.coverUrl.trim(),
+            status: 'not_started',
+            logs: [],
+            summaryShort: '',
+            aiComment: '',
+          };
+          const addedTitle = book.title;
+          setPlan((prev) => ({ ...prev, books: [...prev.books, book] }));
+          setNewBook(initialBook);
+          setDoubanHint('');
+
+          if (mode === 'add') {
+            const cont = window.confirm(
+              `已添加「${addedTitle}」。\n\n确定：继续添加下一本\n取消：返回书单`
+            );
+            if (!cont) {
+              setMode('board');
+            }
+          }
+        };
+
+        const filteredBooks = plan.books.filter((b) => {
+          if (filterStatus === 'all') return true;
+          return b.status === filterStatus;
+        });
+
+        const handleStatusToggle = (book, nextStatus) => {
+          setPlan((prev) => ({
+            ...prev,
+            books: prev.books.map((b) =>
+              b.id === book.id
+                ? {
+                    ...b,
+                    status: nextStatus,
+                  }
+                : b
+            ),
+          }));
+          if (selectedBook && selectedBook.id === book.id) {
+            setSelectedBook((prev) => ({ ...prev, status: nextStatus }));
+          }
+        };
+
+        const handleTodayLog = (book) => {
+          const today = new Date().toISOString().slice(0, 10);
+          setPlan((prev) => ({
+            ...prev,
+            books: prev.books.map((b) =>
+              b.id === book.id
+                ? {
+                    ...b,
+                    logs: b.logs.includes(today) ? b.logs : [...b.logs, today],
+                  }
+                : b
+            ),
+          }));
+          if (selectedBook && selectedBook.id === book.id) {
+            setSelectedBook((prev) => ({
+              ...prev,
+              logs: prev.logs.includes(today) ? prev.logs : [...prev.logs, today],
+            }));
+          }
+        };
+
+        const handleReviewChange = (book, value) => {
+          // 现在用于“一句话简述”
+          setPlan((prev) => ({
+            ...prev,
+            books: prev.books.map((b) =>
+              b.id === book.id
+                ? {
+                    ...b,
+                    summaryShort: value,
+                  }
+                : b
+            ),
+          }));
+          if (selectedBook && selectedBook.id === book.id) {
+            setSelectedBook((prev) => ({ ...prev, summaryShort: value }));
+          }
+        };
+
+        const handleAiEnhance = (book) => {
+          if (!book.summaryShort || !book.summaryShort.trim()) {
+            alert('先写一句话简述，再让 AI 帮你评价～');
+            return;
+          }
+          setAiBusy(true);
+          // 这里暂时做本地“仿 AI”处理，并在代码中保留真实 API 集成的占位说明
+          setTimeout(() => {
+            const text = book.summaryShort.replace(/\s+/g, ' ').trim();
+            const lengthInfo = `你的一句话简述大约 ${text.length} 个字。`;
+            const suggestion =
+              '可以尝试再补充：最打动你的 1 个观点、你会推荐给谁、以及你打算根据这本书做的一件小事。';
+            const aiText =
+              `【AI 简要评价（本地模拟）】\n` +
+              `${lengthInfo}\n\n` +
+              `【延伸建议】\n` +
+              `${suggestion}\n\n` +
+              `（后续可在此接入真实的 AI 接口，例如 OpenAI / DeepSeek，通过配置 API 网关实现更智能的总结和图书推荐。）`;
+
+            setPlan((prev) => ({
+              ...prev,
+              books: prev.books.map((b) =>
+                b.id === book.id
+                  ? {
+                      ...b,
+                      aiComment: aiText,
+                    }
+                  : b
+              ),
+            }));
+            if (selectedBook && selectedBook.id === book.id) {
+              setSelectedBook((prev) => ({ ...prev, aiComment: aiText }));
+            }
+            setAiBusy(false);
+          }, 600);
+        };
+
+        return (
+          <div className="reading-app">
+            {viewMode === 'landing' ? (
+              <div className="landing">
+                <header className="app-header">
+                  <div className="app-header-main">
+                    <h1 className="app-title">我的年度阅读计划</h1>
+                    <p className="app-subtitle">
+                      <span>先看一份精心排布的 50 本示例书单</span>
+                      <span className="app-subtitle-secondary">
+                        想象一下，当这面「书墙」全部变成你自己读过的书，会有多酷。
+                      </span>
+                    </p>
+                  </div>
+                </header>
+                <main className="app-main">
+                  <section className="section landing-section">
+                    <div className="landing-cta">
+                      <div className="landing-cta-text">
+                        <h2>年度阅读灵感墙</h2>
+                        <p>这是一份示例年度书单，用来帮你想象自己的阅读仪式感。</p>
+                      </div>
+                      <div className="landing-cta-actions">
+                        <button
+                          className="primary-button large"
+                          onClick={() => setViewMode('app')}
+                        >
+                          开始我的年度阅读
+                        </button>
+                        <button
+                          className="secondary-button small"
+                          onClick={() => setViewMode('app')}
+                        >
+                          我已经有书单，直接进入管理页面
+                        </button>
+                      </div>
+                    </div>
+                    {loadingLanding ? (
+                      <p className="empty-hint">正在加载书单...</p>
+                    ) : (
+                      <div className="landing-books-grid">
+                        {landingBooks.map((book, index) => (
+                          <div key={book.id || index} className="landing-book-item">
+                            <div className="landing-book-cover">
+                              <img
+                                src={book.cover}
+                                alt={book.title}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.style.display = 'none';
+                                  e.target.parentElement.classList.add('landing-book-cover-fallback');
+                                }}
+                              />
+                              <span className="landing-book-no">
+                                {(index + 1).toString().padStart(2, '0')}
+                              </span>
+                            </div>
+                            <div className="landing-book-meta">
+                              <div className="landing-book-title" title={book.title}>
+                                {book.title}
+                              </div>
+                              <div className="landing-book-author">
+                                {book.author} · {book.category || '年度书单'}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </section>
+                </main>
+              </div>
+            ) : (
+              <>
+                <header className="app-header">
+                  <div className="app-header-main">
+                    <h1 className="app-title">我的年度阅读计划</h1>
+                    <p className="app-subtitle">
+                      <span>{year} 年阅读计划</span>
+                      <span className="app-subtitle-secondary">
+                        为一年准备一份清晰的阅读清单，从「想读」到「读完」，打卡、记录、复盘，让每一本书都真正留下痕迹。
+                      </span>
+                    </p>
+                    <button
+                      className="secondary-button tiny back-to-landing"
+                      onClick={() => setViewMode('landing')}
+                    >
+                      返回灵感展示页
+                    </button>
+                  </div>
+                  <div className="app-year-target">
+                    <div className="year-select">
+                      <label>年份</label>
+                      <select
+                        value={year}
+                        onChange={(e) => {
+                          const y = parseInt(e.target.value, 10);
+                          setYear(y);
+                        }}
+                      >
+                        {Array.from({ length: 6 }).map((_, idx) => {
+                          const y = CURRENT_YEAR - 1 + idx;
+                          return (
+                            <option key={y} value={y}>
+                              {y}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                    <div className="target-input">
+                      <label>年度目标（10 - 100 本）</label>
+                      <input
+                        type="number"
+                        min={MIN_BOOKS}
+                        max={MAX_BOOKS}
+                        value={target}
+                        onChange={(e) => handleTargetChange(e.target.value)}
+                      />
+                      <div className="target-progress">
+                        <div className="target-progress-info">
+                          <span>
+                            已读 {finishedCount} 本 / 目标 {target} 本
+                          </span>
+                          <span className="target-progress-tip">不求读得多，只求每一本都值得被记住。</span>
+                        </div>
+                        <div className="target-progress-bar">
+                          <div
+                            className="target-progress-bar-inner"
+                            style={{
+                              width: `${Math.min(100, (finishedCount / Math.max(1, target)) * 100)}%`,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </header>
+
+                <main className="app-main">
+                  {mode === 'board' ? (
+                    <section className="section books-section">
+                      <div className="books-section-header">
+                        <div>
+                          <h2 className="section-title">年度阅读看板</h2>
+                          <p className="section-description">
+                            桌面端每行最多展示 10 本书，方便一眼看到这一年的阅读全景。
+                          </p>
+                        </div>
+                        <div className="books-section-actions">
+                          <button className="primary-button small" onClick={() => setMode('add')}>
+                            添加书籍
+                          </button>
+                          <div className="status-filters">
+                            <button
+                              className={filterStatus === 'all' ? 'chip chip-active' : 'chip'}
+                              onClick={() => setFilterStatus('all')}
+                            >
+                              全部
+                            </button>
+                            <button
+                              className={filterStatus === 'not_started' ? 'chip chip-active' : 'chip'}
+                              onClick={() => setFilterStatus('not_started')}
+                            >
+                              未开始
+                            </button>
+                            <button
+                              className={filterStatus === 'reading' ? 'chip chip-active' : 'chip'}
+                              onClick={() => setFilterStatus('reading')}
+                            >
+                              在读
+                            </button>
+                            <button
+                              className={filterStatus === 'finished' ? 'chip chip-active' : 'chip'}
+                              onClick={() => setFilterStatus('finished')}
+                            >
+                              已读完
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {filteredBooks.length === 0 ? (
+                        <p className="empty-hint">
+                          还没有添加任何书，可以先点击右上角「添加书籍」开始建立你的年度阅读清单。
+                        </p>
+                      ) : (
+                        <div className="books-grid">
+                          {filteredBooks.map((book) => (
+                            <div
+                              key={book.id}
+                              className={`book-item book-status-${book.status}`}
+                              onClick={() => setSelectedBook(book)}
+                            >
+                              <div className="book-cover-wrapper">
+                                {book.coverUrl ? (
+                                  <img src={book.coverUrl} alt={book.title} className="book-cover" />
+                                ) : (
+                                  <div className="book-cover placeholder">
+                                    <span>{book.title.slice(0, 8) || '未命名'}</span>
+                                  </div>
+                                )}
+                                {book.status === 'finished' && <span className="book-badge">已读</span>}
+                                {book.status === 'reading' && <span className="book-badge reading">在读</span>}
+                              </div>
+                              <div className="book-meta">
+                                <div className="book-title" title={book.title}>
+                                  {book.title}
+                                </div>
+                                <div className="book-author">{book.author || '作者待补充'}</div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </section>
+                  ) : (
+                    <section className="section add-book-section">
+                      <h2 className="section-title">添加今年要读的书</h2>
+                      <p className="section-description">
+                        粘贴豆瓣图书链接，我会尽量帮你获取书名和封面；如遇限制，可以手动补全。
+                      </p>
+                      <div className="add-book-grid">
+                        <div className="add-book-form">
+                          <label>
+                            豆瓣图书链接（必填）
+                            <input
+                              type="url"
+                              placeholder="如：https://book.douban.com/subject/xxxx/"
+                              value={newBook.doubanUrl}
+                              onChange={(e) => handleNewBookChange('doubanUrl', e.target.value)}
+                            />
+                          </label>
+                          <label>
+                            书名
+                            <input
+                              type="text"
+                              placeholder="解析失败时可以在这里手动填写"
+                              value={newBook.title}
+                              onChange={(e) => handleNewBookChange('title', e.target.value)}
+                            />
+                          </label>
+                          <label>
+                            作者（可选）
+                            <input
+                              type="text"
+                              placeholder="作者"
+                              value={newBook.author}
+                              onChange={(e) => handleNewBookChange('author', e.target.value)}
+                            />
+                          </label>
+                          <label>
+                            封面图片链接（可选）
+                            <input
+                              type="url"
+                              placeholder="可粘贴豆瓣封面图片地址"
+                              value={newBook.coverUrl}
+                              onChange={(e) => handleNewBookChange('coverUrl', e.target.value)}
+                            />
+                          </label>
+                          <div className="add-actions">
+                            <button
+                              className="secondary-button"
+                              onClick={handleFetchFromDoubanClick}
+                              disabled={loadingDouban}
+                            >
+                              {loadingDouban ? '获取中…' : '从豆瓣获取信息'}
+                            </button>
+                            <button className="primary-button" onClick={handleAddBook}>
+                              添加到今年的清单
+                            </button>
+                          </div>
+                          <p className="tiny-hint">
+                            所有数据仅保存在当前浏览器的本地，不会上传到服务器。添加完成后可以继续录入下一本，或返回年度书单页面。
+                          </p>
+                          {doubanHint && <p className="tiny-hint">{doubanHint}</p>}
+                        </div>
+                        <button className="secondary-button small" onClick={() => setMode('board')}>
+                          返回年度书单
+                        </button>
+                      </div>
+                    </section>
+                  )}
+                </main>
+              </>
+            )}
+
+            {selectedBook && (
+              <BookDetail
+                book={selectedBook}
+                onClose={() => setSelectedBook(null)}
+                onStatusChange={handleStatusToggle}
+                onTodayLog={handleTodayLog}
+                onReviewChange={handleReviewChange}
+                onAiEnhance={handleAiEnhance}
+                aiBusy={aiBusy}
+              />
+            )}
+          </div>
+        );
+      }
+
+      function BookDetail({
+        book,
+        onClose,
+        onStatusChange,
+        onTodayLog,
+        onReviewChange,
+        onAiEnhance,
+        aiBusy,
+      }) {
+        const nextStatus = (current) => {
+          if (current === 'not_started') return 'reading';
+          if (current === 'reading') return 'finished';
+          return 'not_started';
+        };
+
+        const statusLabel = (status) => {
+          if (status === 'not_started') return '未开始';
+          if (status === 'reading') return '在读';
+          if (status === 'finished') return '已读完';
+          return '未知';
+        };
+
+        const monthLogs = (() => {
+          if (!book.logs || book.logs.length === 0) return null;
+          const map = {};
+          book.logs.forEach((d) => {
+            const [y, m] = d.split('-');
+            const key = `${y}-${m}`;
+            map[key] = (map[key] || 0) + 1;
+          });
+          return map;
+        })();
+
+        const todayStatusHint = (() => {
+          if (!book.logs || book.logs.length === 0) return '还没有打卡记录，先从今天开始吧。';
+          const last = book.logs[book.logs.length - 1];
+          return `最近一次打卡：${last}`;
+        })();
+
+        return (
+          <div className="detail-overlay">
+            <div className="detail-panel">
+              <button className="detail-close" onClick={onClose}>
+                ×
+              </button>
+              <div className="detail-layout">
+                <div className="detail-main">
+                  <div className="detail-book-info">
+                    <div className="detail-cover-block">
+                      {book.coverUrl ? (
+                        <img src={book.coverUrl} alt={book.title} className="detail-cover" />
+                      ) : (
+                        <div className="detail-cover placeholder">
+                          <span>{book.title.slice(0, 10) || '未命名'}</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="detail-meta">
+                      <h2 className="detail-title">{book.title}</h2>
+                      <p className="detail-author">{book.author || '作者待补充'}</p>
+                      {book.doubanUrl && (
+                        <p className="detail-link">
+                          <a href={book.doubanUrl} target="_blank" rel="noopener noreferrer">
+                            打开豆瓣图书页面 →
+                          </a>
+                        </p>
+                      )}
+                      <div className="detail-status-row">
+                        <span className="detail-status-label">当前状态：</span>
+                        <span className={`detail-status-tag status-${book.status}`}>{statusLabel(book.status)}</span>
+                        <button
+                          className="secondary-button small"
+                          onClick={() => onStatusChange(book, nextStatus(book.status))}
+                        >
+                          切换为「{statusLabel(nextStatus(book.status))}」
+                        </button>
+                      </div>
+                      <div className="detail-logs">
+                        <div className="detail-logs-header">
+                          <span>阅读打卡</span>
+                          <button className="secondary-button small" onClick={() => onTodayLog(book)}>
+                            今天读了这本书
+                          </button>
+                        </div>
+                        <p className="detail-logs-hint">{todayStatusHint}</p>
+                        {monthLogs && (
+                          <div className="detail-logs-months">
+                            {Object.entries(monthLogs).map(([month, count]) => (
+                              <span key={month} className="month-chip">
+                                {month} · {count} 天
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="detail-side">
+                  <div className="detail-review">
+                    <h3>一句话简述（可选）</h3>
+                    <textarea
+                      value={book.summaryShort || ''}
+                      onChange={(e) => onReviewChange(book, e.target.value)}
+                      placeholder="用一句话写下你对这本书目前的印象，比如「节奏很快、信息量大，适合做效率工具的入门书」。"
+                    />
+                  </div>
+                  <div className="detail-ai">
+                    <div className="detail-ai-header">
+                      <h3>AI 评价（可选）</h3>
+                      <button
+                        className="primary-button small"
+                        disabled={aiBusy}
+                        onClick={() => onAiEnhance(book)}
+                      >
+                        {aiBusy ? '正在整理…' : '让 AI 帮我整理'}
+                      </button>
+                    </div>
+                    <p className="detail-ai-hint">
+                      当前为本地模拟逻辑，用于占位和体验流程。后续可以在代码中配置真实的 AI 接口，实现更智能的评价和推荐。
+                    </p>
+                    <pre className="detail-ai-output">
+                      {book.aiComment ||
+                        '还没有生成内容。先写一句话简述，再点击上方按钮，让 AI 帮你做一个简要评价。'}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('app'));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
+
+

@@ -51,6 +51,63 @@ layout: default
             {% endif %}
         </div>
     </section>
+
+    <!-- 开发实验室区块 -->
+    <section class="labs-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">开发实验室</h2>
+                <a href="{{ '/labs/' | relative_url }}" class="section-more" aria-label="查看所有实验项目">
+                    查看全部实验 →
+                </a>
+            </div>
+            {% assign projects = site.projects | sort: "order" %}
+            {% if projects.size > 0 %}
+            <div class="labs-grid">
+                {% for project in projects limit: 3 %}
+                <article class="lab-card">
+                    <div class="lab-card-body">
+                        <header class="lab-card-header">
+                            <h3 class="lab-card-title">{{ project.title }}</h3>
+                            {% if project.status %}
+                            <span class="lab-card-status">{{ project.status }}</span>
+                            {% endif %}
+                        </header>
+                        {% if project.description %}
+                        <p class="lab-card-description">
+                            {{ project.description }}
+                        </p>
+                        {% endif %}
+                        {% if project.tags %}
+                        <div class="lab-card-tags">
+                            {% for tag in project.tags %}
+                            <span class="lab-tag">#{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% assign target_link = project.link | default: project.url %}
+                    <footer class="lab-card-footer">
+                        {% if project.external %}
+                        <a href="{{ target_link }}" class="lab-card-button" target="_blank" rel="noopener noreferrer">
+                            打开 →
+                        </a>
+                        {% else %}
+                        <a href="{{ target_link | relative_url }}" class="lab-card-button">
+                            打开 →
+                        </a>
+                        {% endif %}
+                    </footer>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="labs-empty">
+                实验室还在搭建中，稍后会陆续上线一些 AI 小工具。
+            </p>
+            {% endif %}
+        </div>
+    </section>
     
     <!-- 分类导航区块 -->
     <section class="categories-section">

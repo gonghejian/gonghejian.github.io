@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>开发实验室 - 预览</title>
+    <meta name="description" content="弓箭的开发实验室预览页面">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="preview.html" class="site-title">
+                    <img src="favicon.ico" alt="Logo" class="site-logo" onerror="this.src='ico.jpg'; this.onerror=null;">
+                    <span class="site-title-text">弓箭的博客</span>
+                </a>
+                <nav class="site-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="preview.html" class="nav-link">首页</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-labs.html" class="nav-link active">开发实验室</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-categories.html" class="nav-link">分类</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-archive.html" class="nav-link">归档</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="preview-about.html" class="nav-link">关于</a>
+                        </li>
+                    </ul>
+                </nav>
+                <button class="mobile-menu-toggle" aria-label="菜单">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="labs-page">
+            <section class="labs-hero">
+                <div class="container">
+                    <h1 class="page-title">开发实验室</h1>
+                    <p class="page-description">
+                        这里收集了我在业余时间做的一些 AI 小工具和实验项目，欢迎随便玩、随便试。
+                    </p>
+                </div>
+            </section>
+
+            <section class="labs-list-section">
+                <div class="container">
+                    <div class="labs-grid">
+                        <article class="lab-card">
+                            <div class="lab-card-body">
+                                <header class="lab-card-header">
+                                    <h2 class="lab-card-title">AI 写作助手</h2>
+                                    <span class="lab-card-status">实验中</span>
+                                </header>
+                                <p class="lab-card-description">
+                                    帮你快速起草、润色和重构文章的智能写作小工具，适合写博客、公众号、工作邮件。
+                                </p>
+                                <div class="lab-card-tags">
+                                    <span class="lab-tag">#写作</span>
+                                    <span class="lab-tag">#效率</span>
+                                    <span class="lab-tag">#AI</span>
+                                </div>
+                            </div>
+                            <footer class="lab-card-footer">
+                                <a href="#" class="lab-card-button">
+                                    立即体验 →
+                                </a>
+                            </footer>
+                        </article>
+
+                        <article class="lab-card">
+                            <div class="lab-card-body">
+                                <header class="lab-card-header">
+                                    <h2 class="lab-card-title">阅读摘要助手</h2>
+                                    <span class="lab-card-status">已上线</span>
+                                </header>
+                                <p class="lab-card-description">
+                                    输入一段内容或书摘，自动为你提炼要点、总结结构，让阅读和复盘更高效。
+                                </p>
+                                <div class="lab-card-tags">
+                                    <span class="lab-tag">#阅读</span>
+                                    <span class="lab-tag">#知识管理</span>
+                                    <span class="lab-tag">#AI</span>
+                                </div>
+                            </div>
+                            <footer class="lab-card-footer">
+                                <a href="#" class="lab-card-button">
+                                    立即体验 →
+                                </a>
+                            </footer>
+                        </article>
+
+                        <article class="lab-card">
+                            <div class="lab-card-body">
+                                <header class="lab-card-header">
+                                    <h2 class="lab-card-title">对话实验室</h2>
+                                    <span class="lab-card-status">筹备中</span>
+                                </header>
+                                <p class="lab-card-description">
+                                    不同人格、不同场景的对话机器人，帮你聊天、头脑风暴、练习表达。
+                                </p>
+                                <div class="lab-card-tags">
+                                    <span class="lab-tag">#对话</span>
+                                    <span class="lab-tag">#玩具</span>
+                                </div>
+                            </div>
+                            <footer class="lab-card-footer">
+                                <a href="#" class="lab-card-button">
+                                    立即体验 →
+                                </a>
+                            </footer>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-wechat">
+                <div class="wechat-invite">
+                    <div class="wechat-icon-wrapper">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="11" fill="#07C160"/>
+                            <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.35-8.496-6.35zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.179c0-.651.52-1.18 1.162-1.18zm5.34 3.24c-1.875-.127-3.693.42-5.15 1.566-1.635 1.357-2.545 3.602-1.803 5.825.522 1.56 1.78 2.76 3.22 3.31a.95.95 0 0 1 .578.52l.305 1.113 2.709-1.588a.722.722 0 0 1 .6-.082c1.17.31 2.38.31 3.55 0 .07-.02.14-.03.21-.06 3.28-1.11 5.652-4.12 5.652-7.65-.002-2.878-2.11-5.282-4.88-6.014zm-2.724 3.843c.518 0 .938.425.938.95a.944.944 0 0 1-.938.948.944.944 0 0 1-.938-.949c0-.524.42-.949.938-.949zm4.583 0c.518 0 .938.425.938.95a.944.944 0 0 1-.938.948.944.944 0 0 1-.938-.949c0-.524.42-.949.938-.949z" fill="white" transform="translate(2, 2) scale(0.7)"/>
+                        </svg>
+                    </div>
+                    <div class="wechat-content">
+                        <p class="wechat-title">💬 想和我聊聊？</p>
+                        <p class="wechat-description">添加我的微信，一起分享生活、交流想法，或者只是简单打个招呼 👋</p>
+                        <div class="wechat-button" id="wechatButton" data-wechat-id="your-wechat-id">
+                            <span>添加微信</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2024 弓箭的博客. 保留所有权利。</p>
+                    <p class="footer-description">记录思考、分享知识、探索世界</p>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/yourusername" class="social-link" target="_blank" rel="noopener">GitHub</a>
+                    <a href="mailto:your.email@example.com" class="social-link">Email</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>使用 <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a> 构建，托管于 <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+
+
