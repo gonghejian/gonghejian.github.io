@@ -95,5 +95,3 @@ include:
 **注意**：如果使用 `.png` 格式，需要修改 `_layouts/default.html` 中的 `type` 属性为 `image/png`。
 
 
-
-
