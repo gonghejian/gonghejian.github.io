@@ -266,8 +266,13 @@ def main():
         log("Product Hunt 流程成功，准备进入 DeepSeek 分析")
     except Exception as e:
         log(f"Product Hunt 抓取/解析失败：{e!r}，将切换到备选方案（Hacker News API）")
-        posts = fetch_hackernews_posts(limit=20)
-        source_label = "Hacker News Top Stories（API 备选）"
+        try:
+            posts = fetch_hackernews_posts(limit=20)
+            source_label = "Hacker News Top Stories（API 备选）"
+        except Exception as hn_err:
+            log(f"Hacker News 备选也失败：{hn_err!r}")
+            log("无法获取任何项目数据，脚本退出（exit 1）")
+            sys.exit(1)
 
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     client = get_client()
