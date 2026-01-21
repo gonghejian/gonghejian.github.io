@@ -1,0 +1,47 @@
+{
+  "schema": "hotmoneynews-lab/v1",
+  "generated_at_utc": "2026-01-21T01:18:46.594306+00:00",
+  "source": {
+    "rss_url": "https://news.ycombinator.com/rss",
+    "keyword": "Show HN"
+  },
+  "ai": {
+    "model": "deepseek-chat",
+    "enabled": false
+  },
+  "items": [
+    {
+      "rank": 1,
+      "title": "Show HN: macOS native DAW with Git branching model",
+      "url": "https://www.scratchtrackaudio.com",
+      "domain": "scratchtrackaudio.com",
+      "published": "Wed, 21 Jan 2026 00:05:10 +0000",
+      "hn_comments_url": "https://news.ycombinator.com/item?id=46699441",
+      "summary_html": "<a href=\"https://news.ycombinator.com/item?id=46699441\">Comments</a>",
+      "summary_text": "Comments",
+      "analysis_md": "- （dry-run）未调用 DeepSeek API。"
+    },
+    {
+      "rank": 2,
+      "title": "Show HN: Mastra 1.0, open-source JavaScript agent framework from the Gatsby devs",
+      "url": "https://github.com/mastra-ai/mastra",
+      "domain": "github.com",
+      "published": "Tue, 20 Jan 2026 16:38:56 +0000",
+      "hn_comments_url": "https://news.ycombinator.com/item?id=46693959",
+      "summary_html": "<a href=\"https://news.ycombinator.com/item?id=46693959\">Comments</a>",
+      "summary_text": "Comments",
+      "analysis_md": "- （dry-run）未调用 DeepSeek API。"
+    },
+    {
+      "rank": 3,
+      "title": "Show HN: TopicRadar – Track trending topics across HN, GitHub, ArXiv, and more",
+      "url": "https://apify.com/mick-johnson/topic-radar",
+      "domain": "apify.com",
+      "published": "Tue, 20 Jan 2026 14:47:50 +0000",
+      "hn_comments_url": "https://news.ycombinator.com/item?id=46692347",
+      "summary_html": "<a href=\"https://news.ycombinator.com/item?id=46692347\">Comments</a>",
+      "summary_text": "Comments",
+      "analysis_md": "- （dry-run）未调用 DeepSeek API。"
+    }
+  ]
+}

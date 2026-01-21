@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 搞钱项目分析器（Show HN）</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <style>
+      :root {
+        --bg: #f5f6f7;
+        --card: #ffffff;
+        --text: rgba(0, 0, 0, 0.88);
+        --muted: rgba(0, 0, 0, 0.62);
+        --muted-2: rgba(0, 0, 0, 0.48);
+        --line: rgba(0, 0, 0, 0.08);
+        --shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+        --radius: 14px;
+        --radius-sm: 10px;
+        --accent: #ffcc00;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        background: var(--bg);
+      }
+
+      .hm-shell {
+        min-height: 100%;
+      }
+
+      /* 顶部栏：参考即刻 Web 的克制风格 */
+      .hm-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(245, 246, 247, 0.85);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+      .hm-topbar-inner {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .hm-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+      }
+      .hm-logo {
+        width: 28px;
+        height: 28px;
+        border-radius: 9px;
+        background: linear-gradient(135deg, var(--accent), #ffd84d);
+        box-shadow: 0 8px 18px rgba(255, 204, 0, 0.25);
+      }
+      .hm-title {
+        font-size: 16px;
+        margin: 0;
+        color: var(--text);
+        letter-spacing: 0.2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .hm-subtitle {
+        margin: 2px 0 0 0;
+        font-size: 12px;
+        color: var(--muted-2);
+      }
+      .hm-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      .hm-link {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .hm-link:hover {
+        color: var(--text);
+      }
+      .hm-btn {
+        border: 1px solid var(--line);
+        background: var(--card);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .hm-btn:hover {
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+      }
+      .hm-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* 主体信息流 */
+      .hm-container {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 16px 16px 48px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .hm-info {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .hm-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .hm-card-inner {
+        padding: 16px 16px;
+      }
+      .hm-card h1,
+      .hm-card h2,
+      .hm-card h3,
+      .hm-card h4 {
+        color: var(--text);
+        margin-top: 0;
+      }
+      .hm-card h2 {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+      .hm-card h3 {
+        font-size: 15px;
+        margin-bottom: 10px;
+      }
+      .hm-card p,
+      .hm-card li {
+        color: var(--text);
+        line-height: 1.7;
+      }
+      .hm-card code {
+        background: rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        padding: 1px 6px;
+        border-radius: 8px;
+      }
+      .hm-card a {
+        color: rgba(0, 0, 0, 0.85);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .hm-card a:hover {
+        color: rgba(0, 0, 0, 0.95);
+      }
+
+      /* 项目卡片（每个 Show HN item） */
+      .hm-item-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .hm-item-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 16px 16px 12px;
+        border-bottom: 1px solid var(--line);
+      }
+      .hm-item-head-main {
+        min-width: 0;
+      }
+      .hm-item-title {
+        margin: 0;
+        font-size: 15px;
+        color: var(--text);
+        line-height: 1.35;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .hm-item-title:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .hm-item-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .hm-badge {
+        flex: none;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.72);
+        background: rgba(255, 204, 0, 0.25);
+        border: 1px solid rgba(255, 204, 0, 0.35);
+        padding: 4px 8px;
+        border-radius: 999px;
+      }
+      .hm-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(0, 0, 0, 0.02);
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1;
+      }
+      .hm-item-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: none;
+      }
+      .hm-btn-primary {
+        border-color: rgba(0, 0, 0, 0.1);
+        background: rgba(255, 204, 0, 0.25);
+      }
+      .hm-btn-primary:hover {
+        box-shadow: 0 10px 24px rgba(255, 204, 0, 0.18);
+      }
+      .hm-item-body {
+        padding: 14px 16px 16px;
+      }
+
+      /* key-value：对标顶部信息密度/对齐方式 */
+      .hm-kv {
+        display: grid;
+        grid-template-columns: 64px 1fr;
+        gap: 8px 10px;
+        padding: 2px 0 10px;
+        color: var(--text);
+        font-size: 13px;
+      }
+      .hm-k {
+        color: var(--muted-2);
+      }
+      .hm-v {
+        color: var(--text);
+        min-width: 0;
+        word-break: break-word;
+      }
+      .hm-divider {
+        height: 1px;
+        background: var(--line);
+        margin: 12px 0;
+      }
+      .hm-section-title {
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      /* markdown 内容：控制段落、列表、标题的“即刻式”间距 */
+      .hm-md p {
+        margin: 8px 0;
+      }
+      .hm-md ul {
+        margin: 6px 0 0 0;
+        padding-left: 18px;
+      }
+      .hm-md li {
+        margin: 6px 0;
+      }
+      .hm-md h2,
+      .hm-md h3,
+      .hm-md h4 {
+        margin: 10px 0 8px 0;
+      }
+
+      /* 让 markdown 顶层标题不重复占位 */
+      .hm-report-raw h1 {
+        display: none;
+      }
+
+      @media (max-width: 640px) {
+        .hm-topbar-inner {
+          align-items: flex-start;
+        }
+        .hm-actions {
+          width: 100%;
+          justify-content: flex-start;
+        }
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </head>
+  <body>
+    <div class="hm-shell">
+      <div class="hm-topbar">
+        <div class="hm-topbar-inner">
+          <div class="hm-brand">
+            <div class="hm-logo" aria-hidden="true"></div>
+            <div style="min-width: 0">
+              <h1 class="hm-title">AI 搞钱项目分析器（Show HN）</h1>
+              <div class="hm-subtitle">把 Show HN 当作“真实项目样本”，每天给你一份毒辣点评。</div>
+            </div>
+          </div>
+          <div class="hm-actions">
+            <button id="refreshBtn" class="hm-btn" type="button">刷新</button>
+            <a class="hm-link" href="./README.md" target="_blank" rel="noopener noreferrer">打开 README.md</a>
+            <a class="hm-link" href="/labs/">返回开发实验室</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hm-container">
+        <div id="status" class="hm-info">正在加载今日分析结果…</div>
+        <div id="summary" class="hm-card" style="display: none">
+          <div class="hm-card-inner" id="summaryInner"></div>
+        </div>
+        <div id="feed"></div>
+      </div>
+    </div>
+
+    <script>
+      function el(tag, className, text) {
+        const n = document.createElement(tag);
+        if (className) n.className = className;
+        if (text != null) n.textContent = text;
+        return n;
+      }
+
+      marked.setOptions({ mangle: false, headerIds: false });
+
+      function safeText(s) {
+        return (s || '').toString().trim();
+      }
+
+      function extractHref(html) {
+        const m = (html || '').match(/href="([^"]+)"/i);
+        return m ? m[1] : '';
+      }
+
+      function extractDomain(url) {
+        try {
+          return new URL(url).hostname.replace(/^www\./, '');
+        } catch {
+          return '';
+        }
+      }
+
+      function parseReport(md) {
+        const raw = (md || '').replace(/\r\n/g, '\n');
+        const split = raw.split(/\n##\s*今日抓取结果\s*\n/);
+        let summaryMd = split[0] || raw;
+        let itemsMd = split[1] || '';
+
+        // 去掉 summary 里的顶层标题（页面已有）
+        summaryMd = summaryMd.replace(/^#.*\n+/, '').trim();
+
+        const items = [];
+        if (!itemsMd) {
+          return { summaryMd, items };
+        }
+
+        const re = /^###\s+(\d+)\.\s+(.*)\s*$/gm;
+        const sections = [];
+        let m;
+        while ((m = re.exec(itemsMd)) !== null) {
+          sections.push({
+            idx: parseInt(m[1], 10),
+            title: safeText(m[2]),
+            start: m.index,
+            bodyStart: re.lastIndex,
+          });
+        }
+
+        for (let i = 0; i < sections.length; i++) {
+          const cur = sections[i];
+          const next = sections[i + 1];
+          const end = next ? next.start : itemsMd.length;
+          const block = itemsMd.slice(cur.bodyStart, end).trim();
+
+          const getField = (label) => {
+            const mm = block.match(new RegExp(`^[-*]\\s*${label}：(.+)$`, 'm'));
+            return mm ? safeText(mm[1]) : '';
+          };
+
+          const link = getField('链接');
+          const time = getField('时间');
+          const summary = getField('摘要');
+          const commentsUrl = extractHref(summary);
+
+          let analysisMd = '';
+          const aIdx = block.indexOf('#### 分析（毒辣创业教练）');
+          if (aIdx >= 0) {
+            analysisMd = block.slice(aIdx);
+            analysisMd = analysisMd.replace(/^####[^\n]*\n+/, '').trim();
+          }
+
+          items.push({
+            idx: cur.idx,
+            title: cur.title,
+            link,
+            time,
+            summary,
+            commentsUrl,
+            analysisMd,
+          });
+        }
+
+        return { summaryMd, items };
+      }
+
+      async function tryLoadJson() {
+        const res = await fetch('./data.json', { cache: 'no-store' });
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (!data || !Array.isArray(data.items)) return null;
+        return data;
+      }
+
+      function renderSummaryFromJson(data, summaryInner, summaryCard) {
+        const wrap = el('div', 'hm-md hm-report-raw');
+        const meta = el('div', '');
+
+        const rows = [];
+        rows.push(`生成时间：${data.generated_at_utc || '-'}`);
+        if (data.source && data.source.rss_url) rows.push(`RSS：${data.source.rss_url}`);
+        if (data.source && data.source.keyword) rows.push(`关键词：${data.source.keyword}`);
+        if (data.ai && data.ai.model) rows.push(`模型：${data.ai.model}`);
+        rows.push(`条目数：${(data.items || []).length}`);
+
+        const ul = document.createElement('ul');
+        for (const r of rows) {
+          const li = document.createElement('li');
+          li.textContent = r;
+          ul.appendChild(li);
+        }
+        meta.appendChild(ul);
+        wrap.appendChild(meta);
+
+        summaryInner.appendChild(wrap);
+        summaryCard.style.display = '';
+      }
+
+      function renderItemCardFromJson(item) {
+        return renderItemCard({
+          title: item.title,
+          link: item.url,
+          time: item.published,
+          summary: item.summary_html || item.summary_text || '',
+          commentsUrl: item.hn_comments_url || '',
+          analysisMd: item.analysis_md || '',
+        });
+      }
+
+      function renderSummary(summaryMd, summaryInner, summaryCard) {
+        const wrap = el('div', 'hm-md hm-report-raw');
+        wrap.innerHTML = marked.parse(summaryMd || '');
+        summaryInner.appendChild(wrap);
+        summaryCard.style.display = '';
+      }
+
+      function renderItemCard(item) {
+        const card = el('section', 'hm-item-card');
+
+        const head = el('div', 'hm-item-head');
+        const headMain = el('div', 'hm-item-head-main');
+
+        const titleLink = document.createElement('a');
+        titleLink.className = 'hm-item-title';
+        titleLink.href = item.link || '#';
+        titleLink.target = '_blank';
+        titleLink.rel = 'noopener noreferrer';
+        titleLink.textContent = item.title || 'Untitled';
+        headMain.appendChild(titleLink);
+
+        const meta = el('div', 'hm-item-meta');
+        const domain = extractDomain(item.link);
+        if (domain) meta.appendChild(el('span', 'hm-chip', domain));
+        if (item.time) meta.appendChild(el('span', 'hm-chip', item.time));
+        meta.appendChild(el('span', 'hm-chip', 'Show HN'));
+        headMain.appendChild(meta);
+
+        const actions = el('div', 'hm-item-actions');
+        if (item.commentsUrl) {
+          const c = document.createElement('a');
+          c.className = 'hm-btn';
+          c.href = item.commentsUrl;
+          c.target = '_blank';
+          c.rel = 'noopener noreferrer';
+          c.textContent = '讨论';
+          actions.appendChild(c);
+        }
+        if (item.link) {
+          const open = document.createElement('a');
+          open.className = 'hm-btn hm-btn-primary';
+          open.href = item.link;
+          open.target = '_blank';
+          open.rel = 'noopener noreferrer';
+          open.textContent = '打开';
+          actions.appendChild(open);
+        }
+
+        head.appendChild(headMain);
+        head.appendChild(actions);
+        card.appendChild(head);
+
+        const body = el('div', 'hm-item-body');
+
+        const kv = el('div', 'hm-kv');
+        if (item.link) {
+          kv.appendChild(el('div', 'hm-k', '链接'));
+          const v = el('div', 'hm-v');
+          const a = document.createElement('a');
+          a.href = item.link;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = item.link;
+          v.appendChild(a);
+          kv.appendChild(v);
+        }
+        if (item.commentsUrl) {
+          kv.appendChild(el('div', 'hm-k', '讨论'));
+          const v = el('div', 'hm-v');
+          const a = document.createElement('a');
+          a.href = item.commentsUrl;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = item.commentsUrl;
+          v.appendChild(a);
+          kv.appendChild(v);
+        }
+        if (item.time) {
+          kv.appendChild(el('div', 'hm-k', '时间'));
+          kv.appendChild(el('div', 'hm-v', item.time));
+        }
+        // 摘要：把 RSS 里的 HTML 收敛成“可读文本”
+        if (item.summary) {
+          const summaryText = safeText(item.summary.replace(/<[^>]+>/g, ''));
+          if (summaryText) {
+            kv.appendChild(el('div', 'hm-k', '摘要'));
+            kv.appendChild(el('div', 'hm-v', summaryText));
+          }
+        }
+        if (kv.childNodes.length > 0) body.appendChild(kv);
+
+        body.appendChild(el('div', 'hm-divider'));
+        body.appendChild(el('div', 'hm-section-title', 'Tough love'));
+
+        const analysisWrap = el('div', 'hm-md');
+        if (item.analysisMd) {
+          analysisWrap.innerHTML = marked.parse(item.analysisMd);
+        } else {
+          analysisWrap.appendChild(el('div', 'hm-info', '（暂无分析内容）'));
+        }
+        body.appendChild(analysisWrap);
+
+        card.appendChild(body);
+        return card;
+      }
+
+      async function loadReport() {
+        const statusEl = document.getElementById('status');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const summaryCard = document.getElementById('summary');
+        const summaryInner = document.getElementById('summaryInner');
+        const feed = document.getElementById('feed');
+
+        refreshBtn.disabled = true;
+        statusEl.textContent = '正在加载今日分析结果…';
+        summaryCard.style.display = 'none';
+        summaryInner.innerHTML = '';
+        feed.innerHTML = '';
+        try {
+          const jsonData = await tryLoadJson();
+          if (jsonData) {
+            renderSummaryFromJson(jsonData, summaryInner, summaryCard);
+            if (!jsonData.items || jsonData.items.length === 0) {
+              const empty = el('div', 'hm-card');
+              const inner = el('div', 'hm-card-inner hm-info');
+              inner.textContent = 'data.json 里没有条目。请先运行 daily_bot.py 更新数据。';
+              empty.appendChild(inner);
+              feed.appendChild(empty);
+            } else {
+              for (const item of jsonData.items) {
+                feed.appendChild(renderItemCardFromJson(item));
+              }
+            }
+          } else {
+            // 兼容：如果 data.json 不存在，回退到解析 README.md
+            const res = await fetch('./README.md', { cache: 'no-store' });
+            if (!res.ok) throw new Error('README.md 加载失败（HTTP ' + res.status + '）');
+            const md = await res.text();
+
+            const parsed = parseReport(md);
+            renderSummary(parsed.summaryMd, summaryInner, summaryCard);
+
+            if (!parsed.items || parsed.items.length === 0) {
+              const empty = el('div', 'hm-card');
+              const inner = el('div', 'hm-card-inner hm-info');
+              inner.textContent = '没有解析到 Show HN 条目。你可以先运行 daily_bot.py 更新 README.md。';
+              empty.appendChild(inner);
+              feed.appendChild(empty);
+            } else {
+              for (const item of parsed.items) {
+                feed.appendChild(renderItemCard(item));
+              }
+            }
+          }
+
+          statusEl.textContent = '';
+        } catch (e) {
+          statusEl.textContent = '加载失败：' + (e && e.message ? e.message : String(e));
+          const hint = el('div', 'hm-info');
+          hint.textContent = '你可以先运行 daily_bot.py 生成 README.md，然后点“刷新”。';
+          feed.appendChild(hint);
+        } finally {
+          refreshBtn.disabled = false;
+        }
+      }
+
+      document.getElementById('refreshBtn').addEventListener('click', () => loadReport());
+      loadReport();
+    </script>
+  </body>
+</html>
+

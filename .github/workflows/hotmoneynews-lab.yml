@@ -1,0 +1,46 @@
+name: Hotmoneynews Lab (Daily)
+
+on:
+  workflow_dispatch:
+  schedule:
+    # UTC time. If you want China time (UTC+8), add 8 hours.
+    - cron: "10 9 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hotmoneynews-lab-daily
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai feedparser requests
+
+      - name: Run daily bot
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: |
+          python labs/hotmoneynews-lab/daily_bot.py --limit 8
+
+      - name: Commit report updates
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(hotmoneynews): update daily report"
+          file_pattern: |
+            labs/hotmoneynews-lab/README.md
+            labs/hotmoneynews-lab/data.json
+
