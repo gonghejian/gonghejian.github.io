@@ -1,5 +1,6 @@
 # Jekyll配置
 title: "弓箭的博客"
+subtitle: "记录思考、分享知识、探索世界"  # 副标题，显示在关于页面
 description: "记录思考、分享知识、探索世界"
 author: "Your Name"
 email: "your.email@example.com"
@@ -44,6 +45,8 @@ navigation:
     url: /
   - title: 文档
     url: /docs/
+  - title: 开发实验室
+    url: /labs/
   - title: 关于我
     url: /about/
 

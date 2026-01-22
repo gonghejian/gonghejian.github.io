@@ -1,6 +1,8 @@
 ---
 title: "我的年度阅读计划"
 description: "为一年准备一份清晰的阅读清单，从「想读」到「读完」，打卡、记录、复盘，并用 AI 帮你整理收获。"
+short_description: "年度阅读看板工具，用 AI 帮你整理阅读收获"
+icon: "📚"
 tags: ["阅读", "年度计划", "AI"]
 status: "实验中"
 order: 1
