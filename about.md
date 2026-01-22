@@ -60,7 +60,6 @@ permalink: /about/
                 <p class="projects-empty">暂无项目</p>
                 {% endif %}
             </div>
-            
         </div>
     </div>
 </div>
@@ -156,17 +155,6 @@ permalink: /about/
     line-height: 1.4;
 }
 
-.about-section a {
-    color: var(--color-primary);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: var(--transition);
-}
-
-.about-section a:hover {
-    border-bottom-color: var(--color-primary);
-}
-
 .section-description {
     font-size: 14px;
     color: var(--color-text-secondary);
@@ -179,7 +167,6 @@ permalink: /about/
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 24px;
-    margin-top: 24px;
     text-align: left;
 }
 

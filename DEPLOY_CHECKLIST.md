@@ -1,114 +1,106 @@
-# ✅ GitHub Pages 部署检查清单
+# 部署前检查清单
 
-## 已修复的问题
+## ✅ 已完成的功能
 
-### 1. ✅ Gemfile 配置
-- ✅ 移除了不可用的 `jekyll-compress-html` gem
-- ✅ 添加了 `jekyll-paginate` gem
-- ✅ 所有 gem 版本都已验证可用
+### 1. 导航菜单
+- [x] 博客（首页）
+- [x] 文档
+- [x] 开发实验室
+- [x] 关于我
+- [x] 主题切换按钮
+- [x] 语言切换按钮
 
-### 2. ✅ _config.yml 配置
-- ✅ 移除了 `jekyll-compress-html` 插件引用
-- ✅ 添加了 `jekyll-paginate` 插件
-- ✅ 移除了 `compress_html` 配置
-- ✅ 配置语法正确
+### 2. 首页 (index.html)
+- [x] Hero 区域（标题、描述、X 关注按钮）
+- [x] 文章列表（按周整理，X 推文精选格式）
+- [x] 邮件订阅区块（渐变背景）
 
-### 3. ✅ 标签处理问题
-- ✅ 修复了数字标签（如 `2026`）无法使用 `slugify` 的问题
-- ✅ 使用 `append: ''` 将标签转换为字符串后再使用 `slugify`
+### 3. 关于我页面 (about.md)
+- [x] 头像显示（居中）
+- [x] 标题和副标题（居中）
+- [x] 描述文字（居中）
+- [x] 关注按钮（居中）
+- [x] 开发实验室项目展示（图标 + 标题 + 描述）
 
-### 4. ✅ 文件清理
-- ✅ 删除了重复的文章文件 `2026-01-01-2026-reading.md`
+### 4. 开发实验室页面 (labs.html)
+- [x] 标题和描述（居中）
+- [x] 项目列表（图标 + 标题 + 描述）
+- [x] 与关于页面相同的样式
 
-### 5. ✅ GitHub Actions 工作流
-- ✅ 工作流配置正确
-- ✅ 添加了明确的错误处理
-- ✅ 指定了构建输出路径
+### 5. 页脚 (footer.html)
+- [x] Logo + 网站名称
+- [x] 网站描述
+- [x] 社交媒体链接（GitHub、Twitter、Email）
 
-## 当前配置状态
+### 6. 样式系统
+- [x] 现代配色方案（紫色渐变）
+- [x] 暗色模式支持
+- [x] 响应式设计
+- [x] 所有样式已内联或包含在 style.css
 
-### Gemfile
-```ruby
-gem "jekyll", "~> 4.3"
-gem "jekyll-feed", "~> 0.12"
-gem "jekyll-sitemap", "~> 1.4"
-gem "jekyll-seo-tag", "~> 2.8"
-gem "jekyll-paginate", "~> 1.1"
-```
+### 7. JavaScript 功能
+- [x] 主题切换功能
+- [x] 语言切换功能
+- [x] 邮件订阅表单处理
+- [x] 移动端菜单切换
 
-### _config.yml 插件
-```yaml
-plugins:
-  - jekyll-feed
-  - jekyll-sitemap
-  - jekyll-seo-tag
-  - jekyll-paginate
-```
+## 📋 部署前验证
 
-### 标签处理
-```liquid
-{% assign tag_string = tag | append: '' %}
-<a href="{{ '/tags/' | relative_url }}{{ tag_string | slugify }}" class="tag-link">#{{ tag }}</a>
-```
+### 文件检查
+- [x] `index.html` - 首页结构正确
+- [x] `about.md` - 关于页面包含所有样式
+- [x] `labs.html` - 开发实验室页面包含所有样式
+- [x] `_config.yml` - 配置正确（导航、分类等）
+- [x] `_includes/header.html` - 包含主题和语言切换
+- [x] `_includes/footer.html` - 页脚样式正确
+- [x] `assets/css/style.css` - 全局样式完整
+- [x] `assets/js/main.js` - JavaScript 功能完整
 
-## 部署前检查
+### 样式检查
+- [x] 所有页面样式都已内联或包含在 CSS 中
+- [x] 项目展示样式（projects-grid, project-item 等）在 about.md 和 labs.html 中
+- [x] 响应式样式完整
+- [x] 暗色模式样式完整
 
-在推送代码前，请确认：
+### 功能检查
+- [x] Jekyll 构建成功（无错误）
+- [x] 所有 Liquid 模板语法正确
+- [x] 所有链接路径正确
 
-- [ ] 所有文件已保存
-- [ ] Git 状态正常
-- [ ] 没有未提交的更改
+## 🚀 部署步骤
 
-## 部署步骤
+1. **提交所有更改**
+   ```powershell
+   git add .
+   git commit -m "网站改版：参考 geekjourney.dev 样式"
+   git push origin main
+   ```
 
-1. **提交更改**
-```bash
-git add .
-git commit -m "修复: 全面修复 GitHub Pages 部署问题"
-git push origin main
-```
-
-2. **触发部署**
-   - 进入 GitHub 仓库的 **Actions** 标签页
-   - 选择 **"Deploy GitHub Pages"** 工作流
-   - 点击 **"Run workflow"**
-   - 选择分支：**main**
-   - 点击 **"Run workflow"**
+2. **等待 GitHub Actions 构建**
+   - 进入仓库的 Actions 标签页
+   - 查看构建状态
+   - 等待构建完成（通常 2-5 分钟）
 
 3. **验证部署**
-   - 等待 2-5 分钟
-   - 查看 Actions 日志确认成功
-   - 访问网站验证
+   - 访问你的 GitHub Pages URL
+   - 检查所有页面是否正常显示
+   - 测试主题切换功能
+   - 测试响应式布局
 
-## 如果仍然失败
+## ⚠️ 注意事项
 
-1. **查看详细错误日志**
-   - 进入 Actions → 失败的运行
-   - 展开失败的步骤
-   - 查看完整的错误信息
+1. **样式位置**：项目展示样式在 `about.md` 和 `labs.html` 中内联，确保这些文件被正确提交
 
-2. **本地测试构建**
-```bash
-bundle install
-bundle exec jekyll build
-```
+2. **头像图片**：如果添加了头像，确保 `assets/images/avatar.jpg` 或 `avatar.png` 已提交
 
-3. **检查常见问题**
-   - Gemfile 语法是否正确
-   - _config.yml 语法是否正确
-   - 所有文章文件的 Front Matter 是否正确
+3. **配置文件**：确保 `_config.yml` 中的 `subtitle` 字段已配置
 
-## 预期结果
+4. **项目文件**：确保 `_projects/*.md` 文件中的 `icon` 和 `short_description` 字段已配置
 
-部署成功后，你应该看到：
-- ✅ 所有步骤显示绿色 ✓
-- ✅ 部署成功消息
-- ✅ 网站可以正常访问
-- ✅ 所有文章正常显示
-- ✅ 分类和归档页面正常
+## 📝 当前修改的文件
 
----
+根据 `git status`，以下文件已修改：
+- `about.md` - 关于页面（包含项目展示）
+- `labs.html` - 开发实验室页面
 
-*最后更新：2026-01-04*
-
-
+这些文件都已包含完整的样式定义，可以直接提交。
