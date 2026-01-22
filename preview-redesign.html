@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>弓箭的博客 · AI 实战手册</title>
+    <meta name="description" content="聚焦 AI 编程、工具开发、出海实战与提示词策略，提供从理论到实践的完整指南。">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="site-title">
+                    <img src="favicon.ico" alt="Logo" class="site-logo" onerror="this.src='ico.jpg'; this.onerror=null;">
+                    <span class="site-title-text">弓箭的博客</span>
+                </a>
+                <nav class="site-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link active">博客</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/docs/" class="nav-link">文档</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/about/" class="nav-link">关于我</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                        <svg class="theme-icon theme-icon-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                    <button class="lang-toggle" id="langToggle" aria-label="切换语言">
+                        <span class="lang-text">中</span>
+                    </button>
+                    <button class="mobile-menu-toggle" aria-label="菜单">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="home">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <h1 class="hero-title">弓箭的博客 · AI 实战手册</h1>
+                    <p class="hero-description">聚焦 AI 编程、工具开发、出海实战与提示词策略，提供从理论到实践的完整指南。</p>
+                    <div class="hero-actions">
+                        <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer" class="hero-follow-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                            关注我的 X
+                        </a>
+                        <a href="#posts" class="hero-read-btn">阅读实战经验</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Posts Section -->
+            <section class="posts-section" id="posts">
+                <div class="container">
+                    <article class="week-post-card">
+                        <div class="week-post-header">
+                            <div class="week-post-meta">
+                                <span class="week-post-badge">X 推文精选</span>
+                                <time class="week-post-date">2025年第50周</time>
+                            </div>
+                            <time class="week-post-full-date" datetime="2025-12-08">2025-12-08</time>
+                        </div>
+                        <h2 class="week-post-title">
+                            <a href="#">2025年第50周 X 推文精选</a>
+                        </h2>
+                        <p class="week-post-excerpt">汇总 2025 年第 50 周（北京时间 2025-12-08 至 2025-12-14）的 seekjourney 推文精华。</p>
+                    </article>
+
+                    <article class="week-post-card">
+                        <div class="week-post-header">
+                            <div class="week-post-meta">
+                                <span class="week-post-badge">X 推文精选</span>
+                                <time class="week-post-date">2025年第49周</time>
+                            </div>
+                            <time class="week-post-full-date" datetime="2025-12-01">2025-12-01</time>
+                        </div>
+                        <h2 class="week-post-title">
+                            <a href="#">2025年第49周 X 推文精选</a>
+                        </h2>
+                        <p class="week-post-excerpt">汇总 2025 年第 49 周（北京时间 2025-12-01 至 2025-12-07）的 seekjourney 推文精华。</p>
+                    </article>
+
+                    <article class="week-post-card">
+                        <div class="week-post-header">
+                            <div class="week-post-meta">
+                                <span class="week-post-badge">X 推文精选</span>
+                                <time class="week-post-date">2025年第48周</time>
+                            </div>
+                            <time class="week-post-full-date" datetime="2025-11-24">2025-11-24</time>
+                        </div>
+                        <h2 class="week-post-title">
+                            <a href="#">2025年第48周 X 推文精选</a>
+                        </h2>
+                        <p class="week-post-excerpt">汇总 2025 年第 48 周（北京时间 2025-11-24 至 2025-11-30）的 seekjourney 推文精华。</p>
+                    </article>
+
+                    <article class="week-post-card">
+                        <div class="week-post-header">
+                            <div class="week-post-meta">
+                                <span class="week-post-badge">X 推文精选</span>
+                                <time class="week-post-date">2025年第47周</time>
+                            </div>
+                            <time class="week-post-full-date" datetime="2025-11-17">2025-11-17</time>
+                        </div>
+                        <h2 class="week-post-title">
+                            <a href="#">2025年第47周 X 推文精选</a>
+                        </h2>
+                        <p class="week-post-excerpt">汇总 2025 年第 47 周（北京时间 2025-11-17 至 2025-11-23）的 seekjourney 推文精华。</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Newsletter Section -->
+            <section class="newsletter-section">
+                <div class="container">
+                    <div class="newsletter-content">
+                        <h2 class="newsletter-title">邮件列表</h2>
+                        <p class="newsletter-description">加入我们的社区</p>
+                        <p class="newsletter-subtitle">订阅邮件列表，及时获取最新消息和更新</p>
+                        <form class="newsletter-form" id="newsletterForm">
+                            <div class="newsletter-input-group">
+                                <input type="email" class="newsletter-input" placeholder="邮箱" required aria-label="邮箱地址">
+                                <button type="submit" class="newsletter-submit">订阅</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <a href="/" class="footer-logo">
+                        <img src="favicon.ico" alt="Logo" class="footer-logo-img" onerror="this.src='ico.jpg'; this.onerror=null;">
+                        <span class="footer-logo-text">弓箭的博客</span>
+                    </a>
+                    <p class="footer-tagline">聚焦AI编程、工具开发与出海实战的分享平台</p>
+                </div>
+                <div class="footer-social">
+                    <a href="https://github.com/yourusername" class="footer-social-link" target="_blank" rel="noopener" aria-label="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        GitHub
+                    </a>
+                    <a href="https://twitter.com/yourusername" class="footer-social-link" target="_blank" rel="noopener" aria-label="Twitter">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                        X (Twitter)
+                    </a>
+                    <a href="mailto:your.email@example.com" class="footer-social-link" aria-label="Email">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        Email
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 弓箭的博客. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

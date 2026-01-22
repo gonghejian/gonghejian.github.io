@@ -40,15 +40,11 @@ collections:
 
 # 导航菜单
 navigation:
-  - title: 首页
+  - title: 博客
     url: /
-  - title: 开发实验室
-    url: /labs/
-  - title: 分类
-    url: /categories/
-  - title: 归档
-    url: /archive/
-  - title: 关于
+  - title: 文档
+    url: /docs/
+  - title: 关于我
     url: /about/
 
 # 社交媒体
