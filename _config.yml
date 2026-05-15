@@ -43,6 +43,8 @@ collections:
 navigation:
   - title: 博客
     url: /
+  - title: 每日日报
+    url: /daily-report/
   - title: 文档
     url: /docs/
   - title: 开发实验室

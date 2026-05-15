@@ -1,0 +1,106 @@
+---
+layout: default
+title: 每日日报
+permalink: /daily-report/
+---
+
+<div class="daily-report-page">
+    <div class="container">
+        <h1 class="page-title">每日日报</h1>
+        <p class="page-description">每日宏观洞察、策略思考与资产配置笔记</p>
+
+        <div class="daily-reports-list">
+            <article class="daily-report-card">
+                <time class="daily-report-date">2026年05月15日</time>
+                <h3 class="daily-report-title">
+                    <a href="{{ '/daily-report/2026-05-15.html' | relative_url }}">宏观政策解读与全球资产配置策略</a>
+                </h3>
+                <div class="daily-report-tags">
+                    <span class="tag tag-gold">周报</span>
+                    <span class="tag tag-rose">核心变量：特朗普访华</span>
+                </div>
+                <p class="daily-report-excerpt">全球货币政策周期定位、中美政策解读、资产配置中枢与战术交易方向、风险矩阵与本周行动计划。</p>
+            </article>
+        </div>
+    </div>
+</div>
+
+<style>
+.daily-report-page {
+    padding: var(--spacing-xl) 0;
+    min-height: 60vh;
+}
+.daily-report-page .page-title {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+}
+.daily-report-page .page-description {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-xl);
+}
+.daily-reports-list {
+    display: grid;
+    gap: var(--spacing-lg);
+}
+.daily-report-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.daily-report-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+.daily-report-date {
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+.daily-report-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+}
+.daily-report-title a {
+    color: var(--color-text);
+    text-decoration: none;
+}
+.daily-report-title a:hover {
+    color: var(--color-primary);
+}
+.daily-report-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: var(--spacing-sm);
+}
+.daily-report-tags .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.daily-report-tags .tag-gold {
+    background: rgba(245,158,11,0.15);
+    color: #f59e0b;
+    border: 1px solid rgba(245,158,11,0.3);
+}
+.daily-report-tags .tag-rose {
+    background: rgba(244,63,94,0.15);
+    color: #f43f5e;
+    border: 1px solid rgba(244,63,94,0.3);
+}
+.daily-report-excerpt {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+</style>
