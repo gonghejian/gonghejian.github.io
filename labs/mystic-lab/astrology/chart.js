@@ -41,16 +41,27 @@ class ChartRenderer {
      */
     initCanvas() {
         const container = this.canvas.parentElement;
-        const size = Math.min(container.clientWidth - 40, 800);
-        
-        this.canvas.width = size;
-        this.canvas.height = size;
-        this.canvas.style.width = size + 'px';
-        this.canvas.style.height = size + 'px';
-        
-        this.centerX = size / 2;
-        this.centerY = size / 2;
-        this.radius = size / 2 - 60;
+        let containerWidth = container.clientWidth;
+
+        // 如果容器尚未布局（例如刚从 display:none 切换），尝试使用父容器或默认宽度
+        if (!containerWidth || containerWidth <= 0) {
+            containerWidth = container.getBoundingClientRect().width;
+        }
+        if (!containerWidth || containerWidth <= 0) {
+            containerWidth = 600; // 兜底默认值
+        }
+
+        const size = Math.min(containerWidth - 40, 800);
+        const finalSize = Math.max(size, 300); // 确保最小 300px，避免负半径
+
+        this.canvas.width = finalSize;
+        this.canvas.height = finalSize;
+        this.canvas.style.width = finalSize + 'px';
+        this.canvas.style.height = finalSize + 'px';
+
+        this.centerX = finalSize / 2;
+        this.centerY = finalSize / 2;
+        this.radius = finalSize / 2 - 60;
     }
 
     /**
@@ -106,7 +117,7 @@ class ChartRenderer {
                       '天秤', '天蝎', '射手', '摩羯', '水瓶', '双鱼'];
         
         // 绘制外圈
-        this.ctx.strokeStyle = '#333';
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
         this.ctx.lineWidth = 2;
         this.ctx.beginPath();
         this.ctx.arc(this.centerX, this.centerY, this.radius, 0, Math.PI * 2);
@@ -155,7 +166,7 @@ class ChartRenderer {
             const innerX = this.centerX + innerRadius * Math.cos(angle);
             const innerY = this.centerY + innerRadius * Math.sin(angle);
             
-            this.ctx.strokeStyle = '#999';
+            this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
             this.ctx.lineWidth = 1;
             this.ctx.setLineDash([5, 5]);
             this.ctx.beginPath();
@@ -169,7 +180,7 @@ class ChartRenderer {
             const labelX = this.centerX + (innerRadius - 15) * Math.cos(labelAngle);
             const labelY = this.centerY + (innerRadius - 15) * Math.sin(labelAngle);
             
-            this.ctx.fillStyle = '#666';
+            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
             this.ctx.font = '10px Arial';
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
@@ -237,17 +248,17 @@ class ChartRenderer {
                 : Math.floor(planet.longitude / 30) % 12;
             
             // 绘制行星圆圈
-            this.ctx.fillStyle = '#fff';
-            this.ctx.strokeStyle = this.signColors[signIndex] || '#666';
+            this.ctx.fillStyle = 'rgba(30, 30, 50, 0.9)';
+            this.ctx.strokeStyle = this.signColors[signIndex] || '#999';
             this.ctx.lineWidth = 2;
             this.ctx.beginPath();
             this.ctx.arc(x, y, 12, 0, Math.PI * 2);
             this.ctx.fill();
             this.ctx.stroke();
-            
+
             // 绘制行星符号
-            this.ctx.fillStyle = '#333';
-            this.ctx.font = '14px Arial';
+            this.ctx.fillStyle = '#f5f7fa';
+            this.ctx.font = 'bold 14px Arial';
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
             this.ctx.fillText(this.planetSymbols[planet.planet] || planet.planet[0] || '?', x, y);
@@ -298,10 +309,15 @@ class ChartRenderer {
         const legendX = this.canvas.width - 150;
         const legendY = 20;
         
-        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-        this.ctx.fillRect(legendX - 10, legendY - 10, 140, 200);
-        
-        this.ctx.fillStyle = '#333';
+        this.ctx.fillStyle = 'rgba(20, 20, 40, 0.85)';
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+        this.ctx.lineWidth = 1;
+        this.ctx.beginPath();
+        this.ctx.roundRect(legendX - 10, legendY - 10, 140, 200, 8);
+        this.ctx.fill();
+        this.ctx.stroke();
+
+        this.ctx.fillStyle = '#f5f7fa';
         this.ctx.font = 'bold 12px Arial';
         this.ctx.textAlign = 'left';
         this.ctx.fillText('相位说明', legendX, legendY + 15);
@@ -317,10 +333,12 @@ class ChartRenderer {
         let yOffset = 35;
         Object.entries(aspectColors).forEach(([aspect, color]) => {
             this.ctx.fillStyle = color;
-            this.ctx.fillRect(legendX, yOffset, 15, 15);
-            this.ctx.fillStyle = '#333';
+            this.ctx.beginPath();
+            this.ctx.roundRect(legendX, yOffset, 15, 15, 3);
+            this.ctx.fill();
+            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
             this.ctx.font = '10px Arial';
-            this.ctx.fillText(aspect, legendX + 20, yOffset + 12);
+            this.ctx.fillText(aspect, legendX + 22, yOffset + 12);
             yOffset += 20;
         });
     }
