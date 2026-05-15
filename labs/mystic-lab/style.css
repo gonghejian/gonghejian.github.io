@@ -495,7 +495,9 @@ body::before {
 
 .chart-container {
     display: flex;
+    align-items: flex-start;
     justify-content: center;
+    gap: 32px;
     padding: 30px;
     background: rgba(255, 255, 255, 0.03);
     border-radius: 20px;
@@ -505,6 +507,39 @@ body::before {
 #chart-canvas {
     max-width: 100%;
     height: auto;
+    flex-shrink: 0;
+}
+
+.chart-legend {
+    flex-shrink: 0;
+    padding: 20px;
+    background: rgba(20, 20, 40, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    min-width: 140px;
+}
+
+.legend-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #f5f7fa;
+    margin-bottom: 14px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
 }
 
 /* 解析结果区 */
@@ -773,7 +808,15 @@ body::before {
     }
 
     .chart-container {
+        flex-direction: column;
+        align-items: center;
         padding: 16px;
+        gap: 20px;
+    }
+
+    .chart-legend {
+        width: 100%;
+        max-width: 300px;
     }
 
     .interpretation-tabs {

@@ -101,12 +101,9 @@ class ChartRenderer {
         
         // 绘制行星
         this.drawPlanets(chartData.planets, chartData.houses);
-        
+
         // 绘制上升点和天顶
         this.drawAngles(chartData.ascendant, chartData.mc);
-        
-        // 绘制图例
-        this.drawLegend();
     }
 
     /**
