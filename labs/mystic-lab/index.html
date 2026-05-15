@@ -87,18 +87,24 @@
                         <div class="form-row">
                             <label class="form-label">出生城市</label>
                             <div class="form-inputs">
-                                <div class="cascade-selects">
-                                    <select id="province" class="cascade-select" required>
+                                <div class="city-search-wrap">
+                                    <input type="text" id="birth-city-search" class="form-inputs" placeholder="输入城市名搜索，如：北京、上海、广州" autocomplete="off">
+                                    <div id="city-search-results" class="search-results"></div>
+                                </div>
+                                <div id="selected-city-info" class="selected-city-info" style="display:none;"></div>
+                                <a href="javascript:void(0)" id="toggle-cascade" class="inline-link">手动选择省市区</a>
+                                <div id="cascade-wrap" class="cascade-selects" style="display:none;">
+                                    <select id="province" class="cascade-select">
                                         <option value="">选择省份</option>
                                     </select>
-                                    <select id="city" class="cascade-select" required>
+                                    <select id="city" class="cascade-select">
                                         <option value="">选择城市</option>
                                     </select>
-                                    <select id="district" class="cascade-select" required>
+                                    <select id="district" class="cascade-select">
                                         <option value="">选择区县</option>
                                     </select>
                                 </div>
-                                <small class="form-hint">选择出生时的省、市、区县，系统将自动获取经纬度</small>
+                                <small class="form-hint">输入城市名快速搜索定位，或点击上方链接手动选择省市区</small>
                             </div>
                         </div>
 

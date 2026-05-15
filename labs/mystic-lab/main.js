@@ -31,6 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // 设为当前时间
     setupCurrentTimeLink();
 
+    // 城市搜索
+    setupCitySearch();
+
+    // 手动选择省市区切换
+    setupCascadeToggle();
+
     // 高级设置折叠面板
     setupAccordion();
 
@@ -114,10 +120,6 @@ function setupForm() {
             alert('请填写完整的出生日期和时间');
             return;
         }
-        if (!province || !city || !district) {
-            alert('请选择完整的出生城市（省、市、区县）');
-            return;
-        }
 
         // 夏令时处理：输入时间减 1 小时得到标准时间
         if (isDst && birthTime) {
@@ -134,30 +136,43 @@ function setupForm() {
             birthDate = adjustedDate;
         }
 
-        // 获取坐标：优先从区县选项的 data 属性读取
+        // 获取坐标：优先使用搜索框选中的坐标
         let coordinates = null;
-        const districtSelect = document.getElementById('district');
-        const selectedOption = districtSelect.options[districtSelect.selectedIndex];
-        if (selectedOption && selectedOption.dataset.lat && selectedOption.dataset.lng) {
+        const searchLat = document.getElementById('birth-city-search').dataset.lat;
+        const searchLng = document.getElementById('birth-city-search').dataset.lng;
+        if (searchLat && searchLng) {
             coordinates = {
-                lat: parseFloat(selectedOption.dataset.lat),
-                lng: parseFloat(selectedOption.dataset.lng)
+                lat: parseFloat(searchLat),
+                lng: parseFloat(searchLng)
             };
         }
 
-        // 如果未找到，回退到城市名匹配
+        // 其次从级联选择器的区县选项读取
+        if (!coordinates) {
+            const districtSelect = document.getElementById('district');
+            const selectedOption = districtSelect.options[districtSelect.selectedIndex];
+            if (selectedOption && selectedOption.dataset.lat && selectedOption.dataset.lng) {
+                coordinates = {
+                    lat: parseFloat(selectedOption.dataset.lat),
+                    lng: parseFloat(selectedOption.dataset.lng)
+                };
+            }
+        }
+
+        // 最后回退到城市名文本匹配
         if (!coordinates) {
             const citySelect = document.getElementById('city');
             const cityName = citySelect.options[citySelect.selectedIndex]?.text || '';
+            const searchName = document.getElementById('birth-city-search').value.trim();
             try {
-                coordinates = await getCoordinates(cityName);
+                coordinates = await getCoordinates(cityName || searchName);
             } catch (e) {
                 console.warn('无法从城市名获取坐标:', e);
             }
         }
 
         if (!coordinates) {
-            alert('无法获取所选城市的坐标，请重新选择');
+            alert('无法获取出生城市坐标，请重新搜索或选择城市');
             return;
         }
 
@@ -298,6 +313,129 @@ function setupAccordion() {
     toggle.addEventListener('click', () => {
         toggle.classList.toggle('active');
         content.classList.toggle('active');
+    });
+}
+
+/**
+ * 设置城市搜索
+ */
+function setupCitySearch() {
+    const searchInput = document.getElementById('birth-city-search');
+    const resultsDiv = document.getElementById('city-search-results');
+    const selectedInfo = document.getElementById('selected-city-info');
+    if (!searchInput || !resultsDiv) return;
+
+    // 构建搜索索引（从 CITY_DATABASE）
+    let cityIndex = [];
+    if (typeof CITY_DATABASE !== 'undefined') {
+        cityIndex = Object.entries(CITY_DATABASE).map(([name, coord]) => ({
+            name,
+            lat: coord.lat,
+            lng: coord.lng
+        }));
+    }
+
+    let activeIndex = -1;
+
+    function renderResults(matches) {
+        resultsDiv.innerHTML = '';
+        activeIndex = -1;
+        if (matches.length === 0) {
+            resultsDiv.classList.remove('active');
+            return;
+        }
+        matches.forEach((item, idx) => {
+            const div = document.createElement('div');
+            div.className = 'search-result-item';
+            div.textContent = item.name;
+            div.dataset.lat = item.lat;
+            div.dataset.lng = item.lng;
+            div.addEventListener('click', () => {
+                selectCity(item);
+            });
+            div.addEventListener('mouseenter', () => {
+                activeIndex = idx;
+                highlightActive();
+            });
+            resultsDiv.appendChild(div);
+        });
+        resultsDiv.classList.add('active');
+    }
+
+    function selectCity(item) {
+        searchInput.value = item.name;
+        searchInput.dataset.lat = item.lat;
+        searchInput.dataset.lng = item.lng;
+        resultsDiv.classList.remove('active');
+        selectedInfo.style.display = 'block';
+        selectedInfo.textContent = `已选择：${item.name}（${item.lat.toFixed(2)}, ${item.lng.toFixed(2)}）`;
+    }
+
+    function highlightActive() {
+        const items = resultsDiv.querySelectorAll('.search-result-item');
+        items.forEach((el, idx) => {
+            el.style.background = idx === activeIndex ? 'rgba(129, 140, 248, 0.25)' : '';
+        });
+    }
+
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim();
+        if (!query) {
+            resultsDiv.classList.remove('active');
+            selectedInfo.style.display = 'none';
+            delete searchInput.dataset.lat;
+            delete searchInput.dataset.lng;
+            return;
+        }
+        const matches = cityIndex
+            .filter(c => c.name.includes(query))
+            .slice(0, 10);
+        renderResults(matches);
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+        const items = resultsDiv.querySelectorAll('.search-result-item');
+        if (!resultsDiv.classList.contains('active') || items.length === 0) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            activeIndex = (activeIndex + 1) % items.length;
+            highlightActive();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            activeIndex = (activeIndex - 1 + items.length) % items.length;
+            highlightActive();
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (activeIndex >= 0 && activeIndex < items.length) {
+                items[activeIndex].click();
+            }
+        } else if (e.key === 'Escape') {
+            resultsDiv.classList.remove('active');
+        }
+    });
+
+    // 点击外部关闭下拉
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
+            resultsDiv.classList.remove('active');
+        }
+    });
+}
+
+/**
+ * 设置手动选择省市区切换
+ */
+function setupCascadeToggle() {
+    const toggle = document.getElementById('toggle-cascade');
+    const cascadeWrap = document.getElementById('cascade-wrap');
+    if (!toggle || !cascadeWrap) return;
+
+    toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isHidden = cascadeWrap.style.display === 'none';
+        cascadeWrap.style.display = isHidden ? 'flex' : 'none';
+        toggle.textContent = isHidden ? '收起手动选择' : '手动选择省市区';
     });
 }
 
