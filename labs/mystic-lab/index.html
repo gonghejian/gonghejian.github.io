@@ -31,6 +31,12 @@
                             <div class="form-group">
                                 <label for="birth-date">出生日期</label>
                                 <input type="date" id="birth-date" value="1983-07-31" required>
+                                <div class="calendar-toggle">
+                                    <label class="toggle-label">
+                                        <input type="checkbox" id="is-lunar-date">
+                                        <span class="toggle-text">此为农历日期</span>
+                                    </label>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="birth-time">出生时间</label>
@@ -168,7 +174,9 @@
         </main>
     </div>
 
-    <!-- 主逻辑 -->
+    <!-- 数据与主逻辑 -->
+    <script src="./data/cities.js"></script>
+    <script src="./astrology/lunar.js"></script>
     <script src="./astrology/calculator.js"></script>
     <script src="./astrology/chart.js"></script>
     <script src="./astrology/interpreter.js"></script>

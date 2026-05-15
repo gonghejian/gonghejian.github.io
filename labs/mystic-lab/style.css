@@ -134,6 +134,27 @@ body {
     border-color: #667eea;
 }
 
+/* 农历切换 */
+.calendar-toggle {
+    margin-top: 8px;
+    font-size: 0.85rem;
+}
+
+.calendar-toggle .toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: #666;
+}
+
+.calendar-toggle input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #667eea;
+    cursor: pointer;
+}
+
 .form-hint {
     font-size: 0.85rem;
     color: #999;
