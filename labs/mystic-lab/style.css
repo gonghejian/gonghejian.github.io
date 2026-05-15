@@ -505,9 +505,12 @@ body::before {
 }
 
 #chart-canvas {
+    width: 100%;
     max-width: 100%;
     height: auto;
+    aspect-ratio: 1 / 1;
     flex-shrink: 0;
+    object-fit: contain;
 }
 
 .chart-legend {

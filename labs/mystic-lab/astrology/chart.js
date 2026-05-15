@@ -51,13 +51,20 @@ class ChartRenderer {
             containerWidth = 600; // 兜底默认值
         }
 
-        const size = Math.min(containerWidth - 40, 800);
-        const finalSize = Math.max(size, 300); // 确保最小 300px，避免负半径
+        const dpr = window.devicePixelRatio || 1;
+        const cssSize = Math.min(containerWidth - 40, 600);
+        const finalSize = Math.max(cssSize, 280); // 确保最小 280px，避免负半径
 
-        this.canvas.width = finalSize;
-        this.canvas.height = finalSize;
-        this.canvas.style.width = finalSize + 'px';
-        this.canvas.style.height = finalSize + 'px';
+        // 画布像素尺寸考虑 DPR，保证高清屏不模糊
+        this.canvas.width = finalSize * dpr;
+        this.canvas.height = finalSize * dpr;
+
+        // 不设置 style.width/height，由 CSS 控制显示尺寸，防止手机端被拉伸变形
+        this.canvas.style.width = '';
+        this.canvas.style.height = '';
+
+        // 所有绘制逻辑以 css 尺寸为基准，通过 scale 适配 DPR
+        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
         this.centerX = finalSize / 2;
         this.centerY = finalSize / 2;
