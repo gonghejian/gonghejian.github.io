@@ -9,12 +9,16 @@ let renderer;
 let interpreter;
 let divination;
 let ichingInterpreter;
+let recommender;
+let transitCalculator;
 
 document.addEventListener('DOMContentLoaded', () => {
     // 初始化组件
     calculator = new AstrologyCalculator();
     renderer = new ChartRenderer('chart-canvas');
     interpreter = new ChartInterpreter();
+    recommender = new ChartRecommender();
+    transitCalculator = new TransitCalculator();
     divination = new IChingDivination();
     ichingInterpreter = new IChingInterpreter();
     
@@ -195,24 +199,65 @@ async function getCoordinates(location) {
 }
 
 /**
+ * 星座中文名到英文key的映射
+ */
+const SIGN_NAME_MAP = {
+    '白羊座': 'aries', '金牛座': 'taurus', '双子座': 'gemini',
+    '巨蟹座': 'cancer', '狮子座': 'leo', '处女座': 'virgo',
+    '天秤座': 'libra', '天蝎座': 'scorpio', '射手座': 'sagittarius',
+    '摩羯座': 'capricorn', '水瓶座': 'aquarius', '双鱼座': 'pisces'
+};
+
+/**
  * 生成解析内容
  */
 function generateInterpretations(chartData) {
     // 行星落座
     const planetSigns = interpreter.interpretPlanetSigns(chartData.planets);
     displayPlanetSigns(planetSigns);
-    
+
     // 行星落宫
     const planetHouses = interpreter.interpretPlanetHouses(chartData.planets, chartData.houses);
     displayPlanetHouses(planetHouses);
-    
+
     // 相位
     const aspects = interpreter.interpretAspects(chartData.aspects);
     displayAspects(aspects);
-    
+
     // 综合解读
     const summary = interpreter.generateSummary(chartData);
     displaySummary(summary);
+
+    // 人生建议
+    const lifeAdvice = interpreter.generateLifeAdvice(chartData);
+    displayLifeAdvice(lifeAdvice);
+
+    // 文化推荐
+    const sun = chartData.planets.find(p => p.planet === '太阳');
+    const moon = chartData.planets.find(p => p.planet === '月亮');
+    const ascendantSign = chartData.ascendant ? chartData.ascendant.sign : null;
+    const recommendationData = {
+        sunSign: sun ? SIGN_NAME_MAP[sun.sign] : null,
+        moonSign: moon ? SIGN_NAME_MAP[moon.sign] : null,
+        ascendantSign: ascendantSign ? SIGN_NAME_MAP[ascendantSign] : null
+    };
+    try {
+        const recommendations = recommender.generateRecommendations(recommendationData);
+        displayRecommendations(recommendations);
+    } catch (e) {
+        console.error('生成推荐失败:', e);
+        document.getElementById('recommendations-content').innerHTML = '<p>推荐生成失败，请重试。</p>';
+    }
+
+    // 未来三年运势
+    try {
+        const currentYear = new Date().getFullYear();
+        const forecasts = transitCalculator.generateYearlyForecast(chartData, currentYear);
+        displayTransitForecasts(forecasts);
+    } catch (e) {
+        console.error('生成运势失败:', e);
+        document.getElementById('transit-content').innerHTML = '<p>运势生成失败，请重试。</p>';
+    }
 }
 
 /**
@@ -281,6 +326,120 @@ function displayAspects(aspects) {
 function displaySummary(summary) {
     const container = document.getElementById('summary-content');
     container.innerHTML = `<p style="white-space: pre-line; line-height: 1.8;">${summary}</p>`;
+}
+
+/**
+ * 显示人生建议
+ */
+function displayLifeAdvice(advice) {
+    const container = document.getElementById('advice-content');
+    container.innerHTML = '';
+
+    const sections = [
+        { key: 'career', title: '职业发展建议' },
+        { key: 'love', title: '情感关系建议' },
+        { key: 'growth', title: '个人成长建议' }
+    ];
+
+    sections.forEach(section => {
+        const div = document.createElement('div');
+        div.className = 'planet-item';
+        div.innerHTML = `
+            <h3>${section.title}</h3>
+            <p style="white-space: pre-line; line-height: 1.8;">${advice[section.key] || '暂无建议'}</p>
+        `;
+        container.appendChild(div);
+    });
+}
+
+/**
+ * 显示文化推荐
+ */
+function displayRecommendations(recommendations) {
+    const container = document.getElementById('recommendations-content');
+    container.innerHTML = '';
+
+    // 书籍推荐
+    if (recommendations.books && recommendations.books.length > 0) {
+        const booksDiv = document.createElement('div');
+        booksDiv.className = 'planet-item';
+        let booksHtml = '<h3>推荐书籍</h3>';
+        recommendations.books.forEach(book => {
+            booksHtml += `<p><strong>${book.title}</strong> — ${book.author}<br/>${book.reason}</p>`;
+        });
+        booksDiv.innerHTML = booksHtml;
+        container.appendChild(booksDiv);
+    }
+
+    // 电影推荐
+    if (recommendations.movies && recommendations.movies.length > 0) {
+        const moviesDiv = document.createElement('div');
+        moviesDiv.className = 'planet-item';
+        let moviesHtml = '<h3>推荐电影</h3>';
+        recommendations.movies.forEach(movie => {
+            moviesHtml += `<p><strong>${movie.title}</strong>（${movie.year}）— ${movie.director}<br/>${movie.reason}</p>`;
+        });
+        moviesDiv.innerHTML = moviesHtml;
+        container.appendChild(moviesDiv);
+    }
+
+    // 佩戴建议
+    const accessoryDiv = document.createElement('div');
+    accessoryDiv.className = 'planet-item';
+    accessoryDiv.innerHTML = `
+        <h3>佩戴与色彩建议</h3>
+        <p><strong>主水晶：</strong>${recommendations.crystals.primary.name} — ${recommendations.crystals.primary.description}</p>
+        <p><strong>辅助水晶：</strong>${recommendations.crystals.secondary.name} — ${recommendations.crystals.secondary.description}</p>
+        <p><strong>幸运色：</strong>${recommendations.colors.lucky.name} — ${recommendations.colors.lucky.description}</p>
+        <p><strong>日常色：</strong>${recommendations.colors.daily.name} — ${recommendations.colors.daily.description}</p>
+        <p><strong>推荐材质：</strong>${recommendations.material.material} — ${recommendations.material.description}</p>
+    `;
+    container.appendChild(accessoryDiv);
+
+    // 综合总结
+    if (recommendations.summary) {
+        const summaryDiv = document.createElement('div');
+        summaryDiv.className = 'aspect-item';
+        summaryDiv.innerHTML = `<h3>综合推荐语</h3><p style="white-space: pre-line; line-height: 1.8;">${recommendations.summary}</p>`;
+        container.appendChild(summaryDiv);
+    }
+}
+
+/**
+ * 显示未来三年运势
+ */
+function displayTransitForecasts(forecasts) {
+    const container = document.getElementById('transit-content');
+    container.innerHTML = '';
+
+    if (!forecasts || forecasts.length === 0) {
+        container.innerHTML = '<p>运势数据生成失败。</p>';
+        return;
+    }
+
+    forecasts.forEach((forecast, index) => {
+        const yearDiv = document.createElement('div');
+        yearDiv.className = 'planet-item';
+        yearDiv.style.marginBottom = '20px';
+
+        let html = `<h3>${forecast.year}年运势</h3>`;
+        html += `<p><strong>年度主题：</strong>${forecast.theme || '平稳发展的一年'}</p>`;
+        html += `<p><strong>事业运势：</strong>${forecast.career || '职场节奏平稳，适合巩固基础。'}</p>`;
+        html += `<p><strong>情感运势：</strong>${forecast.love || '感情生活趋于平淡，顺其自然。'}</p>`;
+        html += `<p><strong>财富运势：</strong>${forecast.wealth || '财务状况维持现状，稳健积累。'}</p>`;
+        html += `<p><strong>健康提醒：</strong>${forecast.health || '保持规律作息与适度运动。'}</p>`;
+
+        if (forecast.timing && forecast.timing.length > 0) {
+            html += `<p><strong>关键时间节点：</strong></p><ul>`;
+            forecast.timing.forEach(t => {
+                html += `<li>${t}</li>`;
+            });
+            html += `</ul>`;
+        }
+
+        yearDiv.innerHTML = html;
+        container.appendChild(yearDiv);
+    });
 }
 
 /**
