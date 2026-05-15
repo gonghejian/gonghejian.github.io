@@ -32,6 +32,7 @@ layout: default
                 {% assign week_num = post.date | date: '%U' | plus: 0 %}
                 
                 <article class="week-post-card">
+                    <a class="card-link" href="{{ post.url | relative_url }}" aria-label="{{ post.title }}"></a>
                     <div class="week-post-header">
                         <div class="week-post-meta">
                             <span class="week-post-badge">X 推文精选</span>
@@ -61,6 +62,7 @@ layout: default
             </div>
             <div class="daily-reports-grid">
                 <article class="daily-card">
+                    <a class="card-link" href="{{ '/daily-report/2026-05-15.html' | relative_url }}" aria-label="宏观政策解读与全球资产配置策略"></a>
                     <time class="daily-card-date">2026.05.15</time>
                     <h3 class="daily-card-title">
                         <a href="{{ '/daily-report/2026-05-15.html' | relative_url }}">宏观政策解读与全球资产配置策略</a>
