@@ -100,6 +100,18 @@ class AstrologyCalculator {
      * 获取时区偏移（小时）
      */
     getTimezoneOffset(timezone) {
+        // 支持数字格式（如 "8", "-5", "3.5"）
+        if (typeof timezone === 'number') {
+            return timezone;
+        }
+        if (typeof timezone === 'string') {
+            const parsed = parseFloat(timezone);
+            if (!isNaN(parsed)) {
+                return parsed;
+            }
+        }
+
+        // 保留旧的 IANA 名称映射作为兼容
         const offsets = {
             'Asia/Shanghai': 8,
             'Asia/Hong_Kong': 8,

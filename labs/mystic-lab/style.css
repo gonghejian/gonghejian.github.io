@@ -141,30 +141,113 @@ body::before {
 .birth-form {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .form-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-}
-
-.form-group {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    align-items: flex-start;
+    gap: 16px;
+    min-height: 44px;
 }
 
-.form-group label {
+.form-row.nested {
+    padding-left: 0;
+    margin-bottom: 12px;
+}
+
+.form-row.submit-row {
+    margin-top: 8px;
+}
+
+.form-label {
+    width: 120px;
+    flex-shrink: 0;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.75);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    padding-top: 12px;
+    text-align: right;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+.form-inputs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-inputs > input,
+.form-inputs > select,
+.form-inputs > textarea {
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #e8e8e8;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.form-inputs > input::placeholder,
+.form-inputs > textarea::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.form-inputs > input:focus,
+.form-inputs > select:focus,
+.form-inputs > textarea:focus {
+    outline: none;
+    border-color: rgba(129, 140, 248, 0.6);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.15);
+}
+
+.form-inputs > select option {
+    background: #1a1a2e;
+    color: #e8e8e8;
+}
+
+/* 单选按钮组 */
+.radio-group {
+    display: flex;
+    gap: 24px;
+    padding-top: 10px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.radio-label:hover {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.radio-label input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #818cf8;
+    cursor: pointer;
+}
+
+/* 时间输入行 */
+.time-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.time-input-wrap input[type="time"] {
+    flex: 1;
     padding: 12px 16px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -174,28 +257,58 @@ body::before {
     transition: all 0.3s ease;
 }
 
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: rgba(255, 255, 255, 0.3);
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.time-input-wrap input[type="time"]:focus {
     outline: none;
     border-color: rgba(129, 140, 248, 0.6);
     background: rgba(255, 255, 255, 0.08);
     box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.15);
 }
 
-.form-group select option {
+.inline-link {
+    color: #a5b4fc;
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s;
+}
+
+.inline-link:hover {
+    color: #c7d2fe;
+    text-decoration: underline;
+}
+
+/* 级联选择器 */
+.cascade-selects {
+    display: flex;
+    gap: 12px;
+}
+
+.cascade-select {
+    flex: 1;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #e8e8e8;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.cascade-select:focus {
+    outline: none;
+    border-color: rgba(129, 140, 248, 0.6);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.15);
+}
+
+.cascade-select option {
     background: #1a1a2e;
     color: #e8e8e8;
 }
 
 /* 农历切换 */
 .calendar-toggle {
-    margin-top: 10px;
     font-size: 0.85rem;
 }
 
@@ -224,6 +337,46 @@ body::before {
     color: rgba(255, 255, 255, 0.4);
 }
 
+/* 折叠面板 */
+.accordion-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    cursor: pointer;
+    color: rgba(165, 180, 252, 0.9);
+    font-size: 0.95rem;
+    transition: color 0.2s;
+    user-select: none;
+}
+
+.accordion-toggle:hover {
+    color: #c7d2fe;
+}
+
+.accordion-toggle.active .accordion-icon {
+    transform: rotate(90deg);
+}
+
+.accordion-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.accordion-content {
+    display: none;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    animation: fadeIn 0.3s ease;
+}
+
+.accordion-content.active {
+    display: block;
+}
+
 .primary-button {
     padding: 14px 32px;
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
@@ -234,7 +387,6 @@ body::before {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    align-self: flex-start;
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
     position: relative;
     overflow: hidden;
@@ -533,7 +685,19 @@ body::before {
     }
 
     .form-row {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+        gap: 8px;
+        min-height: auto;
+    }
+
+    .form-label {
+        width: auto;
+        text-align: left;
+        padding-top: 0;
+    }
+
+    .cascade-selects {
+        flex-direction: column;
     }
 
     .chart-container {

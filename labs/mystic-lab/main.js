@@ -21,19 +21,28 @@ document.addEventListener('DOMContentLoaded', () => {
     transitCalculator = new TransitCalculator();
     divination = new IChingDivination();
     ichingInterpreter = new IChingInterpreter();
-    
+
     // 标签页切换
     setupTabs();
-    
+
+    // 省市区级联
+    initRegionCascades();
+
+    // 设为当前时间
+    setupCurrentTimeLink();
+
+    // 高级设置折叠面板
+    setupAccordion();
+
     // 表单提交
     setupForm();
-    
+
     // 解析结果标签页切换
     setupInterpretationTabs();
-    
+
     // 易经功能
     setupIChing();
-    
+
     // 尝试加载保存的数据
     loadSavedData();
 });
@@ -70,17 +79,25 @@ function setupTabs() {
 function setupForm() {
     const form = document.getElementById('birth-form');
     const generateBtn = document.getElementById('generate-chart-btn');
-    
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        let birthDate = document.getElementById('birth-date').value;
-        const birthTime = document.getElementById('birth-time').value;
-        const birthLocation = document.getElementById('birth-location').value;
-        const timezone = document.getElementById('timezone').value;
-        const isLunar = document.getElementById('is-lunar-date').checked;
 
-        // 如果是农历日期，转换为公历
+        // 读取所有字段
+        const nickName = document.getElementById('nick-name').value.trim();
+        const sex = document.querySelector('input[name="sex"]:checked')?.value;
+        let birthDate = document.getElementById('birth-date').value;
+        let birthTime = document.getElementById('birth-time').value;
+        const isLunar = document.getElementById('is-lunar-date').checked;
+        const isDst = document.getElementById('is-dst').checked;
+        const province = document.getElementById('province').value;
+        const city = document.getElementById('city').value;
+        const district = document.getElementById('district').value;
+        const timezone = document.getElementById('timezone').value;
+        const houseSystem = document.getElementById('house-system').value;
+        const orbSetting = document.getElementById('orb-setting').value;
+
+        // 农历日期转换为公历
         if (isLunar && birthDate) {
             const [year, month, day] = birthDate.split('-').map(Number);
             try {
@@ -89,74 +106,198 @@ function setupForm() {
                 birthDate = `${solar.year}-${String(solar.month).padStart(2, '0')}-${String(solar.day).padStart(2, '0')}`;
             } catch (e) {
                 alert('农历日期转换失败：' + e.message);
-                generateBtn.textContent = '生成星盘';
-                generateBtn.disabled = false;
                 return;
             }
         }
-        
-        if (!birthDate || !birthTime || !birthLocation) {
-            alert('请填写完整的出生信息');
+
+        if (!birthDate || !birthTime) {
+            alert('请填写完整的出生日期和时间');
             return;
         }
-        
+        if (!province || !city || !district) {
+            alert('请选择完整的出生城市（省、市、区县）');
+            return;
+        }
+
+        // 夏令时处理：输入时间减 1 小时得到标准时间
+        if (isDst && birthTime) {
+            const [h, m] = birthTime.split(':').map(Number);
+            let adjustedH = h - 1;
+            let adjustedDate = birthDate;
+            if (adjustedH < 0) {
+                adjustedH += 24;
+                const d = new Date(adjustedDate);
+                d.setDate(d.getDate() - 1);
+                adjustedDate = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+            }
+            birthTime = `${String(adjustedH).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+            birthDate = adjustedDate;
+        }
+
+        // 获取坐标：优先从区县选项的 data 属性读取
+        let coordinates = null;
+        const districtSelect = document.getElementById('district');
+        const selectedOption = districtSelect.options[districtSelect.selectedIndex];
+        if (selectedOption && selectedOption.dataset.lat && selectedOption.dataset.lng) {
+            coordinates = {
+                lat: parseFloat(selectedOption.dataset.lat),
+                lng: parseFloat(selectedOption.dataset.lng)
+            };
+        }
+
+        // 如果未找到，回退到城市名匹配
+        if (!coordinates) {
+            const citySelect = document.getElementById('city');
+            const cityName = citySelect.options[citySelect.selectedIndex]?.text || '';
+            try {
+                coordinates = await getCoordinates(cityName);
+            } catch (e) {
+                console.warn('无法从城市名获取坐标:', e);
+            }
+        }
+
+        if (!coordinates) {
+            alert('无法获取所选城市的坐标，请重新选择');
+            return;
+        }
+
         // 显示加载状态
         generateBtn.textContent = '计算中...';
         generateBtn.disabled = true;
-        
+
         try {
-            // 获取经纬度（简化版本，实际应该使用地理编码API）
-            const coordinates = await getCoordinates(birthLocation);
-            
-            if (!coordinates) {
-                throw new Error('无法获取地点坐标，请尝试输入更具体的地点名称');
-            }
-            
-            // 计算星盘
             const birthData = {
+                nickName,
+                sex,
                 date: birthDate,
                 time: birthTime,
                 latitude: coordinates.lat,
                 longitude: coordinates.lng,
-                timezone: timezone
+                timezone: timezone,
+                houseSystem: houseSystem,
+                orb: parseInt(orbSetting, 10)
             };
-            
+
             const chartData = await calculator.calculateChart(birthData);
-            
-            // 验证计算结果
+
             if (!chartData || !chartData.planets || !chartData.houses) {
                 throw new Error('星盘计算失败，返回数据不完整');
             }
-            
-            // 保存数据
+
             saveData(birthData, chartData);
-            
-            // 绘制星盘
+
             try {
                 renderer.drawChart(chartData);
             } catch (drawError) {
                 console.error('绘制星盘时出错:', drawError);
                 throw new Error('绘制星盘失败: ' + drawError.message);
             }
-            
-            // 显示星盘和解析
+
             document.getElementById('chart-section').style.display = 'block';
             document.getElementById('interpretation-section').style.display = 'block';
-            
-            // 生成解析
+
             generateInterpretations(chartData);
-            
-            // 滚动到星盘
+
             document.getElementById('chart-section').scrollIntoView({ behavior: 'smooth' });
-            
+
         } catch (error) {
             console.error('生成星盘时出错:', error);
             console.error('错误堆栈:', error.stack);
             alert('生成星盘时出错: ' + error.message + '\n\n请检查控制台获取更多信息。');
         } finally {
-            generateBtn.textContent = '生成星盘';
+            generateBtn.textContent = '查看星盘报告';
             generateBtn.disabled = false;
         }
+    });
+}
+
+/**
+ * 初始化省市区级联选择器
+ */
+function initRegionCascades() {
+    if (typeof REGION_DATA === 'undefined') {
+        console.error('REGION_DATA 未加载，级联选择器初始化失败');
+        return;
+    }
+
+    const provinceSelect = document.getElementById('province');
+    const citySelect = document.getElementById('city');
+    const districtSelect = document.getElementById('district');
+
+    if (!provinceSelect || !citySelect || !districtSelect) return;
+
+    // 填充省份
+    REGION_DATA.provinces.forEach(p => {
+        const option = document.createElement('option');
+        option.value = p.code;
+        option.textContent = p.name;
+        provinceSelect.appendChild(option);
+    });
+
+    // 省份切换 → 填充城市
+    provinceSelect.addEventListener('change', () => {
+        citySelect.innerHTML = '<option value="">选择城市</option>';
+        districtSelect.innerHTML = '<option value="">选择区县</option>';
+        const provinceCode = provinceSelect.value;
+        if (!provinceCode || !REGION_DATA.cities[provinceCode]) return;
+
+        REGION_DATA.cities[provinceCode].forEach(c => {
+            const option = document.createElement('option');
+            option.value = c.code;
+            option.textContent = c.name;
+            citySelect.appendChild(option);
+        });
+    });
+
+    // 城市切换 → 填充区县
+    citySelect.addEventListener('change', () => {
+        districtSelect.innerHTML = '<option value="">选择区县</option>';
+        const cityCode = citySelect.value;
+        if (!cityCode || !REGION_DATA.districts[cityCode]) return;
+
+        REGION_DATA.districts[cityCode].forEach(d => {
+            const option = document.createElement('option');
+            option.value = d.code;
+            option.textContent = d.name;
+            option.dataset.lat = d.lat;
+            option.dataset.lng = d.lng;
+            districtSelect.appendChild(option);
+        });
+    });
+}
+
+/**
+ * 设置“设为当前时间”链接
+ */
+function setupCurrentTimeLink() {
+    const link = document.getElementById('set-current-time');
+    if (!link) return;
+
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        document.getElementById('birth-date').value = `${year}-${month}-${day}`;
+        document.getElementById('birth-time').value = `${hours}:${minutes}`;
+    });
+}
+
+/**
+ * 设置高级设置折叠面板
+ */
+function setupAccordion() {
+    const toggle = document.getElementById('adv-settings-toggle');
+    const content = document.getElementById('adv-settings-content');
+    if (!toggle || !content) return;
+
+    toggle.addEventListener('click', () => {
+        toggle.classList.toggle('active');
+        content.classList.toggle('active');
     });
 }
 

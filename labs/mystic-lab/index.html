@@ -27,9 +27,35 @@
                 <section class="input-section">
                     <h2 class="section-title">出生信息</h2>
                     <form id="birth-form" class="birth-form">
+                        <!-- 昵称 -->
                         <div class="form-row">
-                            <div class="form-group">
-                                <label for="birth-date">出生日期</label>
+                            <label for="nick-name" class="form-label">昵称</label>
+                            <div class="form-inputs">
+                                <input type="text" id="nick-name" placeholder="请输入昵称" value="">
+                            </div>
+                        </div>
+
+                        <!-- 性别 -->
+                        <div class="form-row">
+                            <label class="form-label">性别</label>
+                            <div class="form-inputs">
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="sex" value="0" id="sex-male">
+                                        <span>男</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="sex" value="1" id="sex-female" checked>
+                                        <span>女</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 出生日期 -->
+                        <div class="form-row">
+                            <label for="birth-date" class="form-label">出生日期</label>
+                            <div class="form-inputs">
                                 <input type="date" id="birth-date" value="1983-07-31" required>
                                 <div class="calendar-toggle">
                                     <label class="toggle-label">
@@ -38,36 +64,129 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="birth-time">出生时间</label>
-                                <input type="time" id="birth-time" required>
+                        </div>
+
+                        <!-- 出生时间 -->
+                        <div class="form-row">
+                            <label for="birth-time" class="form-label">出生时间</label>
+                            <div class="form-inputs">
+                                <div class="time-input-wrap">
+                                    <input type="time" id="birth-time" required>
+                                    <a href="javascript:void(0)" id="set-current-time" class="inline-link">设为当前时间</a>
+                                </div>
+                                <div class="calendar-toggle">
+                                    <label class="toggle-label">
+                                        <input type="checkbox" id="is-dst">
+                                        <span class="toggle-text">是否夏令时（中国 1986–1991 年实行过夏令时）</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- 出生城市 -->
                         <div class="form-row">
-                            <div class="form-group">
-                                <label for="birth-location">出生地点</label>
-                                <input type="text" id="birth-location" placeholder="例如：北京" required>
-                                <small class="form-hint">输入城市名称，系统会自动获取经纬度</small>
+                            <label class="form-label">出生城市</label>
+                            <div class="form-inputs">
+                                <div class="cascade-selects">
+                                    <select id="province" class="cascade-select" required>
+                                        <option value="">选择省份</option>
+                                    </select>
+                                    <select id="city" class="cascade-select" required>
+                                        <option value="">选择城市</option>
+                                    </select>
+                                    <select id="district" class="cascade-select" required>
+                                        <option value="">选择区县</option>
+                                    </select>
+                                </div>
+                                <small class="form-hint">选择出生时的省、市、区县，系统将自动获取经纬度</small>
                             </div>
                         </div>
+
+                        <!-- 时区 -->
                         <div class="form-row">
-                            <div class="form-group">
-                                <label for="timezone">时区</label>
+                            <label for="timezone" class="form-label">所在时区</label>
+                            <div class="form-inputs">
                                 <select id="timezone">
-                                    <option value="Asia/Shanghai">中国标准时间 (UTC+8)</option>
-                                    <option value="Asia/Hong_Kong">香港时间 (UTC+8)</option>
-                                    <option value="Asia/Taipei">台北时间 (UTC+8)</option>
-                                    <option value="America/New_York">美国东部时间 (UTC-5)</option>
-                                    <option value="America/Los_Angeles">美国西部时间 (UTC-8)</option>
-                                    <option value="Europe/London">伦敦时间 (UTC+0)</option>
-                                    <option value="Europe/Paris">巴黎时间 (UTC+1)</option>
-                                    <option value="Asia/Tokyo">东京时间 (UTC+9)</option>
+                                    <option value="-12">(GMT -12:00) 埃尼威托克、夸贾林</option>
+                                    <option value="-11">(GMT -11:00) 中途岛、萨摩亚</option>
+                                    <option value="-10">(GMT -10:00) 夏威夷</option>
+                                    <option value="-9">(GMT -09:00) 阿拉斯加</option>
+                                    <option value="-8">(GMT -08:00) 太平洋时间（美国/加拿大）</option>
+                                    <option value="-7">(GMT -07:00) 山地时间（美国/加拿大）</option>
+                                    <option value="-6">(GMT -06:00) 中部时间（美国/加拿大）、墨西哥城</option>
+                                    <option value="-5">(GMT -05:00) 东部时间（美国/加拿大）、波哥大</option>
+                                    <option value="-4">(GMT -04:00) 大西洋时间（加拿大）、加拉加斯</option>
+                                    <option value="-3.5">(GMT -03:30) 纽芬兰</option>
+                                    <option value="-3">(GMT -03:00) 巴西利亚、布宜诺斯艾利斯</option>
+                                    <option value="-2">(GMT -02:00) 中大西洋</option>
+                                    <option value="-1">(GMT -01:00) 亚速尔群岛、佛得角</option>
+                                    <option value="0">(GMT) 卡萨布兰卡、都柏林、伦敦、里斯本</option>
+                                    <option value="1">(GMT +01:00) 阿姆斯特丹、柏林、布鲁塞尔、巴黎、罗马</option>
+                                    <option value="2">(GMT +02:00) 开罗、赫尔辛基、南非</option>
+                                    <option value="3">(GMT +03:00) 巴格达、利雅得、莫斯科、内罗毕</option>
+                                    <option value="3.5">(GMT +03:30) 德黑兰</option>
+                                    <option value="4">(GMT +04:00) 阿布扎比、巴库、马斯喀特</option>
+                                    <option value="4.5">(GMT +04:30) 喀布尔</option>
+                                    <option value="5">(GMT +05:00) 伊斯兰堡、卡拉奇、塔什干</option>
+                                    <option value="5.5">(GMT +05:30) 孟买、加尔各答、新德里</option>
+                                    <option value="5.75">(GMT +05:45) 加德满都</option>
+                                    <option value="6">(GMT +06:00) 阿拉木图、达卡、新西伯利亚</option>
+                                    <option value="6.5">(GMT +06:30) 仰光</option>
+                                    <option value="7">(GMT +07:00) 曼谷、河内、雅加达</option>
+                                    <option value="8" selected>(GMT +08:00) 北京、香港、新加坡、台北</option>
+                                    <option value="9">(GMT +09:00) 大阪、首尔、东京</option>
+                                    <option value="9.5">(GMT +09:30) 阿德莱德、达尔文</option>
+                                    <option value="10">(GMT +10:00) 堪培拉、关岛、墨尔本、悉尼</option>
+                                    <option value="11">(GMT +11:00) 马加丹、新喀里多尼亚</option>
+                                    <option value="12">(GMT +12:00) 奥克兰、惠灵顿、斐济</option>
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" class="primary-button" id="generate-chart-btn">
-                            生成星盘
-                        </button>
+
+                        <!-- 高级设置 -->
+                        <div class="form-row">
+                            <label class="form-label"></label>
+                            <div class="form-inputs">
+                                <div class="accordion-toggle" id="adv-settings-toggle">
+                                    <span class="accordion-icon">▸</span>
+                                    <span class="accordion-text">星盘高级设置（宫位系统、容许度）</span>
+                                </div>
+                                <div class="accordion-content" id="adv-settings-content">
+                                    <div class="form-row nested">
+                                        <label for="house-system" class="form-label">宫位系统</label>
+                                        <div class="form-inputs">
+                                            <select id="house-system">
+                                                <option value="equal" selected>等宫制 (Equal)</option>
+                                                <option value="placidus">普拉西德制 (Placidus)</option>
+                                                <option value="koch">科赫制 (Koch)</option>
+                                                <option value="whole">整宫制 (Whole Sign)</option>
+                                                <option value="porphyry">波菲力制 (Porphyry)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row nested">
+                                        <label for="orb-setting" class="form-label">容许度</label>
+                                        <div class="form-inputs">
+                                            <select id="orb-setting">
+                                                <option value="8" selected>默认（8°）</option>
+                                                <option value="6">严格（6°）</option>
+                                                <option value="10">宽松（10°）</option>
+                                                <option value="12">非常宽松（12°）</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row submit-row">
+                            <label class="form-label"></label>
+                            <div class="form-inputs">
+                                <button type="submit" class="primary-button" id="generate-chart-btn">
+                                    查看星盘报告
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </section>
 
@@ -181,6 +300,7 @@
     </div>
 
     <!-- 数据与主逻辑 -->
+    <script src="./data/regions.js"></script>
     <script src="./data/cities.js"></script>
     <script src="./astrology/lunar.js"></script>
     <script src="./astrology/calculator.js"></script>
