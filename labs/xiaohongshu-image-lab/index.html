@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小红书知识图示生成器</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="xhs-app">
+        <header class="product-topbar">
+            <div class="product-topbar-inner">
+                <div>
+                    <div class="product-name">小红书知识图示生成器</div>
+                    <div class="product-tagline">输入主题 · 生成知识图 · 配套文案</div>
+                </div>
+                <nav class="product-nav" aria-label="产品导航">
+                    <a href="/labs/">AI 产品</a>
+                </nav>
+            </div>
+        </header>
+
+        <section class="product-hero">
+            <div class="product-hero-main">
+                <p class="product-kicker">输入一个主题，直接生成能发的小红书知识图示</p>
+                <h1>比如历史、健身、读书、AI，都能变成一张有结构的图。</h1>
+                <p>把“帮我介绍历史”“健身方式怎么选”这类模糊需求，自动整理成标题、知识点、图示结构、正文和话题标签。图片在本地生成，可直接下载 PNG。</p>
+            </div>
+            <div class="product-stats" aria-label="产品能力">
+                <div><span>主题识别</span><strong>历史 / 健身 / AI</strong></div>
+                <div><span>图示结构</span><strong>时间线 / 流程 / 清单</strong></div>
+                <div><span>导出方式</span><strong>PNG / 文案 / 提示词</strong></div>
+            </div>
+        </section>
+
+        <main class="workspace">
+            <section class="control-panel" aria-label="图片生成设置">
+                <div class="panel-header">
+                    <h2>输入主题</h2>
+                    <p>写一句需求，它会自动拆成小红书知识图示。</p>
+                </div>
+
+                <div class="template-strip" aria-label="模板场景">
+                    <button type="button" class="template-card active" data-template="history">
+                        <strong>历史入门</strong>
+                        <span>时间线 / 时代脉络 / 关键人物</span>
+                    </button>
+                    <button type="button" class="template-card" data-template="fitness">
+                        <strong>健身方式</strong>
+                        <span>训练分类 / 适合人群 / 动作图示</span>
+                    </button>
+                    <button type="button" class="template-card" data-template="reading">
+                        <strong>读书笔记</strong>
+                        <span>书评 / 金句 / 行动清单</span>
+                    </button>
+                    <button type="button" class="template-card" data-template="ai">
+                        <strong>AI 工具</strong>
+                        <span>工作流 / 场景 / 提效方法</span>
+                    </button>
+                </div>
+
+                <label class="field">
+                    <span>你想生成什么图示？</span>
+                    <textarea id="topicInput" rows="3" maxlength="120">帮我介绍历史，做成一张适合小红书的时间线知识图</textarea>
+                </label>
+
+                <div class="actions compact-actions">
+                    <button type="button" class="primary-button" id="generateTopicBtn">生成知识图示</button>
+                    <button type="button" class="secondary-button" id="randomizeBtn">换个主题</button>
+                </div>
+
+                <div class="field-grid">
+                    <label class="field">
+                        <span>内容类型</span>
+                        <select id="contentType">
+                            <option value="history" selected>历史知识</option>
+                            <option value="fitness">健身知识</option>
+                            <option value="reading">读书笔记</option>
+                            <option value="ai">AI 产品分享</option>
+                            <option value="reflection">日常复盘</option>
+                            <option value="method">效率方法</option>
+                            <option value="life">生活方式</option>
+                        </select>
+                    </label>
+
+                    <label class="field">
+                        <span>视觉风格</span>
+                        <select id="stylePreset">
+                            <option value="editorial">杂志留白</option>
+                            <option value="notebook">手帐拼贴</option>
+                            <option value="minimal">极简卡片</option>
+                            <option value="tech">AI 科技</option>
+                            <option value="warm">温暖书桌</option>
+                        </select>
+                    </label>
+                </div>
+
+                <fieldset class="ratio-field">
+                    <legend>图片类型</legend>
+                    <label><input type="radio" name="imageMode" value="cover" checked> 封面图</label>
+                    <label><input type="radio" name="imageMode" value="inner"> 内页卡片</label>
+                    <label><input type="radio" name="imageMode" value="plog"> Plog 拼贴</label>
+                </fieldset>
+
+                <fieldset class="ratio-field">
+                    <legend>标题钩子</legend>
+                    <label><input type="radio" name="hookType" value="pain" checked> 痛点</label>
+                    <label><input type="radio" name="hookType" value="counter"> 反常识</label>
+                    <label><input type="radio" name="hookType" value="list"> 清单</label>
+                    <label><input type="radio" name="hookType" value="result"> 结果</label>
+                </fieldset>
+
+                <label class="field">
+                    <span>主标题</span>
+                    <input id="titleInput" type="text" maxlength="32" value="一张图看懂中国历史脉络">
+                </label>
+
+                <label class="field">
+                    <span>副标题</span>
+                    <input id="subtitleInput" type="text" maxlength="42" value="先抓时代顺序，再看人物和制度变化">
+                </label>
+
+                <label class="field">
+                    <span>金句 / 注释</span>
+                    <textarea id="quoteInput" rows="3" maxlength="90">历史不是背年份，而是看清一条条因果链。</textarea>
+                </label>
+
+                <div class="field-grid">
+                    <label class="field">
+                        <span>署名</span>
+                        <input id="authorInput" type="text" maxlength="16" value="弓箭">
+                    </label>
+
+                    <label class="field">
+                        <span>标签</span>
+                        <input id="tagInput" type="text" maxlength="18" value="历史入门">
+                    </label>
+                </div>
+
+                <fieldset class="ratio-field">
+                    <legend>画面比例</legend>
+                    <label><input type="radio" name="ratio" value="3:4" checked> 3:4 首图</label>
+                    <label><input type="radio" name="ratio" value="1:1"> 1:1 方图</label>
+                    <label><input type="radio" name="ratio" value="4:5"> 4:5 信息流</label>
+                </fieldset>
+
+                <div class="actions">
+                    <button type="button" class="primary-button" id="downloadBtn">下载 PNG</button>
+                    <button type="button" class="secondary-button" id="generateCopyBtn">生成发布文案</button>
+                    <button type="button" class="secondary-button" id="copyPromptBtn">复制 AI 提示词</button>
+                </div>
+                <p class="status-line" id="statusLine" aria-live="polite">已实时生成预览。</p>
+            </section>
+
+            <section class="preview-panel" aria-label="图片预览">
+                <div class="canvas-shell">
+                    <canvas id="coverCanvas" width="900" height="1200"></canvas>
+                </div>
+                <div class="prompt-panel">
+                    <div class="prompt-header">
+                        <h2>AI 生图提示词</h2>
+                        <button type="button" id="refreshPromptBtn">刷新</button>
+                    </div>
+                    <textarea id="promptOutput" rows="8" readonly></textarea>
+                </div>
+                <div class="publish-panel">
+                    <div class="prompt-header">
+                        <h2>发布文案</h2>
+                        <button type="button" id="copyNoteBtn">复制</button>
+                    </div>
+                    <div class="title-options" id="titleOptions"></div>
+                    <textarea id="noteOutput" rows="10" readonly></textarea>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="./main.js"></script>
+</body>
+</html>
