@@ -2,96 +2,349 @@
 layout: default
 ---
 
-<div class="home">
-    <section class="hero">
-        <div class="container">
-            <h1 class="hero-title">{{ site.title }} · AI 实战手册</h1>
-            <p class="hero-description">{{ site.description }}</p>
-            {% if site.social.twitter %}
-            <div class="hero-actions">
-                <a href="https://twitter.com/{{ site.social.twitter }}" target="_blank" rel="noopener noreferrer" class="hero-follow-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                    </svg>
-                    关注我的 X
-                </a>
-                <a href="#posts" class="hero-read-btn">阅读实战经验</a>
-            </div>
-            {% endif %}
-        </div>
-    </section>
+{% assign docs_posts = site.posts | where_exp: "post", "post.categories contains 'docs'" | sort: "date" | reverse %}
+{% assign review_posts = site.posts | where_exp: "post", "post.categories contains 'reading'" | sort: "date" | reverse %}
+{% assign projects = site.projects | sort: "order" %}
 
-    <!-- 文章列表区块 -->
-    <section class="posts-section" id="posts">
+<div class="home home-simple">
+    <section class="home-hero">
         <div class="container">
-            {% assign sorted_posts = site.posts | sort: "date" | reverse %}
-            
-            {% for post in sorted_posts limit: 10 %}
-                {% assign post_date = post.date | date: '%Y-%m-%d' %}
-                {% assign year = post.date | date: '%Y' %}
-                {% assign week_num = post.date | date: '%U' | plus: 0 %}
-                
-                <article class="week-post-card">
-                    <a class="card-link" href="{{ post.url | relative_url }}" aria-label="{{ post.title }}"></a>
-                    <div class="week-post-header">
-                        <div class="week-post-meta">
-                            <span class="week-post-badge">X 推文精选</span>
-                            <time class="week-post-date">{{ year }}年第{{ week_num }}周</time>
-                        </div>
-                        <time class="week-post-full-date" datetime="{{ post_date }}">
-                            {{ post_date }}
-                        </time>
-                    </div>
-                    <h2 class="week-post-title">
-                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                    </h2>
-                    {% if post.excerpt %}
-                    <p class="week-post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-                    {% endif %}
-                </article>
-            {% endfor %}
-        </div>
-    </section>
-    
-    <!-- 每日日报区块 -->
-    <section class="daily-section" id="daily-report">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">每日日报</h2>
-                <a href="{{ '/daily-report/' | relative_url }}" class="section-more">查看全部 →</a>
-            </div>
-            <div class="daily-reports-grid">
-                <article class="daily-card">
-                    <a class="card-link" href="{{ '/daily-report/2026-05-15.html' | relative_url }}" aria-label="宏观政策解读与全球资产配置策略"></a>
-                    <time class="daily-card-date">2026.05.15</time>
-                    <h3 class="daily-card-title">
-                        <a href="{{ '/daily-report/2026-05-15.html' | relative_url }}">宏观政策解读与全球资产配置策略</a>
-                    </h3>
-                    <div class="daily-card-tags">
-                        <span class="tag tag-gold">周报</span>
-                        <span class="tag tag-rose">核心变量：特朗普访华</span>
-                    </div>
-                    <p class="daily-card-excerpt">全球货币政策周期定位、中美政策解读、资产配置中枢与战术交易方向。</p>
-                </article>
+            <div class="home-hero-inner">
+                <p class="home-kicker">个人写作与 AI 产品记录</p>
+                <h1 class="home-title">{{ site.title }}</h1>
+                <p class="home-description">记录思考、阅读、AI 产品和一些长期整理。</p>
+                <div class="home-actions">
+                    <a href="{{ '/docs/' | relative_url }}">读文章</a>
+                    <a href="{{ '/reviews/' | relative_url }}">看书评</a>
+                    <a href="{{ '/labs/' | relative_url }}">AI 产品</a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- 邮件订阅区块 -->
-    <section class="newsletter-section">
+    <section class="home-section">
         <div class="container">
-            <div class="newsletter-content">
-                <h2 class="newsletter-title">邮件列表</h2>
-                <p class="newsletter-description">加入我们的社区</p>
-                <p class="newsletter-subtitle">订阅邮件列表，及时获取最新消息和更新</p>
-                <form class="newsletter-form" id="newsletterForm">
-                    <div class="newsletter-input-group">
-                        <input type="email" class="newsletter-input" placeholder="邮箱" required aria-label="邮箱地址">
-                        <button type="submit" class="newsletter-submit">订阅</button>
-                    </div>
-                </form>
+            <div class="home-section-header">
+                <h2>最新文章</h2>
+                <a href="{{ '/docs/' | relative_url }}">全部文章</a>
             </div>
+            <div class="home-list">
+                {% for post in docs_posts limit: 6 %}
+                <article class="home-list-item">
+                    <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%Y.%m.%d" }}</time>
+                    <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                    <p>{{ post.excerpt | default: post.content | strip_html | truncate: 96 }}</p>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="container">
+            <div class="home-section-header">
+                <h2>最新书评</h2>
+                <a href="{{ '/reviews/' | relative_url }}">全部书评</a>
+            </div>
+            <div class="home-list">
+                {% for post in review_posts limit: 6 %}
+                <article class="home-list-item">
+                    <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%Y.%m.%d" }}</time>
+                    <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                    <p>
+                        {% if post.rating %}{{ post.rating }} · {% endif %}
+                        {{ post.excerpt | default: post.content | strip_html | truncate: 88 }}
+                    </p>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="container">
+            <div class="home-section-header">
+                <h2>AI 产品</h2>
+                <a href="{{ '/labs/' | relative_url }}">查看全部</a>
+            </div>
+            <div class="home-products">
+                {% for project in projects limit: 3 %}
+                {% assign target_link = project.link | default: project.url %}
+                <article class="home-product-item">
+                    {% if project.icon %}<span class="home-product-icon">{{ project.icon }}</span>{% endif %}
+                    <div>
+                        <h3>
+                            {% if project.external %}
+                            <a href="{{ target_link }}" target="_blank" rel="noopener noreferrer">{{ project.title }}</a>
+                            {% else %}
+                            <a href="{{ target_link | relative_url }}">{{ project.title }}</a>
+                            {% endif %}
+                        </h3>
+                        <p>{{ project.short_description | default: project.description }}</p>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="home-section home-section-last">
+        <div class="container">
+            <div class="home-section-header">
+                <h2>每日日报</h2>
+                <a href="{{ '/daily-report/' | relative_url }}">查看全部</a>
+            </div>
+            <article class="home-daily">
+                <time datetime="2026-05-15">2026.05.15</time>
+                <h3><a href="{{ '/daily-report/2026-05-15.html' | relative_url }}">宏观政策解读与全球资产配置策略</a></h3>
+                <p>全球货币政策周期定位、中美政策解读、资产配置中枢与战术交易方向。</p>
+            </article>
         </div>
     </section>
 </div>
 
+<style>
+.home-simple {
+    background: var(--color-bg);
+}
+
+.home-hero {
+    padding: 72px 0 40px;
+    background: var(--color-bg);
+}
+
+.home-hero-inner {
+    max-width: var(--content-width);
+}
+
+.home-kicker {
+    margin: 0 0 var(--spacing-xs);
+    font-size: var(--font-size-small);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+}
+
+.home-title {
+    margin: 0;
+    font-size: 44px;
+    line-height: 1.16;
+    font-weight: 720;
+    color: var(--color-text);
+}
+
+.home-description {
+    max-width: 560px;
+    margin: var(--spacing-sm) 0 0;
+    font-size: var(--font-size-large);
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+}
+
+.home-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.home-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.home-actions a:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: var(--color-bg-secondary);
+}
+
+.home-section {
+    padding: var(--spacing-lg) 0;
+    background: var(--color-bg);
+}
+
+.home-section + .home-section {
+    border-top: 1px solid var(--color-border);
+}
+
+.home-section-last {
+    padding-bottom: var(--spacing-xl);
+}
+
+.home-section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.home-section-header h2 {
+    margin: 0;
+    font-size: var(--font-size-h3);
+    line-height: 1.35;
+    font-weight: 680;
+    color: var(--color-text);
+}
+
+.home-section-header a {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: var(--font-size-small);
+    transition: var(--transition);
+}
+
+.home-section-header a:hover {
+    color: var(--color-primary);
+}
+
+.home-list {
+    display: grid;
+    gap: var(--spacing-sm);
+}
+
+.home-list-item {
+    display: grid;
+    grid-template-columns: 108px minmax(0, 1fr);
+    column-gap: var(--spacing-md);
+    row-gap: 4px;
+    padding: var(--spacing-sm) 0;
+}
+
+.home-list-item + .home-list-item {
+    border-top: 1px solid var(--color-border);
+}
+
+.home-list-item time,
+.home-daily time {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-small);
+    line-height: 1.7;
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+}
+
+.home-list-item h3,
+.home-product-item h3,
+.home-daily h3 {
+    margin: 0;
+    font-size: var(--font-size-large);
+    line-height: 1.45;
+    font-weight: 650;
+}
+
+.home-list-item h3 a,
+.home-product-item h3 a,
+.home-daily h3 a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.home-list-item h3 a:hover,
+.home-product-item h3 a:hover,
+.home-daily h3 a:hover {
+    color: var(--color-primary);
+}
+
+.home-list-item p {
+    grid-column: 2;
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+    line-height: 1.75;
+}
+
+.home-products {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-md);
+}
+
+.home-product-item {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: flex-start;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+}
+
+.home-product-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: var(--color-bg-secondary);
+    font-size: 20px;
+}
+
+.home-product-item p,
+.home-daily p {
+    margin: var(--spacing-xs) 0 0;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+    line-height: 1.7;
+}
+
+.home-daily {
+    max-width: var(--content-width);
+}
+
+@media (max-width: 768px) {
+    .home-hero {
+        padding: 48px 0 28px;
+    }
+
+    .home-title {
+        font-size: 34px;
+    }
+
+    .home-description {
+        font-size: var(--font-size-base);
+    }
+
+    .home-actions {
+        gap: var(--spacing-xs);
+    }
+
+    .home-actions a {
+        flex: 1 1 auto;
+    }
+
+    .home-section {
+        padding: var(--spacing-md) 0;
+    }
+
+    .home-section-header {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .home-list-item {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .home-list-item p {
+        grid-column: 1;
+    }
+
+    .home-products {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+}
+</style>

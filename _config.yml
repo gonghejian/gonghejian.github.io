@@ -41,15 +41,17 @@ collections:
 
 # 导航菜单
 navigation:
-  - title: 博客
+  - title: 首页
     url: /
-  - title: 每日日报
-    url: /daily-report/
   - title: 文章
     url: /docs/
-  - title: 开发实验室
+  - title: 书评
+    url: /reviews/
+  - title: AI 产品
     url: /labs/
-  - title: 关于我
+  - title: 每日日报
+    url: /daily-report/
+  - title: 关于
     url: /about/
 
 # 社交媒体
