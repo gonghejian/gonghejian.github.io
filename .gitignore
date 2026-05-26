@@ -7,3 +7,15 @@ vendor/
 Gemfile.lock
 node_modules/
 
+# Local Douban import secrets and generated scratch data
+douban_cookie_string.txt
+douban_cookies.json
+douban_import.log
+douban_notes.json
+douban_notes_converted.json
+douban_reviews.json
+douban_reviews_converted.json
+DOUBAN_IMPORT_REPORT.md
+DOUBAN_REVIEWS_REPORT.md
+__pycache__/
+
