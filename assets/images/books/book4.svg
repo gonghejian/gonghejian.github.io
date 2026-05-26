@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="480" viewBox="0 0 320 480">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c2d12"/><stop offset="1" stop-color="#f97316"/></linearGradient></defs>
+  <rect width="320" height="480" rx="20" fill="url(#g)"/>
+  <path d="M58 120h204v34H58zm0 76h148v34H58zm0 76h188v34H58z" fill="#fff7ed" opacity=".92"/>
+  <text x="58" y="378" fill="#fff" font-family="Arial, sans-serif" font-size="40" font-weight="900">创新者</text>
+  <text x="58" y="428" fill="#fff" font-family="Arial, sans-serif" font-size="40" font-weight="900">的窘境</text>
+</svg>

@@ -47,6 +47,8 @@ navigation:
     url: /docs/
   - title: 书评
     url: /reviews/
+  - title: 2026 阅读
+    url: /2026-reading/
   - title: AI 产品
     url: /labs/
   - title: 每日日报

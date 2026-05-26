@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="480" viewBox="0 0 320 480">
+  <rect width="320" height="480" rx="20" fill="#f8fafc"/>
+  <circle cx="226" cy="118" r="62" fill="#ef4444"/>
+  <rect x="46" y="58" width="78" height="320" fill="#111827"/>
+  <text x="150" y="230" fill="#111827" font-family="Arial, sans-serif" font-size="42" font-weight="900">设计</text>
+  <text x="150" y="284" fill="#111827" font-family="Arial, sans-serif" font-size="42" font-weight="900">中的</text>
+  <text x="150" y="338" fill="#111827" font-family="Arial, sans-serif" font-size="42" font-weight="900">设计</text>
+  <text x="48" y="420" fill="#64748b" font-family="Arial, sans-serif" font-size="20">Kenya Hara</text>
+</svg>

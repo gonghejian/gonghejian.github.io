@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="480" viewBox="0 0 320 480">
+  <rect width="320" height="480" rx="20" fill="#111827"/>
+  <rect x="36" y="40" width="248" height="400" rx="12" fill="#f8fafc"/>
+  <rect x="58" y="72" width="204" height="8" fill="#2563eb"/>
+  <text x="58" y="145" fill="#111827" font-family="Arial, sans-serif" font-size="48" font-weight="900">深度</text>
+  <text x="58" y="205" fill="#111827" font-family="Arial, sans-serif" font-size="48" font-weight="900">工作</text>
+  <text x="58" y="292" fill="#475467" font-family="Arial, sans-serif" font-size="20">Focus in a distracted world</text>
+  <circle cx="248" cy="368" r="28" fill="#2563eb"/>
+</svg>

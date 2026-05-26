@@ -1,0 +1,40 @@
+---
+layout: default
+title: 2026 阅读
+permalink: /2026-reading/
+---
+
+{% assign reading_2026_posts = site.posts | where_exp: "post", "post.tags contains '2026'" | sort: "date" | reverse %}
+
+<div class="docs-page">
+    <div class="container">
+        <div class="docs-hero">
+            <h1 class="docs-title">2026 阅读</h1>
+            <p class="docs-description">2026 年的阅读计划、书单、进度和读书笔记。</p>
+        </div>
+
+        <div class="docs-content">
+            {% if reading_2026_posts.size > 0 %}
+            <div class="post-list">
+                {% for post in reading_2026_posts %}
+                <article class="post-item">
+                    <h2 class="post-item-title">
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </h2>
+                    <div class="post-item-meta">
+                        <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%Y年%m月%d日" }}</time>
+                    </div>
+                    {% if post.description %}
+                    <p class="post-item-excerpt">{{ post.description }}</p>
+                    {% else %}
+                    <p class="post-item-excerpt">{{ post.excerpt | strip_html | truncate: 140 }}</p>
+                    {% endif %}
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="docs-empty">还没有 2026 阅读内容。</p>
+            {% endif %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="480" viewBox="0 0 320 480">
+  <rect width="320" height="480" rx="20" fill="#0f172a"/>
+  <circle cx="160" cy="150" r="82" fill="none" stroke="#facc15" stroke-width="10"/>
+  <path d="M90 160c40 42 100 42 140 0" stroke="#facc15" stroke-width="8" fill="none"/>
+  <text x="48" y="318" fill="#fff" font-family="Arial, sans-serif" font-size="50" font-weight="900">人类</text>
+  <text x="48" y="378" fill="#fff" font-family="Arial, sans-serif" font-size="50" font-weight="900">简史</text>
+  <text x="48" y="428" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="20">Sapiens</text>
+</svg>

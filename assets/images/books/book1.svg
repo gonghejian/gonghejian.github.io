@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="480" viewBox="0 0 320 480">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#172554"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
+  <rect width="320" height="480" rx="20" fill="url(#g)"/>
+  <rect x="28" y="32" width="264" height="416" rx="14" fill="#ffffff" fill-opacity=".12" stroke="#ffffff" stroke-opacity=".35"/>
+  <text x="48" y="100" fill="#e0f2fe" font-family="Arial, sans-serif" font-size="20" font-weight="700">TECH · FUTURE</text>
+  <text x="48" y="210" fill="#fff" font-family="Arial, sans-serif" font-size="50" font-weight="900">未来</text>
+  <text x="48" y="270" fill="#fff" font-family="Arial, sans-serif" font-size="50" font-weight="900">简史</text>
+  <text x="48" y="360" fill="#dbeafe" font-family="Arial, sans-serif" font-size="22">Yuval Noah Harari</text>
+</svg>
