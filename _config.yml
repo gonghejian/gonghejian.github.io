@@ -2,8 +2,8 @@
 title: "弓箭的博客"
 subtitle: "记录思考、分享知识、探索世界"  # 副标题，显示在关于页面
 description: "记录思考、分享知识、探索世界"
-author: "Your Name"
-email: "your.email@example.com"
+author: "gong"
+email: ""
 url: "https://gonghejian.cn"
 baseurl: ""
 
@@ -16,7 +16,7 @@ encoding: utf-8
 markdown: kramdown
 highlighter: rouge
 permalink: /:year/:month/:day/:title/
-future: true  # 显示未来日期的文章
+future: false  # 不发布未来日期的文章
 
 # 插件
 plugins:
@@ -60,15 +60,15 @@ navigation:
 # 4. 微信公众号：可以是公众号主页链接，或二维码图片链接
 # 如果不需要某个平台，可以删除该行或留空
 social:
-  github: yourusername
-  twitter: yourusername
-  email: your.email@example.com
-  zhihu: https://www.zhihu.com/people/your-username  # 知乎个人主页链接（必填完整URL）
-  xiaohongshu: https://www.xiaohongshu.com/user/profile/your-id  # 小红书个人主页链接（必填完整URL）
-  douban: https://www.douban.com/people/your-username  # 豆瓣个人主页链接（必填完整URL）
-  wechat: https://mp.weixin.qq.com/your-account  # 微信公众号链接或二维码图片链接
-  wechat_private: https://your-qrcode-link.com  # 私人微信二维码图片链接（可选，如果配置了会显示为链接按钮）
-  wechat_id: your-wechat-id  # 私人微信号（可选，如果配置了点击按钮会复制微信号）
+  github: gonghejian
+  twitter: ""
+  email: ""
+  zhihu: ""
+  xiaohongshu: ""
+  douban: https://www.douban.com/people/atsf/
+  wechat: ""
+  wechat_private: ""
+  wechat_id: ""
 
 # 评论系统配置
 # 可选值: utterances, gitalk, custom
@@ -89,10 +89,10 @@ home_categories:
     slug: docs
     icon: 📝
     description: 博客文章、日记和长期整理的文字
-  - name: 阅读笔记
+  - name: 书评
     slug: reading
     icon: 📚
-    description: 读书笔记和读后感，分享阅读心得和思考
+    description: 豆瓣书评、读书笔记和读后感
   - name: 生活方式
     slug: lifestyle
     icon: 🌟
@@ -115,14 +115,94 @@ exclude:
   - Gemfile.lock
   - node_modules
   - vendor
+  - _site
+  - .sass-cache
+  - .jekyll-cache
+  - .jekyll-metadata
   - .git
   - .gitignore
+  - .claude
+  - __pycache__
+  - douban_cookie_string.txt
+  - douban_cookies.json
+  - douban_import.log
+  - douban_notes.json
+  - douban_notes_converted.json
+  - douban_reviews.json
+  - douban_reviews_converted.json
+  - DOUBAN_IMPORT_REPORT.md
+  - DOUBAN_REVIEWS_REPORT.md
   - preview.html
   - preview-*.html
   - .github
   - README.md
-  - SETUP.md
+  - ACTIONS_SETUP_STEPS.md
+  - AUTH_SETUP.md
+  - CATEGORIES_FIX.md
+  - CNAME_SETUP.md
   - COMMENTS_SETUP.md
+  - COMPLETE_DEPLOYMENT_GUIDE.md
+  - DEPLOYMENT_OPTIMIZATION.md
+  - DEPLOY_CHECKLIST.md
+  - DEPLOY_ERROR_HISTORY.md
+  - DEPLOY_FIX.md
+  - DEPLOY_NOW.md
+  - DNS_SETUP_NOW.md
+  - DOMAIN_QUICK_SETUP.md
+  - DOMAIN_SETUP.md
+  - DOMAIN_VERIFY_FIX.md
+  - FAVICON_SETUP.md
+  - FINAL_DEPLOY_CHECK.md
+  - GITHUB_ACTIONS_SETUP.md
+  - GIT_PUSH_FIX.md
+  - GIT_SETUP.md
+  - HTML_AUDIT_CHECKLIST.md
+  - INSTALL_RUBY.md
+  - NAVIGATION_OPTIMIZATION.md
+  - OBSIDIAN_TO_JEKYLL.md
+  - OPTIMIZATION_SUMMARY.md
+  - PREVIEW_FIX.md
+  - PREVIEW_GUIDE.md
+  - QUICK_FIX.md
+  - QUICK_POST_GUIDE.md
+  - QUICK_PUSH.md
+  - QUICK_START.md
+  - RESET_DEPLOYMENT.md
+  - SETUP.md
+  - SOCIAL_MEDIA_SETUP.md
+  - TROUBLESHOOTING.md
+  - WECHAT_SETUP.md
+  - DOUBAN_COMPLETE_GUIDE.md
+  - DOUBAN_IMPORT_GUIDE.md
+  - DOUBAN_IMPORT_PLAN.md
+  - DOUBAN_INDEX.md
+  - DOUBAN_NEXT_STEPS.md
+  - DOUBAN_QUICK_START.md
+  - DOUBAN_SYSTEM_SUMMARY.md
+  - requirements.txt
+  - config.py
+  - money_hunter.py
+  - obsidian-to-jekyll.py
+  - obsidian-to-jekyll.ps1
+  - douban-save-cookies.py
+  - douban-scraper.py
+  - douban-to-jekyll.py
+  - douban-notes-scraper-simple.py
+  - douban-reviews-scraper.py
+  - douban-reviews-scraper-simple.py
+  - douban-reviews-to-jekyll.py
+  - import-douban-notes.py
+  - check-deployment.sh
+  - deploy.ps1
+  - install-ruby.ps1
+  - push.ps1
+  - push-helper.bat
+  - push-helper.sh
+  - safe-push.ps1
+  - test-jekyll.ps1
+  - test-preview.ps1
+  - update-preview-files.ps1
+  - verify-ruby.ps1
   - login.html
   - profile.html
   - admin

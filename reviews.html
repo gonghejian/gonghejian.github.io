@@ -1,7 +1,7 @@
 ---
 layout: default
-title: 文章
-permalink: /docs/
+title: 书评
+permalink: /reviews/
 ---
 
 {% assign docs_posts = site.posts | where_exp: "post", "post.categories contains 'docs'" | sort: "date" | reverse %}
@@ -10,28 +10,28 @@ permalink: /docs/
 <div class="docs-page">
     <div class="container">
         <div class="docs-header">
-            <h1 class="docs-title">文章</h1>
-            <p class="docs-description">收纳博客文章、日记和长期整理的文字。</p>
+            <h1 class="docs-title">书评</h1>
+            <p class="docs-description">收纳豆瓣书评、读书笔记和读后感。</p>
         </div>
 
         <nav class="docs-sections" aria-label="文章目录">
-            <a class="docs-section-link active" href="{{ '/docs/' | relative_url }}">
+            <a class="docs-section-link" href="{{ '/docs/' | relative_url }}">
                 <span>文章</span>
                 <strong>{{ docs_posts.size }}</strong>
             </a>
-            <a class="docs-section-link" href="{{ '/reviews/' | relative_url }}">
+            <a class="docs-section-link active" href="{{ '/reviews/' | relative_url }}">
                 <span>书评</span>
                 <strong>{{ review_posts.size }}</strong>
             </a>
         </nav>
 
-        {% if docs_posts.size > 0 %}
+        {% if review_posts.size > 0 %}
         <div class="docs-toolbar">
-            <span class="docs-count">{{ docs_posts.size }} 篇文章</span>
+            <span class="docs-count">{{ review_posts.size }} 篇书评</span>
         </div>
 
         <div class="docs-list">
-            {% for post in docs_posts %}
+            {% for post in review_posts %}
             <article class="docs-card">
                 <a class="docs-card-link" href="{{ post.url | relative_url }}" aria-label="{{ post.title }}"></a>
                 <div class="docs-card-main">
@@ -39,7 +39,10 @@ permalink: /docs/
                         <time datetime="{{ post.date | date: '%Y-%m-%d' }}">
                             {{ post.date | date: "%Y年%m月%d日" }}
                         </time>
-                        {% if post.tags.size > 0 %}
+                        {% if post.rating %}
+                        <span class="docs-card-dot"></span>
+                        <span>{{ post.rating }}</span>
+                        {% elsif post.tags.size > 0 %}
                         <span class="docs-card-dot"></span>
                         <span>{{ post.tags.first }}</span>
                         {% endif %}
@@ -59,7 +62,7 @@ permalink: /docs/
             {% endfor %}
         </div>
         {% else %}
-        <div class="docs-empty">暂无文章。</div>
+        <div class="docs-empty">暂无书评。</div>
         {% endif %}
     </div>
 </div>
@@ -89,12 +92,6 @@ permalink: /docs/
     font-size: var(--font-size-large);
     line-height: 1.7;
     color: var(--color-text-secondary);
-}
-
-.docs-toolbar {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: var(--spacing-md);
 }
 
 .docs-sections {
@@ -132,6 +129,12 @@ permalink: /docs/
 .docs-section-link strong {
     font-size: var(--font-size-small);
     color: var(--color-text-secondary);
+}
+
+.docs-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--spacing-md);
 }
 
 .docs-count {
