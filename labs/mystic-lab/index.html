@@ -3,17 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>玄学实验室 - 星盘 & 易经测算</title>
+    <title>AI 星盘与易经分析器</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <div class="mystic-app">
-        <header class="app-header">
-            <div class="app-header-main">
-                <h1 class="app-title">玄学实验室</h1>
-                <p class="app-subtitle">星盘绘制与解析 · 易经测算</p>
+        <header class="product-topbar">
+            <div class="product-topbar-inner">
+                <div>
+                    <div class="product-name">AI 星盘与易经分析器</div>
+                    <div class="product-tagline">出生信息计算 · 星盘可视化 · 易经起卦解读</div>
+                </div>
+                <nav class="product-nav" aria-label="产品导航">
+                    <a href="/labs/">AI 产品</a>
+                    <a href="#astrology-tab" onclick="document.querySelector('[data-tab=astrology]').click()">星盘</a>
+                    <a href="#iching-tab" onclick="document.querySelector('[data-tab=iching]').click()">易经</a>
+                </nav>
             </div>
         </header>
+
+        <section class="product-hero">
+            <div class="product-hero-main">
+                <p class="product-kicker">把复杂命理计算做成可操作工具</p>
+                <h1>输入出生信息，生成星盘图、结构化解析和易经测算结果。</h1>
+                <p>
+                    这个产品把星盘绘制、行星落座落宫、相位解析、文化推荐和易经起卦放在同一个页面里，适合做个人探索、内容创作和命理工具原型验证。
+                </p>
+            </div>
+            <div class="product-stats" aria-label="产品能力">
+                <div><span>星盘模块</span><strong>行星 / 宫位 / 相位</strong></div>
+                <div><span>解读模块</span><strong>综合建议 / 运势 / 推荐</strong></div>
+                <div><span>易经模块</span><strong>时间 / 数字 / 手动起卦</strong></div>
+            </div>
+        </section>
 
         <main class="app-main">
             <!-- 标签页切换 -->

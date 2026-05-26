@@ -334,11 +334,41 @@
 
         return (
           <div className="reading-app">
+            <div className="product-topbar">
+              <div className="product-topbar-inner">
+                <div>
+                  <div className="product-name">年度阅读计划</div>
+                  <div className="product-tagline">AI 辅助整理的个人阅读看板</div>
+                </div>
+                <nav className="product-nav" aria-label="产品导航">
+                  <a href="/labs/">AI 产品</a>
+                  <button type="button" onClick={() => setViewMode(viewMode === 'landing' ? 'app' : 'landing')}>
+                    {viewMode === 'landing' ? '进入看板' : '灵感书墙'}
+                  </button>
+                </nav>
+              </div>
+            </div>
+
+            <section className="product-hero">
+              <div className="product-hero-main">
+                <p className="product-kicker">把年度阅读变成一张可以推进的地图</p>
+                <h1>从想读、在读到读完，用一个看板管理整年的阅读。</h1>
+                <p>
+                  添加豆瓣图书链接，设定年度目标，记录阅读进度和一句话简述；AI 整理区先保留本地模拟流程，后续可以接入真实接口做读后感梳理和推荐。
+                </p>
+              </div>
+              <div className="product-stats" aria-label="产品状态">
+                <div><span>年度目标</span><strong>10-100 本</strong></div>
+                <div><span>数据保存</span><strong>本地浏览器</strong></div>
+                <div><span>AI 状态</span><strong>模拟流程</strong></div>
+              </div>
+            </section>
+
             {viewMode === 'landing' ? (
               <div className="landing">
                 <header className="app-header">
                   <div className="app-header-main">
-                    <h1 className="app-title">我的年度阅读计划</h1>
+                    <h1 className="app-title">阅读灵感墙</h1>
                     <p className="app-subtitle">
                       <span>先看一份精心排布的 50 本示例书单</span>
                       <span className="app-subtitle-secondary">
@@ -408,7 +438,7 @@
               <>
                 <header className="app-header">
                   <div className="app-header-main">
-                    <h1 className="app-title">我的年度阅读计划</h1>
+                    <h1 className="app-title">年度阅读看板</h1>
                     <p className="app-subtitle">
                       <span>{year} 年阅读计划</span>
                       <span className="app-subtitle-secondary">
@@ -772,5 +802,4 @@
     </script>
   </body>
 </html>
-
 
