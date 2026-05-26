@@ -45,7 +45,7 @@ navigation:
     url: /
   - title: 每日日报
     url: /daily-report/
-  - title: 文档
+  - title: 文章
     url: /docs/
   - title: 开发实验室
     url: /labs/
@@ -85,6 +85,10 @@ comments:
 # 主页分类配置（参考少数派风格）
 # 注意：slug 必须与文章中的 categories 字段匹配
 home_categories:
+  - name: 文章
+    slug: docs
+    icon: 📝
+    description: 博客文章、日记和长期整理的文字
   - name: 阅读笔记
     slug: reading
     icon: 📚
@@ -136,4 +140,3 @@ sass:
 keep_files:
   - .git
   - .gitignore
-

@@ -1,8 +1,8 @@
----
+﻿---
 layout: "post"
 title: "Kindle Book Resource"
 date: "2010-11-10 08:34:03 +0800"
-categories: ["diary"]
+categories: ["docs"]
 tags: ["豆瓣日记"]
 author: "gong"
 source_url: "https://www.douban.com/note/99843568/"

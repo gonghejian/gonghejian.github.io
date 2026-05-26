@@ -1,8 +1,8 @@
----
+﻿---
 layout: "post"
 title: "精读 Principles"
 date: "2017-08-04 22:14:24 +0800"
-categories: ["diary"]
+categories: ["docs"]
 tags: ["设置", "豆瓣日记"]
 author: "gong"
 source_url: "https://www.douban.com/note/631855308/"
