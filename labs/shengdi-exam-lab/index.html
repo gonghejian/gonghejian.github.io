@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深圳初二生地会考训练</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="exam-app">
+        <header class="topbar">
+            <div>
+                <div class="product-name">深圳初二生地会考训练</div>
+                <div class="product-subtitle">知识点熟悉 · 篇章测试 · 模拟考试 · 成绩记录</div>
+            </div>
+            <nav>
+                <a href="/labs/">AI 产品</a>
+                <button type="button" id="resetBtn">重置本地记录</button>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div>
+                <p class="kicker">像科目一一样刷生地会考</p>
+                <h1>先按知识点练熟，再按篇章测试，最后做 80 分钟合卷模拟。</h1>
+                <p class="hero-copy">首版内置核心知识点训练题和近 5 年真题入口。真题位置先按年份留好，支持后续把 PDF/Word 转成 JSON 导入。</p>
+            </div>
+            <div class="exam-facts">
+                <div><span>合卷满分</span><strong>100 分</strong></div>
+                <div><span>考试时长</span><strong>80 分钟</strong></div>
+                <div><span>训练方式</span><strong>章节 / 年份 / 模拟</strong></div>
+            </div>
+        </section>
+
+        <main class="layout">
+            <aside class="sidebar">
+                <button class="nav-item active" data-view="dashboard">总览</button>
+                <button class="nav-item" data-view="chapters">知识点练习</button>
+                <button class="nav-item" data-view="papers">近 5 年真题</button>
+                <button class="nav-item" data-view="mock">模拟考试</button>
+                <button class="nav-item" data-view="wrongbook">错题本</button>
+                <button class="nav-item" data-view="records">成绩记录</button>
+                <button class="nav-item" data-view="import">导入真题</button>
+            </aside>
+
+            <section class="content">
+                <section id="dashboardView" class="view active">
+                    <div class="section-head">
+                        <h2>训练总览</h2>
+                        <p>把生物和地理拆成模块，像驾考刷题一样循环练。</p>
+                    </div>
+                    <div class="stats-grid" id="statsGrid"></div>
+                    <div class="two-col">
+                        <div class="panel">
+                            <h3>今日建议</h3>
+                            <div id="todayPlan" class="plan-list"></div>
+                        </div>
+                        <div class="panel">
+                            <h3>最近成绩</h3>
+                            <div id="recentRecords" class="record-list empty">还没有考试记录。</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="chaptersView" class="view">
+                    <div class="section-head">
+                        <h2>知识点练习</h2>
+                        <p>按生物、地理和篇章练习。每次练完会记录正确率，并把错题放入错题本。</p>
+                    </div>
+                    <div id="chapterGrid" class="chapter-grid"></div>
+                </section>
+
+                <section id="papersView" class="view">
+                    <div class="section-head">
+                        <h2>近 5 年真题</h2>
+                        <p>先放好 2021-2025 年训练入口。导入真实题库后，这里会直接变成年份卷训练。</p>
+                    </div>
+                    <div id="paperGrid" class="paper-grid"></div>
+                </section>
+
+                <section id="mockView" class="view">
+                    <div class="section-head">
+                        <h2>模拟考试</h2>
+                        <p>按深圳生地合卷训练节奏设计：生物 + 地理，满分 100，倒计时 80 分钟。</p>
+                    </div>
+                    <div class="mock-card">
+                        <div>
+                            <h3>80 分钟合卷模拟</h3>
+                            <p>从当前题库中抽取生物和地理题。首版为核心知识点模拟题，导入真题后可切换为年份卷。</p>
+                        </div>
+                        <button type="button" class="primary-btn" id="startMockBtn">开始模拟考试</button>
+                    </div>
+                </section>
+
+                <section id="wrongbookView" class="view">
+                    <div class="section-head">
+                        <h2>错题本</h2>
+                        <p>所有练习和考试答错的题都会自动进入这里。</p>
+                    </div>
+                    <div id="wrongList" class="question-list"></div>
+                </section>
+
+                <section id="recordsView" class="view">
+                    <div class="section-head">
+                        <h2>成绩记录</h2>
+                        <p>记录每次篇章测试、年份卷和模拟考试成绩。</p>
+                    </div>
+                    <div id="recordList" class="record-list"></div>
+                </section>
+
+                <section id="importView" class="view">
+                    <div class="section-head">
+                        <h2>导入真题</h2>
+                        <p>把整理好的真题 JSON 粘贴进来，就能加入年份卷训练。注意：请只导入你有权使用的题目。</p>
+                    </div>
+                    <div class="panel">
+                        <h3>JSON 格式</h3>
+                        <pre class="schema">[
+  {
+    "id": "sz-2025-bio-01",
+    "year": 2025,
+    "subject": "bio",
+    "chapter": "生物圈中的绿色植物",
+    "question": "题干",
+    "options": ["A", "B", "C", "D"],
+    "answer": 0,
+    "explain": "解析"
+  }
+]</pre>
+                        <textarea id="importText" rows="10" placeholder="在这里粘贴真题 JSON"></textarea>
+                        <div class="actions">
+                            <button type="button" class="primary-btn" id="importBtn">导入到本地题库</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="practiceView" class="view">
+                    <div class="practice-top">
+                        <div>
+                            <h2 id="practiceTitle">练习</h2>
+                            <p id="practiceMeta"></p>
+                        </div>
+                        <div class="timer" id="timerBox"></div>
+                    </div>
+                    <div id="questionBox" class="question-box"></div>
+                    <div class="practice-actions">
+                        <button type="button" class="secondary-btn" id="prevQuestionBtn">上一题</button>
+                        <button type="button" class="secondary-btn" id="nextQuestionBtn">下一题</button>
+                        <button type="button" class="primary-btn" id="submitPracticeBtn">交卷</button>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <script src="./main.js"></script>
+</body>
+</html>
