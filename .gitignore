@@ -6,6 +6,7 @@ vendor/
 .bundle/
 Gemfile.lock
 node_modules/
+.claude/
 
 # Local Douban import secrets and generated scratch data
 douban_cookie_string.txt
