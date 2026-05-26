@@ -7,356 +7,562 @@
     <link rel="stylesheet" href="/assets/css/style.css" />
     <style>
       :root {
-        --bg: #f5f6f7;
-        --card: #ffffff;
-        --text: rgba(0, 0, 0, 0.88);
-        --muted: rgba(0, 0, 0, 0.62);
-        --muted-2: rgba(0, 0, 0, 0.48);
-        --line: rgba(0, 0, 0, 0.08);
-        --shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
-        --radius: 14px;
-        --radius-sm: 10px;
-        --accent: #ffcc00;
+        --hm-bg: #f7f8fa;
+        --hm-surface: #ffffff;
+        --hm-text: #111827;
+        --hm-muted: #64748b;
+        --hm-soft: #f1f5f9;
+        --hm-line: #e5e7eb;
+        --hm-blue: #2563eb;
+        --hm-green: #059669;
+        --hm-amber: #b45309;
+        --hm-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
       }
 
-      html,
+      * {
+        box-sizing: border-box;
+      }
+
       body {
-        height: 100%;
-      }
-      body {
-        background: var(--bg);
-      }
-
-      .hm-shell {
-        min-height: 100%;
+        margin: 0;
+        background: var(--hm-bg);
+        color: var(--hm-text);
       }
 
-      /* 顶部栏：参考即刻 Web 的克制风格 */
+      a {
+        color: inherit;
+      }
+
+      .hm-page {
+        min-height: 100vh;
+      }
+
       .hm-topbar {
         position: sticky;
         top: 0;
-        z-index: 10;
-        background: rgba(245, 246, 247, 0.85);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid var(--line);
+        z-index: 20;
+        background: rgba(247, 248, 250, 0.9);
+        border-bottom: 1px solid var(--hm-line);
+        backdrop-filter: blur(16px);
       }
-      .hm-topbar-inner {
-        max-width: 1040px;
+
+      .hm-topbar-inner,
+      .hm-main {
+        width: min(1120px, calc(100% - 32px));
         margin: 0 auto;
-        padding: 14px 16px;
+      }
+
+      .hm-topbar-inner {
+        min-height: 64px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
+        gap: 16px;
       }
+
       .hm-brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
         min-width: 0;
       }
-      .hm-logo {
-        width: 28px;
-        height: 28px;
-        border-radius: 9px;
-        background: linear-gradient(135deg, var(--accent), #ffd84d);
-        box-shadow: 0 8px 18px rgba(255, 204, 0, 0.25);
-      }
-      .hm-title {
-        font-size: 16px;
+
+      .hm-brand-title {
         margin: 0;
-        color: var(--text);
-        letter-spacing: 0.2px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 15px;
+        line-height: 1.4;
+        font-weight: 700;
       }
-      .hm-subtitle {
-        margin: 2px 0 0 0;
+
+      .hm-brand-subtitle {
+        margin-top: 2px;
+        color: var(--hm-muted);
         font-size: 12px;
-        color: var(--muted-2);
+        line-height: 1.5;
       }
-      .hm-actions {
+
+      .hm-nav {
         display: flex;
         align-items: center;
         gap: 10px;
         flex-wrap: wrap;
         justify-content: flex-end;
       }
-      .hm-link {
-        color: var(--muted);
+
+      .hm-nav a,
+      .hm-ghost-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 36px;
+        padding: 0 12px;
+        border: 1px solid var(--hm-line);
+        border-radius: 8px;
+        background: var(--hm-surface);
+        color: var(--hm-text);
         text-decoration: none;
         font-size: 13px;
-      }
-      .hm-link:hover {
-        color: var(--text);
-      }
-      .hm-btn {
-        border: 1px solid var(--line);
-        background: var(--card);
-        color: var(--text);
-        border-radius: 999px;
-        padding: 8px 12px;
-        font-size: 13px;
         cursor: pointer;
+        transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
       }
-      .hm-btn:hover {
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+
+      .hm-nav a:hover,
+      .hm-ghost-btn:hover {
+        border-color: rgba(37, 99, 235, 0.35);
+        color: var(--hm-blue);
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.05);
       }
-      .hm-btn:disabled {
-        opacity: 0.5;
+
+      .hm-ghost-btn:disabled {
+        opacity: 0.55;
         cursor: not-allowed;
       }
 
-      /* 主体信息流 */
-      .hm-container {
-        max-width: 1040px;
-        margin: 0 auto;
-        padding: 16px 16px 48px;
+      .hm-main {
+        padding: 32px 0 56px;
+      }
+
+      .hm-hero {
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 24px;
+        align-items: end;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--hm-line);
+      }
+
+      .hm-kicker {
+        margin: 0 0 10px;
+        color: var(--hm-blue);
+        font-size: 13px;
+        line-height: 1.6;
+        font-weight: 700;
+      }
+
+      .hm-hero h1 {
+        margin: 0;
+        max-width: 720px;
+        font-size: 40px;
+        line-height: 1.16;
+        letter-spacing: 0;
+      }
+
+      .hm-hero-desc {
+        margin: 16px 0 0;
+        max-width: 680px;
+        color: var(--hm-muted);
+        font-size: 16px;
+        line-height: 1.85;
+      }
+
+      .hm-stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .hm-stat {
+        min-height: 82px;
+        padding: 14px;
+        border: 1px solid var(--hm-line);
+        border-radius: 8px;
+        background: var(--hm-surface);
+      }
+
+      .hm-stat span {
+        display: block;
+        color: var(--hm-muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .hm-stat strong {
+        display: block;
+        margin-top: 8px;
+        font-size: 20px;
+        line-height: 1.2;
+      }
+
+      .hm-layout {
+        display: grid;
+        grid-template-columns: 300px minmax(0, 1fr);
+        gap: 24px;
+        margin-top: 24px;
+        align-items: start;
+      }
+
+      .hm-sidebar {
+        position: sticky;
+        top: 88px;
+        display: grid;
         gap: 14px;
       }
 
-      .hm-info {
-        color: var(--muted);
+      .hm-panel,
+      .hm-card,
+      .hm-status {
+        border: 1px solid var(--hm-line);
+        border-radius: 8px;
+        background: var(--hm-surface);
+      }
+
+      .hm-panel {
+        padding: 16px;
+      }
+
+      .hm-panel-title {
+        margin: 0 0 10px;
+        font-size: 14px;
+        line-height: 1.5;
+        font-weight: 700;
+      }
+
+      .hm-panel p,
+      .hm-panel li {
+        color: var(--hm-muted);
         font-size: 13px;
+        line-height: 1.75;
+      }
+
+      .hm-panel ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .hm-search {
+        width: 100%;
+        height: 42px;
+        padding: 0 12px;
+        border: 1px solid var(--hm-line);
+        border-radius: 8px;
+        background: var(--hm-surface);
+        color: var(--hm-text);
+        font-size: 14px;
+        outline: none;
+      }
+
+      .hm-search:focus {
+        border-color: rgba(37, 99, 235, 0.45);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      .hm-status {
+        padding: 14px 16px;
+        color: var(--hm-muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .hm-feed {
+        display: grid;
+        gap: 14px;
       }
 
       .hm-card {
-        background: var(--card);
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
         overflow: hidden;
-      }
-      .hm-card-inner {
-        padding: 16px 16px;
-      }
-      .hm-card h1,
-      .hm-card h2,
-      .hm-card h3,
-      .hm-card h4 {
-        color: var(--text);
-        margin-top: 0;
-      }
-      .hm-card h2 {
-        font-size: 16px;
-        margin-bottom: 8px;
-      }
-      .hm-card h3 {
-        font-size: 15px;
-        margin-bottom: 10px;
-      }
-      .hm-card p,
-      .hm-card li {
-        color: var(--text);
-        line-height: 1.7;
-      }
-      .hm-card code {
-        background: rgba(0, 0, 0, 0.04);
-        border: 1px solid rgba(0, 0, 0, 0.06);
-        padding: 1px 6px;
-        border-radius: 8px;
-      }
-      .hm-card a {
-        color: rgba(0, 0, 0, 0.85);
-        text-decoration: underline;
-        text-underline-offset: 3px;
-      }
-      .hm-card a:hover {
-        color: rgba(0, 0, 0, 0.95);
+        box-shadow: var(--hm-shadow);
       }
 
-      /* 项目卡片（每个 Show HN item） */
-      .hm-item-card {
-        background: var(--card);
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        overflow: hidden;
+      .hm-card-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 16px;
+        padding: 18px;
+        border-bottom: 1px solid var(--hm-line);
       }
-      .hm-item-head {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 10px;
-        padding: 16px 16px 12px;
-        border-bottom: 1px solid var(--line);
+
+      .hm-rank {
+        color: var(--hm-muted);
+        font-size: 12px;
+        line-height: 1.5;
       }
-      .hm-item-head-main {
-        min-width: 0;
-      }
-      .hm-item-title {
-        margin: 0;
-        font-size: 15px;
-        color: var(--text);
-        line-height: 1.35;
-        text-decoration: none;
+
+      .hm-card-title {
         display: inline-block;
+        margin-top: 4px;
+        color: var(--hm-text);
+        text-decoration: none;
+        font-size: 19px;
+        line-height: 1.45;
+        font-weight: 760;
       }
-      .hm-item-title:hover {
-        text-decoration: underline;
-        text-underline-offset: 3px;
+
+      .hm-card-title:hover {
+        color: var(--hm-blue);
       }
-      .hm-item-meta {
+
+      .hm-meta {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        margin-top: 10px;
-        color: var(--muted);
-        font-size: 12px;
+        margin-top: 12px;
       }
-      .hm-badge {
-        flex: none;
-        font-size: 12px;
-        color: rgba(0, 0, 0, 0.72);
-        background: rgba(255, 204, 0, 0.25);
-        border: 1px solid rgba(255, 204, 0, 0.35);
-        padding: 4px 8px;
-        border-radius: 999px;
-      }
+
       .hm-chip {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        padding: 5px 10px;
+        min-height: 28px;
+        padding: 0 10px;
+        border: 1px solid var(--hm-line);
         border-radius: 999px;
-        border: 1px solid rgba(0, 0, 0, 0.08);
-        background: rgba(0, 0, 0, 0.02);
-        color: var(--muted);
+        background: var(--hm-soft);
+        color: var(--hm-muted);
         font-size: 12px;
-        line-height: 1;
       }
-      .hm-item-actions {
+
+      .hm-chip-blue {
+        border-color: rgba(37, 99, 235, 0.18);
+        background: rgba(37, 99, 235, 0.08);
+        color: var(--hm-blue);
+      }
+
+      .hm-card-actions {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 8px;
-        flex: none;
-      }
-      .hm-btn-primary {
-        border-color: rgba(0, 0, 0, 0.1);
-        background: rgba(255, 204, 0, 0.25);
-      }
-      .hm-btn-primary:hover {
-        box-shadow: 0 10px 24px rgba(255, 204, 0, 0.18);
-      }
-      .hm-item-body {
-        padding: 14px 16px 16px;
       }
 
-      /* key-value：对标顶部信息密度/对齐方式 */
-      .hm-kv {
-        display: grid;
-        grid-template-columns: 64px 1fr;
-        gap: 8px 10px;
-        padding: 2px 0 10px;
-        color: var(--text);
+      .hm-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 34px;
+        padding: 0 12px;
+        border: 1px solid var(--hm-line);
+        border-radius: 8px;
+        color: var(--hm-text);
+        text-decoration: none;
         font-size: 13px;
+        white-space: nowrap;
       }
-      .hm-k {
-        color: var(--muted-2);
+
+      .hm-action-primary {
+        border-color: rgba(37, 99, 235, 0.22);
+        background: rgba(37, 99, 235, 0.08);
+        color: var(--hm-blue);
       }
-      .hm-v {
-        color: var(--text);
-        min-width: 0;
-        word-break: break-word;
+
+      .hm-card-body {
+        padding: 18px;
       }
-      .hm-divider {
-        height: 1px;
-        background: var(--line);
-        margin: 12px 0;
+
+      .hm-card-body h2,
+      .hm-card-body h3,
+      .hm-card-body h4 {
+        margin: 18px 0 8px;
+        font-size: 15px;
+        line-height: 1.5;
       }
-      .hm-section-title {
+
+      .hm-card-body h2:first-child,
+      .hm-card-body h3:first-child,
+      .hm-card-body h4:first-child {
+        margin-top: 0;
+      }
+
+      .hm-card-body p,
+      .hm-card-body li {
+        color: var(--hm-text);
+        font-size: 14px;
+        line-height: 1.85;
+      }
+
+      .hm-card-body p {
+        margin: 10px 0;
+      }
+
+      .hm-card-body ul,
+      .hm-card-body ol {
+        margin: 8px 0 12px;
+        padding-left: 20px;
+      }
+
+      .hm-card-body blockquote {
+        margin: 14px 0;
+        padding-left: 14px;
+        border-left: 3px solid rgba(37, 99, 235, 0.4);
+        color: var(--hm-muted);
+      }
+
+      .hm-card-body code {
+        padding: 1px 5px;
+        border-radius: 5px;
+        background: var(--hm-soft);
+        font-size: 0.92em;
+      }
+
+      .hm-section-label {
+        margin-bottom: 12px;
+        color: var(--hm-amber);
         font-size: 12px;
-        color: var(--muted);
-        letter-spacing: 0.6px;
-        text-transform: uppercase;
-        margin-bottom: 8px;
+        line-height: 1.4;
+        font-weight: 800;
       }
 
-      /* markdown 内容：控制段落、列表、标题的“即刻式”间距 */
-      .hm-md p {
-        margin: 8px 0;
-      }
-      .hm-md ul {
-        margin: 6px 0 0 0;
-        padding-left: 18px;
-      }
-      .hm-md li {
-        margin: 6px 0;
-      }
-      .hm-md h2,
-      .hm-md h3,
-      .hm-md h4 {
-        margin: 10px 0 8px 0;
+      .hm-empty {
+        padding: 22px;
+        color: var(--hm-muted);
+        text-align: center;
       }
 
-      /* 让 markdown 顶层标题不重复占位 */
-      .hm-report-raw h1 {
+      .hm-hidden {
         display: none;
       }
 
-      @media (max-width: 640px) {
+      @media (max-width: 860px) {
         .hm-topbar-inner {
           align-items: flex-start;
+          flex-direction: column;
+          padding: 14px 0;
         }
-        .hm-actions {
-          width: 100%;
+
+        .hm-nav {
           justify-content: flex-start;
+        }
+
+        .hm-hero {
+          grid-template-columns: 1fr;
+        }
+
+        .hm-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .hm-sidebar {
+          position: static;
+        }
+
+        .hm-stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 640px) {
+        .hm-topbar-inner,
+        .hm-main {
+          width: min(100% - 24px, 1120px);
+        }
+
+        .hm-main {
+          padding-top: 24px;
+        }
+
+        .hm-hero h1 {
+          font-size: 30px;
+        }
+
+        .hm-stats {
+          grid-template-columns: 1fr;
+        }
+
+        .hm-card-head {
+          grid-template-columns: 1fr;
+        }
+
+        .hm-card-actions {
+          flex-wrap: wrap;
         }
       }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   </head>
   <body>
-    <div class="hm-shell">
-      <div class="hm-topbar">
+    <div class="hm-page">
+      <header class="hm-topbar">
         <div class="hm-topbar-inner">
           <div class="hm-brand">
-            <div class="hm-logo" aria-hidden="true"></div>
-            <div style="min-width: 0">
-              <h1 class="hm-title">AI 搞钱项目分析器（Show HN）</h1>
-              <div class="hm-subtitle">把 Show HN 当作“真实项目样本”，每天给你一份毒辣点评。</div>
+            <h1 class="hm-brand-title">AI 搞钱项目分析器</h1>
+            <div class="hm-brand-subtitle">Show HN 项目追踪 · AI 商业化点评</div>
+          </div>
+          <nav class="hm-nav" aria-label="页面导航">
+            <button id="refreshBtn" class="hm-ghost-btn" type="button">刷新</button>
+            <a href="./README.md" target="_blank" rel="noopener noreferrer">README</a>
+            <a href="./data.json" target="_blank" rel="noopener noreferrer">数据</a>
+            <a href="/labs/">AI 产品</a>
+          </nav>
+        </div>
+      </header>
+
+      <main class="hm-main">
+        <section class="hm-hero">
+          <div>
+            <p class="hm-kicker">从新产品样本里找商业机会</p>
+            <h1>每天扫描 Show HN，用 AI 拆出赚钱路径和低成本模仿方案。</h1>
+            <p class="hm-hero-desc">
+              这个工具把 Hacker News 上的 Show HN 项目当作真实市场样本，抓取项目、整理链接和讨论，再用创业教练视角输出商业模式、模仿路径和风险判断。
+            </p>
+          </div>
+          <div class="hm-stats" aria-label="数据概览">
+            <div class="hm-stat">
+              <span>项目数</span>
+              <strong id="statCount">-</strong>
+            </div>
+            <div class="hm-stat">
+              <span>数据时间</span>
+              <strong id="statDate">-</strong>
+            </div>
+            <div class="hm-stat">
+              <span>来源</span>
+              <strong>Show HN</strong>
+            </div>
+            <div class="hm-stat">
+              <span>AI 模型</span>
+              <strong id="statModel">-</strong>
             </div>
           </div>
-          <div class="hm-actions">
-            <button id="refreshBtn" class="hm-btn" type="button">刷新</button>
-            <a class="hm-link" href="./README.md" target="_blank" rel="noopener noreferrer">打开 README.md</a>
-            <a class="hm-link" href="/labs/">返回开发实验室</a>
-          </div>
-        </div>
-      </div>
+        </section>
 
-      <div class="hm-container">
-        <div id="status" class="hm-info">正在加载今日分析结果…</div>
-        <div id="summary" class="hm-card" style="display: none">
-          <div class="hm-card-inner" id="summaryInner"></div>
-        </div>
-        <div id="feed"></div>
-      </div>
+        <section class="hm-layout">
+          <aside class="hm-sidebar">
+            <div class="hm-panel">
+              <h2 class="hm-panel-title">怎么用</h2>
+              <ul>
+                <li>先扫标题，判断项目所在赛道。</li>
+                <li>打开项目原站，看真实产品完成度。</li>
+                <li>看 HN 讨论，找用户吐槽和付费线索。</li>
+                <li>读 AI 点评，提炼可复制的小切口。</li>
+              </ul>
+            </div>
+            <div class="hm-panel">
+              <h2 class="hm-panel-title">筛选</h2>
+              <input id="searchInput" class="hm-search" type="search" placeholder="搜索项目、域名或点评" aria-label="搜索项目" />
+            </div>
+            <div class="hm-panel">
+              <h2 class="hm-panel-title">说明</h2>
+              <p>
+                页面优先读取最新的 <code>README.md</code>，如果读取失败再回退到 <code>data.json</code>。这样可以避免旧 dry-run 数据盖住真实分析。
+              </p>
+            </div>
+          </aside>
+
+          <section>
+            <div id="status" class="hm-status">正在加载分析结果...</div>
+            <div id="feed" class="hm-feed" style="margin-top: 14px"></div>
+          </section>
+        </section>
+      </main>
     </div>
 
     <script>
-      function el(tag, className, text) {
-        const n = document.createElement(tag);
-        if (className) n.className = className;
-        if (text != null) n.textContent = text;
-        return n;
-      }
-
       marked.setOptions({ mangle: false, headerIds: false });
 
-      function safeText(s) {
-        return (s || '').toString().trim();
+      const state = {
+        items: [],
+        source: '',
+        generatedAt: '',
+        model: ''
+      };
+
+      const $ = (id) => document.getElementById(id);
+
+      function text(value) {
+        return (value || '').toString().trim();
       }
 
-      function extractHref(html) {
-        const m = (html || '').match(/href="([^"]+)"/i);
-        return m ? m[1] : '';
+      function stripHtml(value) {
+        const temp = document.createElement('div');
+        temp.innerHTML = value || '';
+        return text(temp.textContent || temp.innerText || '');
       }
 
-      function extractDomain(url) {
+      function domainOf(url) {
         try {
           return new URL(url).hostname.replace(/^www\./, '');
         } catch {
@@ -364,281 +570,262 @@
         }
       }
 
-      function parseReport(md) {
-        const raw = (md || '').replace(/\r\n/g, '\n');
-        const split = raw.split(/\n##\s*今日抓取结果\s*\n/);
-        let summaryMd = split[0] || raw;
-        let itemsMd = split[1] || '';
+      function commentsFromHtml(value) {
+        const match = (value || '').match(/href="([^"]+)"/i);
+        return match ? match[1] : '';
+      }
 
-        // 去掉 summary 里的顶层标题（页面已有）
-        summaryMd = summaryMd.replace(/^#.*\n+/, '').trim();
-
-        const items = [];
-        if (!itemsMd) {
-          return { summaryMd, items };
+      function shortDate(value) {
+        const s = text(value);
+        if (!s) return '-';
+        const parsed = Date.parse(s);
+        if (!Number.isNaN(parsed)) {
+          return new Date(parsed).toISOString().slice(0, 10);
         }
+        const m = s.match(/\d{4}-\d{2}-\d{2}/);
+        return m ? m[0] : s.slice(0, 10);
+      }
 
+      function parseReadme(md) {
+        const raw = (md || '').replace(/\r\n/g, '\n');
+        const generated = raw.match(/生成时间：(.+)/);
+        const model = raw.match(/模型：`([^`]+)`|模型：([^，\n]+)/);
+        const sectionSplit = raw.split(/\n##\s*今日抓取结果\s*\n/);
+        const itemsMd = sectionSplit[1] || '';
+        const items = [];
+        const headings = [];
         const re = /^###\s+(\d+)\.\s+(.*)\s*$/gm;
-        const sections = [];
-        let m;
-        while ((m = re.exec(itemsMd)) !== null) {
-          sections.push({
-            idx: parseInt(m[1], 10),
-            title: safeText(m[2]),
-            start: m.index,
-            bodyStart: re.lastIndex,
+        let match;
+
+        while ((match = re.exec(itemsMd)) !== null) {
+          headings.push({
+            rank: Number(match[1]),
+            title: text(match[2]),
+            start: match.index,
+            bodyStart: re.lastIndex
           });
         }
 
-        for (let i = 0; i < sections.length; i++) {
-          const cur = sections[i];
-          const next = sections[i + 1];
-          const end = next ? next.start : itemsMd.length;
-          const block = itemsMd.slice(cur.bodyStart, end).trim();
-
-          const getField = (label) => {
-            const mm = block.match(new RegExp(`^[-*]\\s*${label}：(.+)$`, 'm'));
-            return mm ? safeText(mm[1]) : '';
+        for (let i = 0; i < headings.length; i++) {
+          const current = headings[i];
+          const next = headings[i + 1];
+          const block = itemsMd.slice(current.bodyStart, next ? next.start : itemsMd.length).trim();
+          const field = (label) => {
+            const fieldMatch = block.match(new RegExp(`^[-*]\\s*${label}：(.+)$`, 'm'));
+            return fieldMatch ? text(fieldMatch[1]) : '';
           };
-
-          const link = getField('链接');
-          const time = getField('时间');
-          const summary = getField('摘要');
-          const commentsUrl = extractHref(summary);
-
-          let analysisMd = '';
-          const aIdx = block.indexOf('#### 分析（毒辣创业教练）');
-          if (aIdx >= 0) {
-            analysisMd = block.slice(aIdx);
-            analysisMd = analysisMd.replace(/^####[^\n]*\n+/, '').trim();
-          }
+          const summary = field('摘要');
+          const analysisIndex = block.indexOf('#### 分析（毒辣创业教练）');
+          let analysisMd = analysisIndex >= 0 ? block.slice(analysisIndex) : '';
+          analysisMd = analysisMd.replace(/^####[^\n]*\n+/, '').trim();
 
           items.push({
-            idx: cur.idx,
-            title: cur.title,
-            link,
-            time,
-            summary,
-            commentsUrl,
-            analysisMd,
+            rank: current.rank,
+            title: current.title,
+            url: field('链接'),
+            published: field('时间'),
+            summaryText: stripHtml(summary),
+            commentsUrl: commentsFromHtml(summary),
+            analysisMd
           });
         }
 
-        return { summaryMd, items };
+        return {
+          source: 'README.md',
+          generatedAt: generated ? text(generated[1]) : '',
+          model: model ? text(model[1] || model[2]) : 'deepseek-chat',
+          items
+        };
       }
 
-      async function tryLoadJson() {
+      function normalizeJson(data) {
+        return {
+          source: 'data.json',
+          generatedAt: data.generated_at_utc || '',
+          model: data.ai && data.ai.model ? data.ai.model : '-',
+          items: (data.items || []).map((item, index) => ({
+            rank: item.rank || index + 1,
+            title: item.title,
+            url: item.url,
+            published: item.published,
+            summaryText: item.summary_text || stripHtml(item.summary_html || ''),
+            commentsUrl: item.hn_comments_url || commentsFromHtml(item.summary_html),
+            analysisMd: item.analysis_md || ''
+          }))
+        };
+      }
+
+      async function loadReadme() {
+        const res = await fetch('./README.md', { cache: 'no-store' });
+        if (!res.ok) throw new Error('README.md HTTP ' + res.status);
+        const md = await res.text();
+        const parsed = parseReadme(md);
+        if (!parsed.items.length) throw new Error('README.md 没有解析到项目');
+        return parsed;
+      }
+
+      async function loadJson() {
         const res = await fetch('./data.json', { cache: 'no-store' });
-        if (!res.ok) return null;
-        const data = await res.json();
-        if (!data || !Array.isArray(data.items)) return null;
-        return data;
+        if (!res.ok) throw new Error('data.json HTTP ' + res.status);
+        return normalizeJson(await res.json());
       }
 
-      function renderSummaryFromJson(data, summaryInner, summaryCard) {
-        const wrap = el('div', 'hm-md hm-report-raw');
-        const meta = el('div', '');
-
-        const rows = [];
-        rows.push(`生成时间：${data.generated_at_utc || '-'}`);
-        if (data.source && data.source.rss_url) rows.push(`RSS：${data.source.rss_url}`);
-        if (data.source && data.source.keyword) rows.push(`关键词：${data.source.keyword}`);
-        if (data.ai && data.ai.model) rows.push(`模型：${data.ai.model}`);
-        rows.push(`条目数：${(data.items || []).length}`);
-
-        const ul = document.createElement('ul');
-        for (const r of rows) {
-          const li = document.createElement('li');
-          li.textContent = r;
-          ul.appendChild(li);
-        }
-        meta.appendChild(ul);
-        wrap.appendChild(meta);
-
-        summaryInner.appendChild(wrap);
-        summaryCard.style.display = '';
+      function setStats(data) {
+        $('statCount').textContent = data.items.length;
+        $('statDate').textContent = shortDate(data.generatedAt);
+        $('statModel').textContent = data.model || '-';
       }
 
-      function renderItemCardFromJson(item) {
-        return renderItemCard({
-          title: item.title,
-          link: item.url,
-          time: item.published,
-          summary: item.summary_html || item.summary_text || '',
-          commentsUrl: item.hn_comments_url || '',
-          analysisMd: item.analysis_md || '',
+      function cardFor(item) {
+        const card = document.createElement('article');
+        card.className = 'hm-card';
+        card.dataset.search = [
+          item.title,
+          item.url,
+          domainOf(item.url),
+          item.summaryText,
+          item.analysisMd
+        ].join(' ').toLowerCase();
+
+        const head = document.createElement('div');
+        head.className = 'hm-card-head';
+
+        const main = document.createElement('div');
+        const rank = document.createElement('div');
+        rank.className = 'hm-rank';
+        rank.textContent = 'No. ' + item.rank;
+        main.appendChild(rank);
+
+        const title = document.createElement('a');
+        title.className = 'hm-card-title';
+        title.href = item.url || '#';
+        title.target = '_blank';
+        title.rel = 'noopener noreferrer';
+        title.textContent = item.title || 'Untitled';
+        main.appendChild(title);
+
+        const meta = document.createElement('div');
+        meta.className = 'hm-meta';
+        const chips = [
+          ['hm-chip hm-chip-blue', 'Show HN'],
+          ['hm-chip', domainOf(item.url) || 'unknown'],
+          ['hm-chip', shortDate(item.published)]
+        ];
+        chips.forEach(([className, value]) => {
+          const chip = document.createElement('span');
+          chip.className = className;
+          chip.textContent = value;
+          meta.appendChild(chip);
         });
-      }
+        main.appendChild(meta);
 
-      function renderSummary(summaryMd, summaryInner, summaryCard) {
-        const wrap = el('div', 'hm-md hm-report-raw');
-        wrap.innerHTML = marked.parse(summaryMd || '');
-        summaryInner.appendChild(wrap);
-        summaryCard.style.display = '';
-      }
-
-      function renderItemCard(item) {
-        const card = el('section', 'hm-item-card');
-
-        const head = el('div', 'hm-item-head');
-        const headMain = el('div', 'hm-item-head-main');
-
-        const titleLink = document.createElement('a');
-        titleLink.className = 'hm-item-title';
-        titleLink.href = item.link || '#';
-        titleLink.target = '_blank';
-        titleLink.rel = 'noopener noreferrer';
-        titleLink.textContent = item.title || 'Untitled';
-        headMain.appendChild(titleLink);
-
-        const meta = el('div', 'hm-item-meta');
-        const domain = extractDomain(item.link);
-        if (domain) meta.appendChild(el('span', 'hm-chip', domain));
-        if (item.time) meta.appendChild(el('span', 'hm-chip', item.time));
-        meta.appendChild(el('span', 'hm-chip', 'Show HN'));
-        headMain.appendChild(meta);
-
-        const actions = el('div', 'hm-item-actions');
+        const actions = document.createElement('div');
+        actions.className = 'hm-card-actions';
         if (item.commentsUrl) {
-          const c = document.createElement('a');
-          c.className = 'hm-btn';
-          c.href = item.commentsUrl;
-          c.target = '_blank';
-          c.rel = 'noopener noreferrer';
-          c.textContent = '讨论';
-          actions.appendChild(c);
+          const comments = document.createElement('a');
+          comments.className = 'hm-action';
+          comments.href = item.commentsUrl;
+          comments.target = '_blank';
+          comments.rel = 'noopener noreferrer';
+          comments.textContent = 'HN 讨论';
+          actions.appendChild(comments);
         }
-        if (item.link) {
+        if (item.url) {
           const open = document.createElement('a');
-          open.className = 'hm-btn hm-btn-primary';
-          open.href = item.link;
+          open.className = 'hm-action hm-action-primary';
+          open.href = item.url;
           open.target = '_blank';
           open.rel = 'noopener noreferrer';
-          open.textContent = '打开';
+          open.textContent = '打开项目';
           actions.appendChild(open);
         }
 
-        head.appendChild(headMain);
+        head.appendChild(main);
         head.appendChild(actions);
         card.appendChild(head);
 
-        const body = el('div', 'hm-item-body');
+        const body = document.createElement('div');
+        body.className = 'hm-card-body';
+        const label = document.createElement('div');
+        label.className = 'hm-section-label';
+        label.textContent = 'AI 创业教练点评';
+        body.appendChild(label);
 
-        const kv = el('div', 'hm-kv');
-        if (item.link) {
-          kv.appendChild(el('div', 'hm-k', '链接'));
-          const v = el('div', 'hm-v');
-          const a = document.createElement('a');
-          a.href = item.link;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.textContent = item.link;
-          v.appendChild(a);
-          kv.appendChild(v);
-        }
-        if (item.commentsUrl) {
-          kv.appendChild(el('div', 'hm-k', '讨论'));
-          const v = el('div', 'hm-v');
-          const a = document.createElement('a');
-          a.href = item.commentsUrl;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.textContent = item.commentsUrl;
-          v.appendChild(a);
-          kv.appendChild(v);
-        }
-        if (item.time) {
-          kv.appendChild(el('div', 'hm-k', '时间'));
-          kv.appendChild(el('div', 'hm-v', item.time));
-        }
-        // 摘要：把 RSS 里的 HTML 收敛成“可读文本”
-        if (item.summary) {
-          const summaryText = safeText(item.summary.replace(/<[^>]+>/g, ''));
-          if (summaryText) {
-            kv.appendChild(el('div', 'hm-k', '摘要'));
-            kv.appendChild(el('div', 'hm-v', summaryText));
-          }
-        }
-        if (kv.childNodes.length > 0) body.appendChild(kv);
-
-        body.appendChild(el('div', 'hm-divider'));
-        body.appendChild(el('div', 'hm-section-title', 'Tough love'));
-
-        const analysisWrap = el('div', 'hm-md');
         if (item.analysisMd) {
-          analysisWrap.innerHTML = marked.parse(item.analysisMd);
+          body.insertAdjacentHTML('beforeend', marked.parse(item.analysisMd));
         } else {
-          analysisWrap.appendChild(el('div', 'hm-info', '（暂无分析内容）'));
+          const empty = document.createElement('p');
+          empty.textContent = '暂无分析内容。';
+          body.appendChild(empty);
         }
-        body.appendChild(analysisWrap);
 
         card.appendChild(body);
         return card;
       }
 
-      async function loadReport() {
-        const statusEl = document.getElementById('status');
-        const refreshBtn = document.getElementById('refreshBtn');
-        const summaryCard = document.getElementById('summary');
-        const summaryInner = document.getElementById('summaryInner');
-        const feed = document.getElementById('feed');
-
-        refreshBtn.disabled = true;
-        statusEl.textContent = '正在加载今日分析结果…';
-        summaryCard.style.display = 'none';
-        summaryInner.innerHTML = '';
+      function render(items) {
+        const feed = $('feed');
         feed.innerHTML = '';
+        if (!items.length) {
+          const empty = document.createElement('div');
+          empty.className = 'hm-card hm-empty';
+          empty.textContent = '没有匹配的项目。';
+          feed.appendChild(empty);
+          return;
+        }
+        items.forEach((item) => feed.appendChild(cardFor(item)));
+      }
+
+      function applySearch() {
+        const q = $('searchInput').value.trim().toLowerCase();
+        if (!q) {
+          render(state.items);
+          return;
+        }
+        render(state.items.filter((item) => {
+          return [
+            item.title,
+            item.url,
+            domainOf(item.url),
+            item.summaryText,
+            item.analysisMd
+          ].join(' ').toLowerCase().includes(q);
+        }));
+      }
+
+      async function load() {
+        const refreshBtn = $('refreshBtn');
+        const status = $('status');
+        refreshBtn.disabled = true;
+        status.classList.remove('hm-hidden');
+        status.textContent = '正在加载分析结果...';
+        $('feed').innerHTML = '';
+
         try {
-          const jsonData = await tryLoadJson();
-          if (jsonData) {
-            renderSummaryFromJson(jsonData, summaryInner, summaryCard);
-            if (!jsonData.items || jsonData.items.length === 0) {
-              const empty = el('div', 'hm-card');
-              const inner = el('div', 'hm-card-inner hm-info');
-              inner.textContent = 'data.json 里没有条目。请先运行 daily_bot.py 更新数据。';
-              empty.appendChild(inner);
-              feed.appendChild(empty);
-            } else {
-              for (const item of jsonData.items) {
-                feed.appendChild(renderItemCardFromJson(item));
-              }
-            }
-          } else {
-            // 兼容：如果 data.json 不存在，回退到解析 README.md
-            const res = await fetch('./README.md', { cache: 'no-store' });
-            if (!res.ok) throw new Error('README.md 加载失败（HTTP ' + res.status + '）');
-            const md = await res.text();
-
-            const parsed = parseReport(md);
-            renderSummary(parsed.summaryMd, summaryInner, summaryCard);
-
-            if (!parsed.items || parsed.items.length === 0) {
-              const empty = el('div', 'hm-card');
-              const inner = el('div', 'hm-card-inner hm-info');
-              inner.textContent = '没有解析到 Show HN 条目。你可以先运行 daily_bot.py 更新 README.md。';
-              empty.appendChild(inner);
-              feed.appendChild(empty);
-            } else {
-              for (const item of parsed.items) {
-                feed.appendChild(renderItemCard(item));
-              }
-            }
+          let data;
+          try {
+            data = await loadReadme();
+          } catch {
+            data = await loadJson();
           }
-
-          statusEl.textContent = '';
-        } catch (e) {
-          statusEl.textContent = '加载失败：' + (e && e.message ? e.message : String(e));
-          const hint = el('div', 'hm-info');
-          hint.textContent = '你可以先运行 daily_bot.py 生成 README.md，然后点“刷新”。';
-          feed.appendChild(hint);
+          state.items = data.items;
+          state.source = data.source;
+          state.generatedAt = data.generatedAt;
+          state.model = data.model;
+          setStats(data);
+          status.textContent = '已加载 ' + data.source + '，共 ' + data.items.length + ' 个项目。';
+          render(data.items);
+          setTimeout(() => status.classList.add('hm-hidden'), 1400);
+        } catch (err) {
+          status.textContent = '加载失败：' + (err && err.message ? err.message : String(err));
         } finally {
           refreshBtn.disabled = false;
         }
       }
 
-      document.getElementById('refreshBtn').addEventListener('click', () => loadReport());
-      loadReport();
+      $('refreshBtn').addEventListener('click', load);
+      $('searchInput').addEventListener('input', applySearch);
+      load();
     </script>
   </body>
 </html>
-
