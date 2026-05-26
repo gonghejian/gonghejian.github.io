@@ -150,6 +150,96 @@
     ];
 
     const paperYears = [2025, 2024, 2023, 2022, 2021];
+    const knowledgeMap = [
+        {
+            id: 'bio-cell',
+            subject: 'bio',
+            chapter: '生物体的结构层次',
+            title: '细胞与结构层次',
+            relation: '显微镜 → 细胞结构 → 组织器官系统',
+            goals: ['会使用显微镜的基本调节方法', '区分动植物细胞结构', '理解细胞、组织、器官、系统的层次关系'],
+            concepts: ['细胞膜、细胞质、细胞核', '细胞壁、液泡、叶绿体', '组织、器官、系统'],
+            mistakes: ['把叶绿体当成所有植物细胞都有', '显微镜视野变暗时只想到换物镜', '混淆组织和器官'],
+            steps: ['先画一张动植物细胞对照表', '再用箭头写出结构层次', '最后刷显微镜和细胞结构题']
+        },
+        {
+            id: 'bio-plant',
+            subject: 'bio',
+            chapter: '生物圈中的绿色植物',
+            title: '绿色植物与物质循环',
+            relation: '根吸水 → 运输 → 光合作用 → 蒸腾作用',
+            goals: ['理解光合作用和呼吸作用区别', '知道蒸腾作用的意义', '能解释绿色植物在生物圈中的作用'],
+            concepts: ['叶绿体', '光合作用', '蒸腾作用', '有机物和氧气'],
+            mistakes: ['把光合作用和呼吸作用发生时间绝对化', '忽略蒸腾作用对运输的拉力', '只背结论不会读实验图'],
+            steps: ['先背熟两个作用的条件和产物', '再看实验变量和对照', '最后练读图题']
+        },
+        {
+            id: 'bio-human',
+            subject: 'bio',
+            chapter: '人体生命活动',
+            title: '人体消化、循环与调节',
+            relation: '营养进入 → 血液运输 → 神经/激素调节',
+            goals: ['掌握小肠适于消化吸收的特点', '理解血液循环基本路径', '能联系结构和功能答题'],
+            concepts: ['小肠', '动脉/静脉/毛细血管', '神经调节', '激素调节'],
+            mistakes: ['把动脉理解为一定流动脉血', '只记器官名称，不会说明结构适应功能', '循环路径方向写反'],
+            steps: ['先画消化系统和循环路径', '再记每个结构的功能关键词', '最后练综合选择题']
+        },
+        {
+            id: 'bio-eco',
+            subject: 'bio',
+            chapter: '生物与环境',
+            title: '生态系统与食物链',
+            relation: '环境因素 → 种群关系 → 食物链 → 能量流动',
+            goals: ['区分生产者、消费者、分解者', '能正确书写食物链', '理解生态系统自动调节能力有限'],
+            concepts: ['生产者', '消费者', '分解者', '食物链', '生态平衡'],
+            mistakes: ['食物链从消费者开始写', '箭头方向写反', '认为生态系统能无限自我恢复'],
+            steps: ['先用例子标出三类成分', '再练 5 条食物链', '最后总结箭头含义']
+        },
+        {
+            id: 'geo-map',
+            subject: 'geo',
+            chapter: '地球与地图',
+            title: '经纬网与地图阅读',
+            relation: '经纬线 → 方向定位 → 比例尺 → 等高线',
+            goals: ['区分经线纬线方向', '会用比例尺换算距离', '能读基础地图信息'],
+            concepts: ['经线/纬线', '比例尺', '方向', '图例'],
+            mistakes: ['经纬线方向混淆', '比例尺单位换算漏 0', '只看图不看图例'],
+            steps: ['先背经线南北、纬线东西', '再做比例尺换算', '最后练读图定位']
+        },
+        {
+            id: 'geo-climate',
+            subject: 'geo',
+            chapter: '天气与气候',
+            title: '天气、气候与气温降水',
+            relation: '天气现象 → 气温变化 → 降水分布 → 气候类型',
+            goals: ['区分天气和气候', '掌握气温日变化规律', '能读气温曲线和降水柱状图'],
+            concepts: ['天气', '气候', '气温日变化', '降水量'],
+            mistakes: ['把短期天气说成气候', '最高气温时间记成正午', '读图时忽略坐标单位'],
+            steps: ['先用一句话区分天气和气候', '再读气温降水图', '最后总结气候描述模板']
+        },
+        {
+            id: 'geo-china',
+            subject: 'geo',
+            chapter: '中国地理',
+            title: '中国自然环境与资源',
+            relation: '地势阶梯 → 气候河流 → 资源分布 → 区域差异',
+            goals: ['掌握我国地势西高东低', '理解河流流向和水能分布', '知道水资源南多北少'],
+            concepts: ['三级阶梯', '季风气候', '水资源', '南水北调'],
+            mistakes: ['地势和地形概念混淆', '河流流向不会联系地势', '资源分布只背不解释原因'],
+            steps: ['先画中国地势阶梯', '再把河流和降水放上去', '最后练区域差异题']
+        },
+        {
+            id: 'geo-world',
+            subject: 'geo',
+            chapter: '世界地理',
+            title: '世界大洲与人口分布',
+            relation: '海陆分布 → 大洲大洋 → 气候地形 → 人口分布',
+            goals: ['熟悉七大洲四大洋', '知道人口稠密区共同条件', '能解释自然条件对人类活动的影响'],
+            concepts: ['亚洲', '海陆分布', '人口密度', '中低纬近海平原'],
+            mistakes: ['大洲面积排序记错', '人口分布原因只答经济', '忽略气候和地形条件'],
+            steps: ['先画七大洲四大洋简图', '再总结人口稠密条件', '最后练世界区域题']
+        }
+    ];
     const state = loadState();
     let questions = baseQuestions.concat(loadImports());
     let session = null;
@@ -157,6 +247,7 @@
 
     const views = {
         dashboard: document.getElementById('dashboardView'),
+        learn: document.getElementById('learnView'),
         chapters: document.getElementById('chaptersView'),
         papers: document.getElementById('papersView'),
         mock: document.getElementById('mockView'),
@@ -194,6 +285,7 @@
         Object.entries(views).forEach(([key, view]) => view.classList.toggle('active', key === name));
         document.querySelectorAll('.nav-item').forEach((item) => item.classList.toggle('active', item.dataset.view === name));
         if (name === 'dashboard') renderDashboard();
+        if (name === 'learn') renderKnowledgeMap();
         if (name === 'chapters') renderChapters();
         if (name === 'papers') renderPapers();
         if (name === 'wrongbook') renderWrongBook();
@@ -228,9 +320,72 @@
 
         const chapters = groupByChapter().slice(0, 4);
         document.getElementById('todayPlan').innerHTML = chapters.map((item) => (
-            `<div class="plan-item"><strong>${subjectLabel(item.subject)} · ${item.chapter}</strong><span>${item.questions.length} 题，可以先刷一轮。</span></div>`
+            `<div class="plan-item"><strong>${subjectLabel(item.subject)} · ${item.chapter}</strong><span>先看预习图谱，再完成 ${item.questions.length} 题篇章测试。</span></div>`
         )).join('');
         renderRecentRecords('recentRecords', 5);
+    }
+
+    function renderKnowledgeMap(selectedId) {
+        const selected = knowledgeMap.find((item) => item.id === selectedId) || knowledgeMap[0];
+        const subjectGroups = [
+            { subject: 'bio', title: '生物主线', items: knowledgeMap.filter((item) => item.subject === 'bio') },
+            { subject: 'geo', title: '地理主线', items: knowledgeMap.filter((item) => item.subject === 'geo') }
+        ];
+        document.getElementById('knowledgeMap').innerHTML = subjectGroups.map((group) => `
+            <div class="map-lane ${group.subject}">
+                <h3>${group.title}</h3>
+                <div class="map-nodes">
+                    ${group.items.map((item, index) => `
+                        <button type="button" class="map-node ${item.id === selected.id ? 'active' : ''}" data-node="${item.id}">
+                            <span class="node-index">${index + 1}</span>
+                            <strong>${item.title}</strong>
+                            <em>${item.relation}</em>
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+        document.querySelectorAll('[data-node]').forEach((btn) => {
+            btn.addEventListener('click', () => renderKnowledgeMap(btn.dataset.node));
+        });
+        renderLearnDetail(selected);
+    }
+
+    function renderLearnDetail(item) {
+        document.getElementById('learnDetail').innerHTML = `
+            <div class="learn-badge ${item.subject}">${subjectLabel(item.subject)} · ${item.chapter}</div>
+            <h3>${item.title}</h3>
+            <p class="relation">${item.relation}</p>
+            <div class="learn-template">
+                <div>
+                    <h4>预习目标</h4>
+                    <ul>${item.goals.map((text) => `<li>${text}</li>`).join('')}</ul>
+                </div>
+                <div>
+                    <h4>核心概念</h4>
+                    <div class="concept-tags">${item.concepts.map((text) => `<span>${text}</span>`).join('')}</div>
+                </div>
+                <div>
+                    <h4>易错点</h4>
+                    <ul>${item.mistakes.map((text) => `<li>${text}</li>`).join('')}</ul>
+                </div>
+                <div>
+                    <h4>学习步骤</h4>
+                    <ol>${item.steps.map((text) => `<li>${text}</li>`).join('')}</ol>
+                </div>
+            </div>
+            <button type="button" class="primary-btn" id="learnPracticeBtn">练这个篇章</button>
+        `;
+        document.getElementById('learnPracticeBtn').addEventListener('click', () => {
+            const key = `${item.subject}::${item.chapter}`;
+            startPractice({
+                title: `${subjectLabel(item.subject)} · ${item.chapter}`,
+                mode: 'chapter',
+                questions: questions.filter((q) => q.subject === item.subject && q.chapter === item.chapter),
+                chapterKey: key,
+                duration: null
+            });
+        });
     }
 
     function renderRecentRecords(targetId, limit) {

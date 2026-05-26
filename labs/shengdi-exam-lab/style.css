@@ -258,10 +258,167 @@ select {
 }
 
 .chapter-grid,
-.paper-grid {
+.paper-grid,
+.learn-layout {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 14px;
+}
+
+.chapter-grid,
+.paper-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.learn-layout {
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+    align-items: start;
+}
+
+.knowledge-map {
+    display: grid;
+    gap: 14px;
+}
+
+.map-lane {
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.86);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: var(--shadow);
+}
+
+.map-lane h3 {
+    margin: 0 0 12px;
+}
+
+.map-nodes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    position: relative;
+}
+
+.map-node {
+    min-height: 128px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #ffffff;
+    text-align: left;
+    cursor: pointer;
+}
+
+.map-node.active {
+    border-color: var(--geo);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.map-lane.bio .map-node.active {
+    border-color: var(--bio);
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+.node-index {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--geo);
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 12px;
+}
+
+.map-lane.bio .node-index {
+    background: var(--bio);
+}
+
+.map-node strong {
+    display: block;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.map-node em {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 13px;
+    font-style: normal;
+    line-height: 1.55;
+}
+
+.learn-detail {
+    position: sticky;
+    top: 84px;
+}
+
+.learn-badge {
+    display: inline-flex;
+    min-height: 28px;
+    align-items: center;
+    padding: 0 10px;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.learn-badge.bio {
+    background: var(--bio);
+}
+
+.learn-badge.geo {
+    background: var(--geo);
+}
+
+.learn-detail h3 {
+    margin: 12px 0 6px;
+    font-size: 22px;
+}
+
+.relation {
+    margin: 0 0 16px;
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.learn-template {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.learn-template h4 {
+    margin: 0 0 8px;
+}
+
+.learn-template ul,
+.learn-template ol {
+    margin: 0;
+    padding-left: 20px;
+    color: #475467;
+    line-height: 1.75;
+}
+
+.concept-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.concept-tags span {
+    display: inline-flex;
+    min-height: 30px;
+    align-items: center;
+    padding: 0 10px;
+    border-radius: 8px;
+    background: var(--soft);
+    color: #344054;
+    font-size: 13px;
+    font-weight: 800;
 }
 
 .chapter-card,
@@ -455,7 +612,8 @@ select {
 @media (max-width: 980px) {
     .hero,
     .layout,
-    .two-col {
+    .two-col,
+    .learn-layout {
         grid-template-columns: 1fr;
     }
 
@@ -469,9 +627,11 @@ select {
     }
 
     .mock-card,
-    .practice-top {
+    .practice-top,
+    .learn-detail {
         flex-direction: column;
         align-items: stretch;
+        position: static;
     }
 }
 
@@ -491,7 +651,8 @@ select {
     }
 
     .sidebar,
-    .stats-grid {
+    .stats-grid,
+    .map-nodes {
         grid-template-columns: 1fr;
     }
 }

@@ -35,6 +35,7 @@
         <main class="layout">
             <aside class="sidebar">
                 <button class="nav-item active" data-view="dashboard">总览</button>
+                <button class="nav-item" data-view="learn">预习图谱</button>
                 <button class="nav-item" data-view="chapters">知识点练习</button>
                 <button class="nav-item" data-view="papers">近 5 年真题</button>
                 <button class="nav-item" data-view="mock">模拟考试</button>
@@ -59,6 +60,17 @@
                             <h3>最近成绩</h3>
                             <div id="recentRecords" class="record-list empty">还没有考试记录。</div>
                         </div>
+                    </div>
+                </section>
+
+                <section id="learnView" class="view">
+                    <div class="section-head">
+                        <h2>预习与学习图谱</h2>
+                        <p>先看知识点之间的关系，再按模板预习，最后进入篇章测试。</p>
+                    </div>
+                    <div class="learn-layout">
+                        <div class="knowledge-map" id="knowledgeMap"></div>
+                        <div class="learn-detail panel" id="learnDetail"></div>
                     </div>
                 </section>
 
