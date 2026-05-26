@@ -3,84 +3,96 @@ layout: default
 ---
 
 {% assign docs_posts = site.posts | where_exp: "post", "post.categories contains 'docs'" | sort: "date" | reverse %}
-{% assign review_posts = site.posts | where_exp: "post", "post.categories contains 'reading'" | sort: "date" | reverse %}
 {% assign projects = site.projects | sort: "order" %}
 
-<div class="home home-simple">
-    <section class="home-hero">
+<div class="home system-home">
+    <section class="system-hero">
         <div class="container">
-            <div class="home-hero-inner">
-                <p class="home-kicker">个人写作与 AI 产品记录</p>
-                <h1 class="home-title">{{ site.title }}</h1>
-                <p class="home-description">记录思考、阅读、AI 产品和一些长期整理。</p>
-                <div class="home-actions">
-                    <a href="{{ '/docs/' | relative_url }}">读文章</a>
-                    <a href="{{ '/reviews/' | relative_url }}">看书评</a>
-                    <a href="{{ '/labs/' | relative_url }}">AI 产品</a>
+            <div class="system-hero-inner">
+                <p class="system-kicker">AI Workflow / Personal System / One-person Business</p>
+                <h1 class="system-title">弓箭</h1>
+                <p class="system-subtitle">在 AI 时代，训练一种新的个人能力。</p>
+                <p class="system-description">
+                    我记录 AI 工具、知识系统、身体训练与一人公司实验。不是为了追热点，而是为了在组织之外，重新获得判断力、交付力和选择权。
+                </p>
+                <div class="system-actions">
+                    <a class="system-action-primary" href="{{ '/whitepaper/' | relative_url }}">查看白皮书</a>
+                    <a href="{{ '/docs/' | relative_url }}">阅读精选文章</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="home-section">
+    <section class="system-section">
         <div class="container">
-            <div class="home-section-header">
-                <h2>最新文章</h2>
+            <div class="system-section-header">
+                <p class="system-section-kicker">Risks</p>
+                <h2>现代职场人的四个风险</h2>
+            </div>
+            <div class="system-grid system-grid-four">
+                <article class="system-panel">
+                    <span>01</span>
+                    <h3>AI 改写工作方式</h3>
+                    <p>很多人仍停留在工具体验，没有把 AI 接入研究、写作、项目管理和交付流程。</p>
+                </article>
+                <article class="system-panel">
+                    <span>02</span>
+                    <h3>长期依赖组织</h3>
+                    <p>在平台内有资源和身份，离开组织后却缺少独立获客、独立交付和独立复盘能力。</p>
+                </article>
+                <article class="system-panel">
+                    <span>03</span>
+                    <h3>知识没有出口</h3>
+                    <p>读了很多书，做了很多笔记，但没有变成文章、产品、决策或可复用的方法。</p>
+                </article>
+                <article class="system-panel">
+                    <span>04</span>
+                    <h3>身体状态下滑</h3>
+                    <p>睡眠、训练、饮食和恢复失控，会持续侵蚀判断力、执行力和情绪稳定性。</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="system-section">
+        <div class="container">
+            <div class="system-section-header">
+                <p class="system-section-kicker">System</p>
+                <h2>我正在构建的个人系统</h2>
+            </div>
+            <div class="system-grid system-grid-three">
+                <article class="system-panel system-panel-strong">
+                    <h3>AI 工作流</h3>
+                    <p>用 AI 重构写作、研究、项目管理、自动化和内容生产，把工具变成稳定流程。</p>
+                </article>
+                <article class="system-panel system-panel-strong">
+                    <h3>知识与表达系统</h3>
+                    <p>让阅读、笔记、项目经验和真实问题形成出口，沉淀为文章、白皮书和产品原型。</p>
+                </article>
+                <article class="system-panel system-panel-strong">
+                    <h3>身体与纪律系统</h3>
+                    <p>用训练、饮食、睡眠和恢复维护长期输出能力，让身体成为判断力的底座。</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="system-section">
+        <div class="container">
+            <div class="system-section-header system-section-header-row">
+                <div>
+                    <p class="system-section-kicker">Writing</p>
+                    <h2>精选记录</h2>
+                </div>
                 <a href="{{ '/docs/' | relative_url }}">全部文章</a>
             </div>
-            <div class="home-list">
+            <div class="system-list">
                 {% for post in docs_posts limit: 6 %}
-                <article class="home-list-item">
+                <article class="system-list-item">
                     <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%Y.%m.%d" }}</time>
-                    <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-                    <p>{{ post.excerpt | default: post.content | strip_html | truncate: 96 }}</p>
-                </article>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <section class="home-section">
-        <div class="container">
-            <div class="home-section-header">
-                <h2>最新书评</h2>
-                <a href="{{ '/reviews/' | relative_url }}">全部书评</a>
-            </div>
-            <div class="home-list">
-                {% for post in review_posts limit: 6 %}
-                <article class="home-list-item">
-                    <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%Y.%m.%d" }}</time>
-                    <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-                    <p>
-                        {% if post.rating %}{{ post.rating }} · {% endif %}
-                        {{ post.excerpt | default: post.content | strip_html | truncate: 88 }}
-                    </p>
-                </article>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <section class="home-section">
-        <div class="container">
-            <div class="home-section-header">
-                <h2>AI 产品</h2>
-                <a href="{{ '/labs/' | relative_url }}">查看全部</a>
-            </div>
-            <div class="home-products">
-                {% for project in projects limit: 3 %}
-                {% assign target_link = project.link | default: project.url %}
-                <article class="home-product-item">
-                    {% if project.icon %}<span class="home-product-icon">{{ project.icon }}</span>{% endif %}
                     <div>
-                        <h3>
-                            {% if project.external %}
-                            <a href="{{ target_link }}" target="_blank" rel="noopener noreferrer">{{ project.title }}</a>
-                            {% else %}
-                            <a href="{{ target_link | relative_url }}">{{ project.title }}</a>
-                            {% endif %}
-                        </h3>
-                        <p>{{ project.short_description | default: project.description }}</p>
+                        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                        <p>{{ post.excerpt | default: post.content | strip_html | truncate: 108 }}</p>
                     </div>
                 </article>
                 {% endfor %}
@@ -88,116 +100,189 @@ layout: default
         </div>
     </section>
 
-    <section class="home-section home-section-last">
+    <section class="system-section system-callout-section">
         <div class="container">
-            <div class="home-section-header">
-                <h2>每日日报</h2>
-                <a href="{{ '/daily-report/' | relative_url }}">查看全部</a>
-            </div>
-            <article class="home-daily">
-                <time datetime="2026-05-15">2026.05.15</time>
-                <h3><a href="{{ '/daily-report/2026-05-15.html' | relative_url }}">宏观政策解读与全球资产配置策略</a></h3>
-                <p>全球货币政策周期定位、中美政策解读、资产配置中枢与战术交易方向。</p>
+            <article class="system-callout">
+                <div>
+                    <p class="system-section-kicker">Whitepaper</p>
+                    <h2>AI 时代个人系统白皮书</h2>
+                    <p>一份写给中高端职场人的 20 页行动手册。它不是 AI 工具清单，而是一套关于工作流、知识出口、身体底盘和个人商业化的系统框架。</p>
+                </div>
+                <a href="{{ '/whitepaper/' | relative_url }}">查看白皮书</a>
             </article>
+        </div>
+    </section>
+
+    <section class="system-section">
+        <div class="container">
+            <div class="system-section-header system-section-header-row">
+                <div>
+                    <p class="system-section-kicker">Lab</p>
+                    <h2>实验室</h2>
+                </div>
+                <a href="{{ '/labs/' | relative_url }}">查看全部</a>
+            </div>
+            <p class="system-section-intro">一些正在被验证的小工具、自动化流程和产品原型。</p>
+            <div class="system-grid system-grid-three">
+                {% for project in projects limit: 3 %}
+                {% assign target_link = project.link | default: project.url %}
+                <article class="system-panel system-project">
+                    {% if project.icon %}<span class="system-project-icon">{{ project.icon }}</span>{% endif %}
+                    <h3>
+                        {% if project.external %}
+                        <a href="{{ target_link }}" target="_blank" rel="noopener noreferrer">{{ project.title }}</a>
+                        {% else %}
+                        <a href="{{ target_link | relative_url }}">{{ project.title }}</a>
+                        {% endif %}
+                    </h3>
+                    <p>{{ project.short_description | default: project.description }}</p>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="system-section system-section-last">
+        <div class="container">
+            <div class="system-about">
+                <p class="system-section-kicker">About</p>
+                <h2>关于弓箭</h2>
+                <p>我长期关注项目管理、阅读、训练、AI 工具和个人系统建设。过去的经验来自组织，未来的能力必须能脱离组织独立运转。这个网站记录的，就是这个转变过程。</p>
+                <a href="{{ '/about/' | relative_url }}">了解更多</a>
+            </div>
         </div>
     </section>
 </div>
 
 <style>
-.home-simple {
+.system-home {
     background: var(--color-bg);
 }
 
-.home-hero {
-    padding: 72px 0 40px;
+.system-hero {
+    padding: 88px 0 56px;
     background: var(--color-bg);
 }
 
-.home-hero-inner {
-    max-width: var(--content-width);
+.system-hero-inner {
+    max-width: 780px;
 }
 
-.home-kicker {
+.system-kicker,
+.system-section-kicker {
     margin: 0 0 var(--spacing-xs);
-    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+    font-size: 12px;
     line-height: 1.6;
-    color: var(--color-text-secondary);
+    letter-spacing: 0;
+    text-transform: uppercase;
 }
 
-.home-title {
+.system-title {
     margin: 0;
-    font-size: 44px;
-    line-height: 1.16;
-    font-weight: 720;
     color: var(--color-text);
+    font-size: 56px;
+    line-height: 1.1;
+    font-weight: 720;
+    letter-spacing: 0;
 }
 
-.home-description {
-    max-width: 560px;
+.system-subtitle {
     margin: var(--spacing-sm) 0 0;
-    font-size: var(--font-size-large);
-    line-height: 1.75;
-    color: var(--color-text-secondary);
+    color: var(--color-text);
+    font-size: 28px;
+    line-height: 1.4;
+    font-weight: 650;
 }
 
-.home-actions {
+.system-description {
+    max-width: 720px;
+    margin: var(--spacing-sm) 0 0;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-large);
+    line-height: 1.85;
+}
+
+.system-actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
     margin-top: var(--spacing-md);
 }
 
-.home-actions a {
+.system-actions a,
+.system-callout a,
+.system-about a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-height: 40px;
     padding: 0 var(--spacing-sm);
     border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     color: var(--color-text);
     text-decoration: none;
     font-size: var(--font-size-small);
-    font-weight: 600;
+    font-weight: 650;
     transition: var(--transition);
 }
 
-.home-actions a:hover {
+.system-actions a:hover,
+.system-callout a:hover,
+.system-about a:hover {
     border-color: var(--color-primary);
     color: var(--color-primary);
     background: var(--color-bg-secondary);
 }
 
-.home-section {
-    padding: var(--spacing-lg) 0;
-    background: var(--color-bg);
+.system-actions .system-action-primary,
+.system-callout a {
+    border-color: var(--color-text);
+    background: var(--color-text);
+    color: var(--color-bg);
 }
 
-.home-section + .home-section {
+.system-actions .system-action-primary:hover,
+.system-callout a:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-bg);
+}
+
+.system-section {
+    padding: var(--spacing-lg) 0;
     border-top: 1px solid var(--color-border);
 }
 
-.home-section-last {
+.system-section-last {
     padding-bottom: var(--spacing-xl);
 }
 
-.home-section-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--spacing-md);
+.system-section-header {
+    max-width: 720px;
     margin-bottom: var(--spacing-md);
 }
 
-.home-section-header h2 {
+.system-section-header-row {
+    max-width: none;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+}
+
+.system-section-header h2,
+.system-callout h2,
+.system-about h2 {
     margin: 0;
+    color: var(--color-text);
     font-size: var(--font-size-h3);
     line-height: 1.35;
     font-weight: 680;
-    color: var(--color-text);
 }
 
-.home-section-header a {
+.system-section-header a {
     flex-shrink: 0;
     color: var(--color-text-secondary);
     text-decoration: none;
@@ -205,146 +290,204 @@ layout: default
     transition: var(--transition);
 }
 
-.home-section-header a:hover {
+.system-section-header a:hover {
     color: var(--color-primary);
 }
 
-.home-list {
+.system-section-intro {
+    max-width: 640px;
+    margin: calc(var(--spacing-md) * -0.5) 0 var(--spacing-md);
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+}
+
+.system-grid {
+    display: grid;
+    gap: var(--spacing-md);
+}
+
+.system-grid-four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.system-grid-three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.system-panel {
+    min-height: 176px;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-bg);
+}
+
+.system-panel span {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-secondary);
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.system-panel h3 {
+    margin: 0;
+    color: var(--color-text);
+    font-size: var(--font-size-large);
+    line-height: 1.45;
+    font-weight: 650;
+}
+
+.system-panel p {
+    margin: var(--spacing-xs) 0 0;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+    line-height: 1.75;
+}
+
+.system-panel-strong {
+    min-height: 148px;
+    background: var(--color-bg-secondary);
+}
+
+.system-list {
     display: grid;
     gap: var(--spacing-sm);
 }
 
-.home-list-item {
+.system-list-item {
     display: grid;
     grid-template-columns: 108px minmax(0, 1fr);
-    column-gap: var(--spacing-md);
-    row-gap: 4px;
+    gap: var(--spacing-md);
     padding: var(--spacing-sm) 0;
 }
 
-.home-list-item + .home-list-item {
+.system-list-item + .system-list-item {
     border-top: 1px solid var(--color-border);
 }
 
-.home-list-item time,
-.home-daily time {
+.system-list-item time {
     color: var(--color-text-secondary);
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
     font-size: var(--font-size-small);
     line-height: 1.7;
-    font-family: 'SF Mono', Monaco, Consolas, monospace;
 }
 
-.home-list-item h3,
-.home-product-item h3,
-.home-daily h3 {
+.system-list-item h3 {
     margin: 0;
     font-size: var(--font-size-large);
     line-height: 1.45;
     font-weight: 650;
 }
 
-.home-list-item h3 a,
-.home-product-item h3 a,
-.home-daily h3 a {
+.system-list-item h3 a,
+.system-project h3 a {
     color: var(--color-text);
     text-decoration: none;
     transition: var(--transition);
 }
 
-.home-list-item h3 a:hover,
-.home-product-item h3 a:hover,
-.home-daily h3 a:hover {
+.system-list-item h3 a:hover,
+.system-project h3 a:hover {
     color: var(--color-primary);
 }
 
-.home-list-item p {
-    grid-column: 2;
-    margin: 0;
+.system-list-item p {
+    margin: var(--spacing-xs) 0 0;
     color: var(--color-text-secondary);
-    font-size: var(--font-size-base);
     line-height: 1.75;
 }
 
-.home-products {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--spacing-md);
-}
-
-.home-product-item {
-    display: flex;
-    gap: var(--spacing-sm);
-    align-items: flex-start;
-    padding: var(--spacing-sm);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-}
-
-.home-product-icon {
+.system-callout {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     background: var(--color-bg-secondary);
-    font-size: 20px;
 }
 
-.home-product-item p,
-.home-daily p {
-    margin: var(--spacing-xs) 0 0;
+.system-callout p,
+.system-about p {
+    max-width: 760px;
+    margin: var(--spacing-sm) 0 0;
     color: var(--color-text-secondary);
     font-size: var(--font-size-base);
-    line-height: 1.7;
+    line-height: 1.8;
 }
 
-.home-daily {
-    max-width: var(--content-width);
+.system-project {
+    min-height: 168px;
+}
+
+.system-project-icon {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-size: 24px;
+    line-height: 1;
+}
+
+.system-about {
+    max-width: 820px;
+}
+
+.system-about a {
+    margin-top: var(--spacing-md);
+}
+
+@media (max-width: 900px) {
+    .system-grid-four,
+    .system-grid-three {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 768px) {
-    .home-hero {
-        padding: 48px 0 28px;
+    .system-hero {
+        padding: 56px 0 36px;
     }
 
-    .home-title {
-        font-size: 34px;
+    .system-title {
+        font-size: 40px;
     }
 
-    .home-description {
+    .system-subtitle {
+        font-size: 22px;
+    }
+
+    .system-description {
         font-size: var(--font-size-base);
     }
 
-    .home-actions {
-        gap: var(--spacing-xs);
-    }
-
-    .home-actions a {
+    .system-actions a {
         flex: 1 1 auto;
     }
 
-    .home-section {
+    .system-section {
         padding: var(--spacing-md) 0;
     }
 
-    .home-section-header {
-        margin-bottom: var(--spacing-sm);
+    .system-section-header-row,
+    .system-callout {
+        display: block;
     }
 
-    .home-list-item {
+    .system-section-header-row a,
+    .system-callout a {
+        margin-top: var(--spacing-sm);
+    }
+
+    .system-grid-four,
+    .system-grid-three {
+        grid-template-columns: 1fr;
+    }
+
+    .system-list-item {
         grid-template-columns: 1fr;
         gap: 2px;
-    }
-
-    .home-list-item p {
-        grid-column: 1;
-    }
-
-    .home-products {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-sm);
     }
 }
 </style>

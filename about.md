@@ -15,7 +15,7 @@ permalink: /about/
             <p class="about-subtitle">{{ site.subtitle }}</p>
             {% endif %}
             <p class="about-description">
-                👋 分享技术实践和经验，希望能帮助更多人。如果你有任何问题，欢迎联系我。
+                我长期关注项目管理、阅读、训练、AI 工具和个人系统建设。过去的经验来自组织，未来的能力必须能脱离组织独立运转。这个网站记录的，就是这个转变过程。
             </p>
             {% if site.social.twitter %}
             <div class="about-actions">
@@ -28,8 +28,8 @@ permalink: /about/
         
         <div class="about-content">
             <div class="about-section">
-                <h2 class="section-title">开发实验室</h2>
-                <p class="section-description">我做过的项目</p>
+                <h2 class="section-title">实验室</h2>
+                <p class="section-description">正在被验证的小工具、自动化流程和产品原型。</p>
                 {% assign projects = site.projects | sort: "order" %}
                 {% if projects.size > 0 %}
                 <div class="projects-grid">

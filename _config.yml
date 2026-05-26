@@ -1,7 +1,7 @@
 # Jekyll配置
-title: "弓箭的博客"
-subtitle: "记录思考、分享知识、探索世界"  # 副标题，显示在关于页面
-description: "记录思考、分享知识、探索世界"
+title: "弓箭"
+subtitle: "在 AI 时代，训练一种新的个人能力。"  # 副标题，显示在关于页面
+description: "弓箭的个人系统入口：记录 AI 工具、知识系统、身体训练与一人公司实验。"
 author: "gong"
 email: ""
 url: "https://gonghejian.cn"
@@ -45,14 +45,10 @@ navigation:
     url: /
   - title: 文章
     url: /docs/
-  - title: 书评
-    url: /reviews/
-  - title: 2026 阅读
-    url: /2026-reading/
-  - title: AI 产品
+  - title: 白皮书
+    url: /whitepaper/
+  - title: 实验室
     url: /labs/
-  - title: 每日日报
-    url: /daily-report/
   - title: 关于
     url: /about/
 
