@@ -28,11 +28,11 @@
     };
 
     const palettes = {
-        editorial: ['#fff1df', '#17202a', '#e11d48', '#fffaf1', '#2563eb'],
-        notebook: ['#fff7ed', '#2d2a26', '#e11d48', '#facc15', '#2563eb'],
-        minimal: ['#f8fafc', '#111827', '#0f766e', '#e5e7eb', '#f97316'],
-        tech: ['#101828', '#f8fafc', '#38bdf8', '#1e293b', '#f59e0b'],
-        warm: ['#f3e6d0', '#3b2f2f', '#b45309', '#fffaf1', '#7c2d12']
+        editorial: ['#fff4f6', '#111827', '#ff2d55', '#ffffff', '#2563eb'],
+        notebook: ['#fff7ed', '#231f20', '#ff6b00', '#ffffff', '#0f9f6e'],
+        minimal: ['#f8fafc', '#111827', '#0f766e', '#ffffff', '#ff2d55'],
+        tech: ['#111827', '#f8fafc', '#38bdf8', '#172554', '#f59e0b'],
+        warm: ['#fff2df', '#2b2118', '#d9480f', '#ffffff', '#7c3aed']
     };
 
     const hookMap = {
@@ -212,16 +212,27 @@
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, w, h);
 
-        ctx.globalAlpha = 0.14;
+        ctx.globalAlpha = 0.1;
         ctx.fillStyle = colors[2];
-        ctx.beginPath();
-        ctx.arc(w * 0.86, h * 0.16, w * 0.2, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.fillRect(w * 0.74, 0, w * 0.26, h);
         ctx.fillStyle = colors[4];
-        ctx.beginPath();
-        ctx.arc(w * 0.08, h * 0.84, w * 0.26, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.fillRect(0, h * 0.78, w, h * 0.22);
         ctx.globalAlpha = 1;
+
+        ctx.strokeStyle = style === 'tech' ? 'rgba(255,255,255,0.06)' : 'rgba(17,24,39,0.045)';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < w; x += 48) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, h);
+            ctx.stroke();
+        }
+        for (let y = 0; y < h; y += 48) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(w, y);
+            ctx.stroke();
+        }
     }
 
     function currentKnowledge() {
@@ -241,55 +252,55 @@
         const pad = Math.round(w * 0.07);
 
         drawBackground(colors, style);
-        drawRoundRect(pad, pad, w - pad * 2, h - pad * 2, 28, style === 'tech' ? 'rgba(15,23,42,0.84)' : 'rgba(255,255,255,0.82)');
+        drawRoundRect(pad, pad, w - pad * 2, h - pad * 2, 30, style === 'tech' ? 'rgba(15,23,42,0.9)' : '#ffffff');
 
-        drawRoundRect(pad + 30, pad + 26, Math.round(w * 0.34), Math.round(w * 0.07), 999, colors[2]);
+        drawRoundRect(pad + 30, pad + 26, Math.round(w * 0.32), Math.round(w * 0.066), 999, colors[2]);
         ctx.fillStyle = '#ffffff';
-        ctx.font = `800 ${Math.round(w * 0.03)}px sans-serif`;
-        ctx.fillText(hook.badge, pad + 54, pad + Math.round(w * 0.073));
+        ctx.font = `900 ${Math.round(w * 0.028)}px sans-serif`;
+        ctx.fillText(hook.badge, pad + 54, pad + Math.round(w * 0.071));
 
-        ctx.fillStyle = colors[2];
-        ctx.font = `800 ${Math.round(w * 0.034)}px sans-serif`;
+        ctx.fillStyle = style === 'tech' ? '#bfdbfe' : '#667085';
+        ctx.font = `800 ${Math.round(w * 0.026)}px sans-serif`;
         ctx.textAlign = 'right';
-        ctx.fillText(`${type.mark} / INFOGRAPHIC`, w - pad - 36, pad + 60);
+        ctx.fillText(`${type.mark} · KNOWLEDGE CARD`, w - pad - 36, pad + 58);
         ctx.textAlign = 'left';
 
         let y = pad + Math.round(h * 0.18);
         ctx.fillStyle = style === 'tech' ? '#e0f2fe' : colors[1];
         wrapText(controls.title.value, w < 1000 ? 10 : 12).slice(0, 3).forEach((line) => {
-            ctx.font = `900 ${Math.round(w * (line.length <= 6 ? 0.09 : 0.078))}px sans-serif`;
+            ctx.font = `900 ${Math.round(w * (line.length <= 6 ? 0.088 : 0.074))}px sans-serif`;
             ctx.fillText(line, pad + 36, y);
-            ctx.globalAlpha = 0.18;
+            ctx.globalAlpha = 0.16;
             ctx.fillStyle = colors[2];
-            ctx.fillRect(pad + 36, y + Math.round(w * 0.014), Math.min(w * 0.68, line.length * w * 0.075), Math.round(w * 0.025));
+            ctx.fillRect(pad + 36, y + Math.round(w * 0.012), Math.min(w * 0.66, line.length * w * 0.07), Math.round(w * 0.022));
             ctx.globalAlpha = 1;
             ctx.fillStyle = style === 'tech' ? '#e0f2fe' : colors[1];
-            y += Math.round(w * 0.1);
+            y += Math.round(w * 0.095);
         });
 
         ctx.fillStyle = style === 'tech' ? '#bae6fd' : '#4b5563';
         ctx.font = `500 ${Math.round(w * 0.035)}px sans-serif`;
         wrapText(controls.subtitle.value, 18).slice(0, 2).forEach((line) => {
             ctx.fillText(line, pad + 40, y + 8);
-            y += Math.round(w * 0.048);
+            y += Math.round(w * 0.046);
         });
 
-        const diagramY = Math.max(y + 44, h * 0.43);
-        drawKnowledgeDiagram(knowledge, colors, style, pad + 36, diagramY, w - pad * 2 - 72, h * 0.34);
+        const diagramY = Math.max(y + 42, h * 0.41);
+        drawKnowledgeDiagram(knowledge, colors, style, pad + 36, diagramY, w - pad * 2 - 72, h * 0.38);
 
-        const quoteY = h - pad - Math.round(h * 0.19);
-        drawRoundRect(pad + 36, quoteY, w - pad * 2 - 72, Math.round(h * 0.105), 20, style === 'tech' ? 'rgba(56,189,248,0.12)' : 'rgba(255,250,241,0.9)');
+        const quoteY = h - pad - Math.round(h * 0.16);
+        drawRoundRect(pad + 36, quoteY, w - pad * 2 - 72, Math.round(h * 0.09), 20, style === 'tech' ? 'rgba(56,189,248,0.12)' : '#f8fafc');
         ctx.fillStyle = colors[2];
-        ctx.font = `800 ${Math.round(w * 0.03)}px sans-serif`;
+        ctx.font = `900 ${Math.round(w * 0.028)}px sans-serif`;
         ctx.fillText(`# ${controls.tag.value}`, pad + 62, quoteY + 42);
         ctx.fillStyle = style === 'tech' ? '#f8fafc' : colors[1];
-        ctx.font = `500 ${Math.round(w * 0.03)}px sans-serif`;
-        wrapText(controls.quote.value, 24).slice(0, 2).forEach((line, index) => {
-            ctx.fillText(line, pad + 62, quoteY + 82 + index * Math.round(w * 0.045));
+        ctx.font = `600 ${Math.round(w * 0.028)}px sans-serif`;
+        wrapText(controls.quote.value, 25).slice(0, 2).forEach((line, index) => {
+            ctx.fillText(line, pad + 62, quoteY + 78 + index * Math.round(w * 0.04));
         });
 
         ctx.fillStyle = style === 'tech' ? '#cbd5e1' : '#4b5563';
-        ctx.font = `600 ${Math.round(w * 0.028)}px sans-serif`;
+        ctx.font = `700 ${Math.round(w * 0.026)}px sans-serif`;
         ctx.fillText(`${controls.author.value || '弓箭'} · ${type.label}`, pad + 36, h - pad - 38);
 
         updatePrompt();
@@ -309,26 +320,37 @@
     }
 
     function drawTimeline(knowledge, colors, style, x, y, width, height) {
-        const lineY = y + height * 0.48;
+        drawRoundRect(x, y, width, height, 24, style === 'tech' ? 'rgba(255,255,255,0.08)' : '#f8fafc');
+        const lineY = y + height * 0.26;
         ctx.strokeStyle = colors[2];
         ctx.lineWidth = 6;
         ctx.beginPath();
-        ctx.moveTo(x + 22, lineY);
-        ctx.lineTo(x + width - 22, lineY);
+        ctx.moveTo(x + 34, lineY);
+        ctx.lineTo(x + width - 34, lineY);
         ctx.stroke();
 
         knowledge.labels.forEach((label, index) => {
-            const px = x + (width / (knowledge.labels.length - 1)) * index;
+            const px = x + 34 + ((width - 68) / (knowledge.labels.length - 1)) * index;
             ctx.fillStyle = index % 2 === 0 ? colors[2] : colors[4];
             ctx.beginPath();
             ctx.arc(px, lineY, 16, 0, Math.PI * 2);
             ctx.fill();
             ctx.fillStyle = style === 'tech' ? '#e0f2fe' : '#17202a';
-            ctx.font = `800 ${Math.round(canvas.width * 0.028)}px sans-serif`;
+            ctx.font = `900 ${Math.round(canvas.width * 0.024)}px sans-serif`;
             ctx.textAlign = 'center';
-            ctx.fillText(label, px, lineY + (index % 2 === 0 ? -34 : 52));
+            ctx.fillText(label, px, lineY + 48);
         });
         ctx.textAlign = 'left';
+
+        const cardGap = 12;
+        const cardW = (width - cardGap) / 2;
+        const cardH = (height * 0.54 - cardGap) / 2;
+        const startY = y + height * 0.42;
+        knowledge.sections.forEach((item, index) => {
+            const cx = x + (index % 2) * (cardW + cardGap);
+            const cy = startY + Math.floor(index / 2) * (cardH + cardGap);
+            drawInfoCard(item, index, colors, style, cx, cy, cardW, cardH);
+        });
     }
 
     function drawMatrix(knowledge, colors, style, x, y, width, height) {
@@ -338,15 +360,7 @@
         knowledge.sections.forEach((item, index) => {
             const cx = x + (index % 2) * (cardW + gap);
             const cy = y + Math.floor(index / 2) * (cardH + gap);
-            drawRoundRect(cx, cy, cardW, cardH, 18, style === 'tech' ? 'rgba(248,250,252,0.1)' : '#ffffff');
-            ctx.fillStyle = colors[2];
-            ctx.font = `900 ${Math.round(canvas.width * 0.032)}px sans-serif`;
-            ctx.fillText(item.title, cx + 22, cy + 44);
-            ctx.fillStyle = style === 'tech' ? '#dbeafe' : '#4b5563';
-            ctx.font = `500 ${Math.round(canvas.width * 0.025)}px sans-serif`;
-            wrapText(item.body, 15).slice(0, 2).forEach((line, lineIndex) => {
-                ctx.fillText(line, cx + 22, cy + 82 + lineIndex * 30);
-            });
+            drawInfoCard(item, index, colors, style, cx, cy, cardW, cardH);
         });
     }
 
@@ -355,15 +369,36 @@
         const cardH = (height - gap * 3) / 4;
         knowledge.sections.forEach((item, index) => {
             const cy = y + index * (cardH + gap);
-            drawRoundRect(x, cy, width, cardH, 18, style === 'tech' ? 'rgba(248,250,252,0.1)' : '#ffffff');
-            ctx.fillStyle = colors[2];
-            ctx.font = `900 ${Math.round(canvas.width * 0.03)}px sans-serif`;
-            ctx.fillText(`0${index + 1}`, x + 22, cy + 40);
-            ctx.fillStyle = style === 'tech' ? '#e0f2fe' : '#17202a';
-            ctx.fillText(item.title, x + 92, cy + 40);
-            ctx.fillStyle = style === 'tech' ? '#dbeafe' : '#4b5563';
-            ctx.font = `500 ${Math.round(canvas.width * 0.024)}px sans-serif`;
-            ctx.fillText(wrapText(item.body, 24)[0] || '', x + 92, cy + 76);
+            drawInfoCard(item, index, colors, style, x, cy, width, cardH);
+        });
+    }
+
+    function drawInfoCard(item, index, colors, style, x, y, width, height) {
+        const fill = style === 'tech' ? 'rgba(248,250,252,0.1)' : '#ffffff';
+        drawRoundRect(x, y, width, height, 18, fill);
+
+        ctx.globalAlpha = style === 'tech' ? 0.14 : 0.08;
+        ctx.fillStyle = index % 2 === 0 ? colors[2] : colors[4];
+        ctx.fillRect(x, y, width, height);
+        ctx.globalAlpha = 1;
+
+        const badgeSize = Math.min(46, height * 0.32);
+        drawRoundRect(x + 18, y + 18, badgeSize, badgeSize, 12, index % 2 === 0 ? colors[2] : colors[4]);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `900 ${Math.round(canvas.width * 0.024)}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText(`0${index + 1}`, x + 18 + badgeSize / 2, y + 18 + badgeSize * 0.64);
+        ctx.textAlign = 'left';
+
+        const textX = x + 18 + badgeSize + 16;
+        ctx.fillStyle = style === 'tech' ? '#e0f2fe' : '#111827';
+        ctx.font = `900 ${Math.round(canvas.width * 0.028)}px sans-serif`;
+        ctx.fillText(item.title, textX, y + 43);
+
+        ctx.fillStyle = style === 'tech' ? '#dbeafe' : '#475467';
+        ctx.font = `600 ${Math.round(canvas.width * 0.022)}px sans-serif`;
+        wrapText(item.body, width > canvas.width * 0.6 ? 24 : 13).slice(0, 2).forEach((line, lineIndex) => {
+            ctx.fillText(line, textX, y + 76 + lineIndex * Math.round(canvas.width * 0.032));
         });
     }
 
@@ -521,7 +556,7 @@
         }
     });
 
-    document.querySelectorAll('input[name="ratio"], input[name="imageMode"], input[name="hookType"]').forEach((radio) => {
+    document.querySelectorAll('input[name="ratio"], input[name="hookType"]').forEach((radio) => {
         radio.addEventListener('change', drawCover);
     });
     document.querySelectorAll('.template-card').forEach((card) => {

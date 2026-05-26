@@ -2,12 +2,26 @@
     box-sizing: border-box;
 }
 
+:root {
+    --ink: #171923;
+    --muted: #667085;
+    --line: rgba(23, 25, 35, 0.1);
+    --paper: #ffffff;
+    --soft: #f7f8fb;
+    --rose: #ff2d55;
+    --orange: #ff7a1a;
+    --blue: #2563eb;
+    --green: #0f9f6e;
+    --shadow: 0 18px 50px rgba(24, 32, 56, 0.12);
+}
+
 body {
     margin: 0;
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    color: #17202a;
-    background: #f6f2ea;
+    color: var(--ink);
+    background:
+        linear-gradient(180deg, #fff7f8 0%, #f7f8fb 34%, #eef6ff 100%);
 }
 
 button,
@@ -17,10 +31,14 @@ textarea {
     font: inherit;
 }
 
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
 .xhs-app {
-    width: min(1240px, calc(100% - 32px));
+    width: min(1320px, calc(100% - 32px));
     margin: 0 auto;
-    padding-bottom: 40px;
+    padding-bottom: 48px;
 }
 
 .product-topbar {
@@ -28,14 +46,14 @@ textarea {
     top: 0;
     z-index: 10;
     margin: 0 calc((100% - 100vw) / 2);
-    background: rgba(246, 242, 234, 0.92);
-    border-bottom: 1px solid rgba(23, 32, 42, 0.1);
+    background: rgba(255, 255, 255, 0.76);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.82);
     backdrop-filter: blur(18px);
 }
 
 .product-topbar-inner {
-    width: min(1240px, calc(100% - 32px));
-    min-height: 66px;
+    width: min(1320px, calc(100% - 32px));
+    min-height: 64px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -44,13 +62,14 @@ textarea {
 }
 
 .product-name {
-    font-weight: 800;
+    font-weight: 900;
     font-size: 15px;
+    letter-spacing: 0;
 }
 
 .product-tagline {
     margin-top: 2px;
-    color: #6b7280;
+    color: var(--muted);
     font-size: 12px;
 }
 
@@ -61,45 +80,60 @@ textarea {
 }
 
 .product-nav a,
-.product-nav button,
 .secondary-button,
 .prompt-header button {
     min-height: 38px;
-    padding: 0 13px;
-    border: 1px solid rgba(23, 32, 42, 0.16);
+    padding: 0 14px;
+    border: 1px solid var(--line);
     border-radius: 8px;
-    background: #fffaf1;
-    color: #17202a;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--ink);
     text-decoration: none;
     cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.product-nav a:hover,
+.secondary-button:hover,
+.prompt-header button:hover {
+    border-color: rgba(255, 45, 85, 0.3);
+    box-shadow: 0 8px 24px rgba(24, 32, 56, 0.08);
+    transform: translateY(-1px);
 }
 
 .product-hero {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 340px;
-    gap: 24px;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 28px;
     align-items: end;
-    padding: 36px 0 28px;
+    padding: 42px 0 28px;
 }
 
 .product-kicker {
-    margin: 0 0 10px;
-    color: #c2410c;
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    margin: 0 0 12px;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 45, 85, 0.18);
+    border-radius: 8px;
+    background: rgba(255, 45, 85, 0.08);
+    color: #d91f48;
     font-size: 13px;
-    font-weight: 800;
+    font-weight: 900;
 }
 
 .product-hero h1 {
     margin: 0;
-    max-width: 760px;
-    font-size: 42px;
-    line-height: 1.14;
+    max-width: 790px;
+    font-size: 44px;
+    line-height: 1.12;
     letter-spacing: 0;
 }
 
 .product-hero p {
     margin: 16px 0 0;
-    max-width: 730px;
+    max-width: 760px;
     color: #4b5563;
     font-size: 16px;
     line-height: 1.85;
@@ -107,32 +141,37 @@ textarea {
 
 .product-stats {
     display: grid;
+    grid-template-columns: 1fr;
     gap: 10px;
 }
 
 .product-stats div {
-    min-height: 76px;
-    padding: 14px;
-    border: 1px solid rgba(23, 32, 42, 0.12);
+    min-height: 78px;
+    padding: 15px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.86);
     border-radius: 8px;
-    background: rgba(255, 250, 241, 0.74);
+    background: rgba(255, 255, 255, 0.76);
+    box-shadow: 0 12px 34px rgba(24, 32, 56, 0.08);
 }
 
 .product-stats span {
     display: block;
-    color: #6b7280;
+    color: var(--muted);
     font-size: 12px;
+    font-weight: 700;
 }
 
 .product-stats strong {
     display: block;
     margin-top: 8px;
+    color: var(--ink);
     font-size: 17px;
+    line-height: 1.25;
 }
 
 .workspace {
     display: grid;
-    grid-template-columns: 420px minmax(0, 1fr);
+    grid-template-columns: 430px minmax(0, 1fr);
     gap: 24px;
     align-items: start;
 }
@@ -141,15 +180,15 @@ textarea {
 .preview-panel,
 .prompt-panel,
 .publish-panel {
-    border: 1px solid rgba(23, 32, 42, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.88);
     border-radius: 8px;
-    background: rgba(255, 250, 241, 0.88);
-    box-shadow: 0 18px 42px rgba(69, 48, 28, 0.08);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: var(--shadow);
 }
 
 .control-panel {
     position: sticky;
-    top: 86px;
+    top: 84px;
     padding: 22px;
 }
 
@@ -157,11 +196,13 @@ textarea {
 .prompt-header h2 {
     margin: 0;
     font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 0;
 }
 
 .panel-header p {
-    margin: 6px 0 18px;
-    color: #6b7280;
+    margin: 7px 0 18px;
+    color: var(--muted);
     font-size: 13px;
     line-height: 1.6;
 }
@@ -174,14 +215,20 @@ textarea {
 }
 
 .template-card {
-    min-height: 74px;
-    padding: 11px;
-    border: 1px solid rgba(23, 32, 42, 0.14);
+    min-height: 82px;
+    padding: 13px;
+    border: 1px solid var(--line);
     border-radius: 8px;
-    background: #ffffff;
-    color: #17202a;
+    background: var(--paper);
+    color: var(--ink);
     text-align: left;
     cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.template-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(24, 32, 56, 0.1);
 }
 
 .template-card strong,
@@ -191,19 +238,20 @@ textarea {
 
 .template-card strong {
     font-size: 14px;
+    font-weight: 900;
 }
 
 .template-card span {
-    margin-top: 5px;
-    color: #6b7280;
+    margin-top: 6px;
+    color: var(--muted);
     font-size: 12px;
     line-height: 1.45;
 }
 
 .template-card.active {
-    border-color: #d97706;
-    background: #fff7ed;
-    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+    border-color: rgba(255, 45, 85, 0.38);
+    background: linear-gradient(180deg, #fff5f7 0%, #ffffff 100%);
+    box-shadow: 0 0 0 3px rgba(255, 45, 85, 0.1), 0 10px 28px rgba(255, 45, 85, 0.1);
 }
 
 .field-grid {
@@ -220,26 +268,29 @@ textarea {
 
 .field span,
 .ratio-field legend {
-    color: #4b5563;
+    color: #344054;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 .field input,
 .field select,
 .field textarea,
-#promptOutput {
+#promptOutput,
+#noteOutput {
     width: 100%;
-    border: 1px solid rgba(23, 32, 42, 0.14);
+    border: 1px solid rgba(23, 25, 35, 0.12);
     border-radius: 8px;
     background: #ffffff;
-    color: #17202a;
-    padding: 11px 12px;
+    color: var(--ink);
+    padding: 12px 13px;
     outline: none;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .field textarea,
-#promptOutput {
+#promptOutput,
+#noteOutput {
     resize: vertical;
     line-height: 1.7;
 }
@@ -247,13 +298,13 @@ textarea {
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-    border-color: #d97706;
-    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.14);
+    border-color: rgba(255, 45, 85, 0.55);
+    box-shadow: 0 0 0 4px rgba(255, 45, 85, 0.12);
 }
 
 .ratio-field {
     display: flex;
-    gap: 10px;
+    gap: 9px;
     flex-wrap: wrap;
     margin: 0 0 16px;
     padding: 0;
@@ -270,16 +321,16 @@ textarea {
     align-items: center;
     gap: 6px;
     min-height: 36px;
-    padding: 0 10px;
-    border: 1px solid rgba(23, 32, 42, 0.14);
+    padding: 0 11px;
+    border: 1px solid rgba(23, 25, 35, 0.12);
     border-radius: 8px;
-    background: #fff;
+    background: #ffffff;
     font-size: 13px;
     cursor: pointer;
 }
 
 .ratio-field input {
-    accent-color: #d97706;
+    accent-color: var(--rose);
 }
 
 .actions {
@@ -288,15 +339,26 @@ textarea {
     flex-wrap: wrap;
 }
 
+.compact-actions {
+    margin-bottom: 16px;
+}
+
 .primary-button {
     min-height: 42px;
-    padding: 0 16px;
+    padding: 0 17px;
     border: 0;
     border-radius: 8px;
-    background: #17202a;
+    background: linear-gradient(135deg, #ff2d55 0%, #ff7a1a 100%);
     color: #ffffff;
-    font-weight: 800;
+    font-weight: 900;
     cursor: pointer;
+    box-shadow: 0 12px 28px rgba(255, 45, 85, 0.22);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.primary-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 34px rgba(255, 45, 85, 0.28);
 }
 
 .secondary-button {
@@ -305,12 +367,8 @@ textarea {
 
 .status-line {
     margin: 12px 0 0;
-    color: #6b7280;
+    color: var(--muted);
     font-size: 12px;
-}
-
-.compact-actions {
-    margin-bottom: 16px;
 }
 
 .preview-panel {
@@ -318,21 +376,41 @@ textarea {
 }
 
 .canvas-shell {
+    position: relative;
     display: grid;
     place-items: center;
-    min-height: 520px;
-    padding: 18px;
+    min-height: 700px;
+    padding: 28px;
     border-radius: 8px;
-    background: #dfd5c4;
+    background:
+        linear-gradient(135deg, rgba(255, 45, 85, 0.08), rgba(37, 99, 235, 0.08)),
+        #f2f4f8;
     overflow: hidden;
 }
 
-#coverCanvas {
-    width: min(100%, 450px);
-    height: auto;
-    max-height: 78vh;
+.canvas-shell::before {
+    content: "实时预览";
+    position: absolute;
+    top: 16px;
+    left: 18px;
+    min-height: 30px;
+    padding: 6px 10px;
+    border: 1px solid rgba(23, 25, 35, 0.08);
     border-radius: 8px;
-    box-shadow: 0 20px 50px rgba(23, 32, 42, 0.22);
+    background: rgba(255, 255, 255, 0.82);
+    color: #344054;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+#coverCanvas {
+    width: min(100%, 470px);
+    height: auto;
+    max-height: 82vh;
+    border-radius: 8px;
+    box-shadow:
+        0 24px 70px rgba(24, 32, 56, 0.22),
+        0 0 0 10px rgba(255, 255, 255, 0.68);
     background: #fff;
 }
 
@@ -340,7 +418,7 @@ textarea {
 .publish-panel {
     margin-top: 16px;
     padding: 16px;
-    box-shadow: none;
+    box-shadow: 0 12px 32px rgba(24, 32, 56, 0.08);
 }
 
 .prompt-header {
@@ -354,29 +432,37 @@ textarea {
 #promptOutput {
     min-height: 150px;
     color: #374151;
-    background: #fff;
+    background: #ffffff;
 }
 
 .title-options {
     display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
     margin-bottom: 12px;
 }
 
 .title-option {
-    padding: 10px 12px;
-    border: 1px solid rgba(23, 32, 42, 0.12);
+    padding: 11px 12px;
+    border: 1px solid rgba(23, 25, 35, 0.1);
     border-radius: 8px;
     background: #ffffff;
-    color: #17202a;
+    color: var(--ink);
     text-align: left;
     cursor: pointer;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.title-option:hover {
+    border-color: rgba(255, 45, 85, 0.32);
+    box-shadow: 0 8px 22px rgba(24, 32, 56, 0.08);
+    transform: translateY(-1px);
 }
 
 .title-option strong {
     display: block;
-    margin-bottom: 2px;
-    color: #c2410c;
+    margin-bottom: 3px;
+    color: #e11d48;
     font-size: 12px;
 }
 
@@ -387,19 +473,11 @@ textarea {
 }
 
 #noteOutput {
-    width: 100%;
-    min-height: 220px;
-    border: 1px solid rgba(23, 32, 42, 0.14);
-    border-radius: 8px;
-    background: #ffffff;
+    min-height: 230px;
     color: #374151;
-    padding: 11px 12px;
-    line-height: 1.7;
-    resize: vertical;
-    outline: none;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1080px) {
     .product-hero,
     .workspace {
         grid-template-columns: 1fr;
@@ -408,11 +486,15 @@ textarea {
     .control-panel {
         position: static;
     }
+
+    .canvas-shell {
+        min-height: auto;
+    }
 }
 
 @media (max-width: 640px) {
     .xhs-app {
-        width: min(100% - 20px, 1240px);
+        width: min(100% - 20px, 1320px);
     }
 
     .product-topbar-inner {
@@ -432,7 +514,8 @@ textarea {
 
     .field-grid,
     .actions,
-    .template-strip {
+    .template-strip,
+    .title-options {
         grid-template-columns: 1fr;
     }
 
@@ -441,7 +524,6 @@ textarea {
     }
 
     .canvas-shell {
-        min-height: auto;
-        padding: 10px;
+        padding: 20px 10px 12px;
     }
 }
