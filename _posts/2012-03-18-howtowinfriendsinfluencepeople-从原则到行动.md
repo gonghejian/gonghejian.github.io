@@ -3,7 +3,7 @@ layout: "post"
 title: "How to Win Friends & Influence People - 从原则到行动"
 date: "2012-03-18 11:16:55 +0800"
 categories: ["reading"]
-tags: ["豆瓣书评"]
+tags: ["阅读", "沟通", "影响力", "交付力", "个人系统"]
 author: "gong"
 book_title: "How to Win Friends & Influence People"
 book_url: "https://book.douban.com/subject/1388210/"
@@ -11,44 +11,88 @@ rating: "推荐"
 source_url: "https://book.douban.com/review/5350284/"
 ---
 
-> ## 书籍信息
-> - **书名**: How to Win Friends & Influence People
-> - **评分**: 推荐
-> - **链接**: [How to Win Friends & Influence People](https://book.douban.com/subject/1388210/)
+![会议桌上的笔记和咖啡](https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=80)
 
-Six ways to make people like you
-Principle1
-Become grnuinely interested in other people
-Principle2
-smile
-Principle3
-Remember that a peoson's name is to that person the sweetest and most Important sound in any language.
-Principle4
-Be a good listener.Enconrage others to talk about themselves.
-Principle5
-Talk in terms of the other person's interests.
-Principle6
-Make the other people feel important—and do it sincerely.
-How to win people to your way of thinking
-1、The only way to get the best of an argument is to aviod it.
-2、Show respect for the other person's opinions.Nerer says,"You're wrong."
-3、If you are wrong,admit it quickly and emphatically.
-4、Begin in a friendly way.
-5、Get the other person saying"yes,yes"immediately.
-6、Let the other person do a great deal of the talking.
-7、Let the oterh person feel that the idea is his or hers.
-8、Try honestly to see things from the other person's point of view.
-9、Be sympathetic with the other person's ideas and desires.
-10、Appeal to the nobler motives.
-11、Dramatize your ideas.
-12、Throw down a challenge.
-Be a leader
-1、Begin with praise and honest appreciation.
-2、Call attention to people's mistake indirectly.
-3、Talk about your own mistake before criticizing the other person.
-4、Ask questions instead of giving direct orders.
-5、Let the other person save face.
-6、Praise the slightest improvement and praise every improvment.Be"hearty in your approbation and lavish in your prasie"
-7、Give the other person a fine reputation to live up to.
-8、Use encouragement.Make the fault seem easy to correct.
-9、Make the other person happy about doing the thing your suggest.
+卡耐基这本书很容易被误读。
+
+很多人把它当成一套“讨人喜欢”的技巧：多微笑，记住别人的名字，夸奖别人，避免争论。这样读当然也有用，但如果只读到这一层，它就会变成一种社交表演。表演久了，人会累，别人也会感觉到不真诚。
+
+我更愿意把它看成一本关于交付力的书。
+
+所谓交付力，不只是把事情做完。很多工作真正困难的部分，不在方案本身，而在于让别人理解、接受、参与，并愿意一起把事情往前推。组织里的大多数成果，都不是一个人独自完成的。你能不能影响别人，能不能减少对抗，能不能让讨论从情绪回到问题，本身就是一种工作能力。
+
+## 一、影响力的起点不是表达，而是看见别人
+
+书里反复讲一个原则：真正对别人感兴趣。
+
+这句话听起来简单，但在工作里很难。我们开会时，经常并不是在听别人说什么，而是在等自己发言。我们想证明自己的方案更好，想尽快纠正对方的错误，想把讨论拉回自己熟悉的框架。
+
+结果就是，很多沟通表面上在交换信息，实际上是在争夺位置。
+
+真正的影响力，往往从放下这种争夺开始。你先看见对方关心什么、害怕什么、想证明什么，再谈自己的观点，阻力会小很多。
+
+记住别人的名字、倾听、谈对方感兴趣的事情，这些技巧背后都有同一个逻辑：让对方感到自己被认真对待。
+
+人不是先被说服，再愿意听你说话。很多时候，是先觉得被尊重，才开始愿意理解你的观点。
+
+## 二、争论赢了，事情可能输了
+
+卡耐基说，赢得争论最好的方法，是避免争论。
+
+这句话不是让人回避问题，而是提醒我们：争论有一种很高的隐性成本。
+
+当一个人被公开否定时，他很难立刻承认自己错了。哪怕他心里已经知道问题在哪里，也会本能地保护面子。于是讨论从“什么是对的”变成“谁不能输”。一旦进入这个状态，真相反而不重要了。
+
+在组织里，很多事情不是输在判断上，而是输在推进方式上。
+
+你可以有正确观点，但如果表达方式让别人只想防御，这个观点就很难变成行动。相反，如果你能先承认对方的合理部分，再把问题带回事实和共同目标，讨论更容易继续。
+
+尊重别人的意见，不轻易说“你错了”，并不是软弱。它是一种策略性的清醒：我要解决问题，不是赢得一场口头胜利。
+
+## 三、让别人参与，事情才会真正发生
+
+书里有一个原则：让对方觉得这个想法是他自己的。
+
+这句话听起来像技巧，甚至有点圆滑。但换一个角度看，它其实是在讲参与感。
+
+一个方案如果完全从你这里抛出去，别人只是执行者，他天然会保持距离。一个方案如果在讨论中被共同塑造，别人就更容易对它负责。
+
+这对项目管理尤其重要。
+
+很多时候，我们不是缺少方案，而是缺少共同拥有方案的人。你一个人把逻辑想得再完整，如果团队没有进入这个逻辑，后面每一步都会变成推动、解释、催促、返工。
+
+所以，好的影响力不是把自己的想法塞给别人，而是创造一个过程，让别人也在里面形成判断。
+
+## 四、领导不是命令，而是降低对方改变的成本
+
+书里谈领导时，有几条很具体：
+
+- 先肯定，再指出问题；
+- 先谈自己的错误，再批评别人；
+- 用问题代替命令；
+- 给对方留面子；
+- 及时肯定微小进步；
+- 让错误看起来容易改正。
+
+这些原则放在今天仍然有效。因为人面对改变时，最大的阻力常常不是不知道怎么做，而是不愿意承认自己需要改变。
+
+一个管理者如果只会指出问题，会制造很多防御。一个管理者如果能让对方觉得“我可以改，而且改了以后我会更好”，改变才更容易发生。
+
+这不是讨好，而是降低行动阻力。
+
+在 AI 时代，很多工具会提高个人效率，但真正的交付仍然离不开协作。会写提示词、会做自动化、会产出方案，只是能力的一部分。能让复杂的人一起行动，仍然是稀缺能力。
+
+## 最后
+
+这本书值得读，不是因为它教人圆滑，而是因为它提醒我们：工作不是只和任务打交道，也是在和人打交道。
+
+影响力的核心不是控制别人，而是理解别人；不是让别人输给你，而是让事情被共同推进。
+
+如果把它放进个人系统里，我会把它归到“交付力”这一层。
+
+一个人想在组织之外获得选择权，不能只会独立思考，还要能把判断变成合作，把合作变成结果。
+
+---
+
+原书：[How to Win Friends & Influence People](https://book.douban.com/subject/1388210/)
+原文发布于[豆瓣书评](https://book.douban.com/review/5350284/)。
