@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>宏观政策解读与全球资产配置策略 - 2026.05.15</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: #0b1120;
+    color: #cbd5e1;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 480px; margin: 0 auto; padding: 0 16px 40px; }
+
+  /* 封面 */
+  .cover {
+    text-align: center;
+    padding: 60px 0 40px;
+    border-bottom: 1px solid rgba(148,163,184,0.1);
+    margin-bottom: 32px;
+  }
+  .cover h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #f59e0b;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+  .cover h1 span { color: #f8fafc; display: block; margin-top: 4px; }
+  .cover .sub {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 12px;
+    letter-spacing: 0.08em;
+  }
+  .tags { margin-top: 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .tag-gold { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+  .tag-cyan { background: rgba(6,182,212,0.15); color: #06b6d4; border: 1px solid rgba(6,182,212,0.3); }
+  .tag-rose { background: rgba(244,63,94,0.15); color: #f43f5e; border: 1px solid rgba(244,63,94,0.3); }
+  .tag-emerald { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+
+  /* 声明 */
+  .notice {
+    background: rgba(6,182,212,0.08);
+    border-left: 3px solid #06b6d4;
+    padding: 14px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 32px;
+    font-size: 13px;
+  }
+  .notice strong { color: #f8fafc; }
+  .warning {
+    background: rgba(245,158,11,0.08);
+    border-left: 3px solid #f59e0b;
+    padding: 14px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 32px;
+    font-size: 13px;
+  }
+
+  /* 章节 */
+  .section { margin-bottom: 36px; }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #06b6d4;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(6,182,212,0.2);
+  }
+  .section-title .icon { margin-right: 6px; }
+
+  /* 卡片 */
+  .card {
+    background: rgba(30,41,59,0.6);
+    border: 1px solid rgba(148,163,184,0.1);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .card h3 {
+    font-size: 15px;
+    color: #f59e0b;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .card p { font-size: 14px; color: #94a3b8; }
+
+  /* 表格 */
+  .table-wrap { overflow-x: auto; margin-bottom: 12px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 360px;
+  }
+  th {
+    background: rgba(6,182,212,0.12);
+    color: #06b6d4;
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(6,182,212,0.3);
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(148,163,184,0.1);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  td strong { color: #f8fafc; }
+
+  /* 列表 */
+  ul { list-style: none; padding-left: 0; }
+  ul li {
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  ul li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: #06b6d4;
+    font-weight: 700;
+  }
+
+  /* 情景卡片 */
+  .scenario { border-top: 3px solid; }
+  .scenario.optimistic { border-color: #10b981; }
+  .scenario.optimistic h3 { color: #10b981; }
+  .scenario.neutral { border-color: #06b6d4; }
+  .scenario.neutral h3 { color: #06b6d4; }
+  .scenario.pessimistic { border-color: #f43f5e; }
+  .scenario.pessimistic h3 { color: #f43f5e; }
+
+  /* 行动计划 */
+  .action-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .action-item .tag { flex-shrink: 0; margin-top: 2px; }
+
+  /* 底部 */
+  .footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    border-top: 1px solid rgba(148,163,184,0.1);
+    margin-top: 20px;
+  }
+  .footer h2 {
+    font-size: 24px;
+    color: #f8fafc;
+    margin-bottom: 8px;
+  }
+  .footer p { font-size: 13px; color: #64748b; }
+  .disclaimer {
+    font-size: 11px;
+    color: #475569;
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.5;
+  }
+
+  /* 文字色 */
+  .text-gold { color: #f59e0b; }
+  .text-rose { color: #f43f5e; }
+  .text-emerald { color: #10b981; }
+  .text-cyan { color: #06b6d4; }
+  .text-muted { color: #64748b; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 封面 -->
+  <div class="cover">
+    <h1>宏观政策解读<span>全球资产配置策略</span></h1>
+    <div class="sub">MACRO POLICY & GLOBAL ASSET ALLOCATION</div>
+    <div class="tags">
+      <span class="tag tag-gold">2026.05.15</span>
+      <span class="tag tag-cyan">周报</span>
+      <span class="tag tag-rose">核心变量：特朗普访华</span>
+    </div>
+  </div>
+
+  <!-- 声明 -->
+  <div class="notice">
+    <strong>时效声明：</strong>本报告基于截至 <strong>2026年5月</strong> 可获取的公开信息与宏观逻辑推演，具体市场数据请以实时行情为准。
+  </div>
+  <div class="warning">
+    <strong>本周核心变量：</strong>特朗普于5月13日对华进行国事访问并与习近平举行峰会，会谈涉及伊朗局势、经贸关系及地缘议题。
+  </div>
+  <p class="disclaimer">*本报告为内部研究参考，不构成投资建议。市场有风险，决策需独立判断。*</p>
+
+  <!-- 议程 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📋</span>今日议程</div>
+    <div class="card">
+      <h3>01 宏观总览</h3>
+      <p>全球货币政策周期定位与本周关键节点</p>
+    </div>
+    <div class="card">
+      <h3>02 政策解读</h3>
+      <p>美国、中国及中美关系（特朗普访华）</p>
+    </div>
+    <div class="card">
+      <h3>03 资产配置</h3>
+      <p>战略中枢、战术交易与汇率策略</p>
+    </div>
+    <div class="card">
+      <h3>04 风险与行动</h3>
+      <p>风险矩阵与本周具体操作清单</p>
+    </div>
+  </div>
+
+  <!-- 全球宏观 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🌍</span>全球宏观政策环境</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>经济体</th><th>政策立场</th><th>关键观察点</th></tr>
+        <tr>
+          <td><strong>美国</strong></td>
+          <td><span class="tag tag-rose">限制性→中性</span></td>
+          <td>美联储降息窗口、QT taper。流动性边际放松，节奏看通胀粘性。</td>
+        </tr>
+        <tr>
+          <td><strong>中国</strong></td>
+          <td><span class="tag tag-emerald">稳健偏松</span></td>
+          <td>降准空间、房地产政策、消费刺激。估值修复需信心催化剂，政策底明确。</td>
+        </tr>
+        <tr>
+          <td><strong>欧元区</strong></td>
+          <td><span class="tag tag-rose">限制性</span></td>
+          <td>欧央行滞后降息、工资螺旋。欧元偏弱，欧股盈利承压。</td>
+        </tr>
+        <tr>
+          <td><strong>日本</strong></td>
+          <td><span class="tag tag-cyan">正常化初期</span></td>
+          <td>日元套息 unwind、BOJ 加息。日元波动率上升，日股敏感。</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 本周关键节点 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📅</span>本周关键政策节点</div>
+    <div class="warning">
+      <span class="tag tag-gold">核心</span> <strong>特朗普访华后续成果</strong><br/>
+      关注是否发布联合声明、关税/科技制裁 rhetoric 变化、伊朗问题协调信号
+    </div>
+    <ul>
+      <li>美国4月CPI/PCE数据——决定6月FOMC预期</li>
+      <li>中国4月社融与M2——验证宽信用传导</li>
+      <li>美国债务上限谈判——逼近X-date触发避险</li>
+      <li>AI龙头财报——决定科技股情绪边际</li>
+    </ul>
+  </div>
+
+  <!-- 美国 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🇺🇸</span>美国："更高更长"博弈</div>
+    <div class="card">
+      <h3>核心矛盾</h3>
+      <p>服务业通胀粘性 vs 劳动力市场降温</p>
+    </div>
+    <div class="card scenario optimistic">
+      <h3>乐观情景：CPI符合/低于预期</h3>
+      <p>6-7月降息升温 → <span class="text-emerald">黄金、新兴市场受益</span></p>
+    </div>
+    <div class="card scenario pessimistic">
+      <h3>悲观情景：CPI超预期</h3>
+      <p>降息后移 → 美债 bear flattening → <span class="text-rose">科技股回调</span></p>
+    </div>
+    <div class="card">
+      <h3>战术应对</h3>
+      <ul>
+        <li>数据公布前保持低Beta</li>
+        <li>数据后根据方向右侧加仓</li>
+        <li>关注10Y收益率4.5%/4.7%触发位</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 中国 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🇨🇳</span>中国：政策发力 + 外部变量</div>
+    <div class="card">
+      <h3>内部主线</h3>
+      <ul>
+        <li>房地产：一线限购松绑、存量房贷利率下调</li>
+        <li>财政：超长期特别国债发行节奏</li>
+        <li>信用扩张：政策意愿充足，实体需求疲软</li>
+      </ul>
+    </div>
+    <div class="notice">
+      <strong>外部变量（特朗普访华）：</strong><br/>
+      若释放关税缓和、科技管制放松信号 → <span class="text-emerald">风险溢价压缩，人民币汇率测试7.15下方</span>
+    </div>
+    <div class="warning">
+      若仅"管控分歧"基调 → <span class="text-rose">利好出尽，防范短线回调</span>
+    </div>
+  </div>
+
+  <!-- 中美关系 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🔥</span>中美关系：特朗普访华</div>
+    <p class="text-muted">2026.05.13 | 特朗普抵达北京进行国事访问，与习近平峰会，讨论伊朗局势；习近平会见美国企业家代表团</p>
+
+    <div class="card scenario optimistic">
+      <h3>乐观情景 <span class="tag tag-emerald">概率：低中</span></h3>
+      <p>关税减免、科技管制缓和、能源采购</p>
+      <p style="margin-top:8px;"><strong>市场：</strong>中概股、港股、人民币、出口链共振；黄金地缘溢价回落</p>
+    </div>
+    <div class="card scenario neutral">
+      <h3>中性情景 <span class="tag tag-cyan">概率：中高</span></h3>
+      <p>"管控分歧"基调，无具体关税承诺</p>
+      <p style="margin-top:8px;"><strong>市场：</strong>利好出尽，短线回调；底部抬高</p>
+    </div>
+    <div class="card scenario pessimistic">
+      <h3>悲观情景 <span class="tag tag-rose">概率：低</span></h3>
+      <p>会谈破裂，伊朗问题无协调</p>
+      <p style="margin-top:8px;"><strong>市场：</strong>避险飙升；黄金、美元、美债涨</p>
+    </div>
+  </div>
+
+  <!-- 资产配置 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">⚖️</span>资产配置中枢</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>资产类别</th><th>战略权重</th><th>战术偏离</th></tr>
+        <tr>
+          <td>全球股票</td>
+          <td>35%</td>
+          <td><span class="tag tag-rose">-5% 减配</span></td>
+        </tr>
+        <tr style="background:rgba(16,185,129,0.06);">
+          <td><strong>中国A+H股</strong></td>
+          <td>15%</td>
+          <td><span class="tag tag-emerald">+5% 超配</span></td>
+        </tr>
+        <tr style="background:rgba(16,185,129,0.06);">
+          <td><strong>美国国债/投资级债</strong></td>
+          <td>25%</td>
+          <td><span class="tag tag-emerald">+5% 超配</span></td>
+        </tr>
+        <tr style="background:rgba(16,185,129,0.06);">
+          <td><strong>黄金</strong></td>
+          <td>5%</td>
+          <td><span class="tag tag-emerald">+2% 超配</span></td>
+        </tr>
+        <tr>
+          <td>大宗商品</td>
+          <td>10%</td>
+          <td><span class="tag tag-rose">-3% 减配</span></td>
+        </tr>
+        <tr>
+          <td>现金/货基</td>
+          <td>10%</td>
+          <td><span class="tag tag-rose">-2% 减配</span></td>
+        </tr>
+      </table>
+    </div>
+    <div class="card">
+      <p><strong>核心逻辑：</strong></p>
+      <ul>
+        <li>全球股票：估值不低 + 盈利下修风险</li>
+        <li>中国A+H：估值洼地 + 政策底 + <span class="text-emerald">中美关系缓和期权</span></li>
+        <li>美债：高位锁定票息，降息有资本利得</li>
+        <li>黄金：去美元化 + 央行购金 + 地缘对冲</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 战术交易 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🎯</span>战术交易方向</div>
+    <div class="card scenario optimistic">
+      <h3>做多方向</h3>
+      <ul>
+        <li><strong>美债长端</strong>：10Y &gt; 4.5% 逐步建仓</li>
+        <li><strong>黄金</strong>：回调至200日线加仓；<span class="text-gold">若地缘缓和信号出现，短期承压</span></li>
+        <li><strong>港股高股息 + 科技</strong>：股息安全垫 + 中美关系弹性</li>
+        <li><strong>中概股/出口链</strong>：若访华积极，风险溢价压缩最受益</li>
+      </ul>
+    </div>
+    <div class="card scenario pessimistic">
+      <h3>规避/对冲</h3>
+      <ul>
+        <li><strong>美股高估值SaaS/小盘科技</strong>：利率敏感 + 盈利放缓</li>
+        <li><strong>欧洲能源密集型工业</strong>：电价高企 + 需求疲软</li>
+        <li><strong>日元套息交易</strong>：BOJ正常化 + 波动率上升易unwind</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 风险矩阵 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">⚠️</span>风险矩阵与应急预案</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th style="width:26%;">风险场景</th><th>触发信号</th><th>应对动作</th></tr>
+        <tr>
+          <td><strong>美国通胀反弹</strong> <span class="tag tag-gold">中</span></td>
+          <td>CPI &gt; 预期，美联储放鹰</td>
+          <td>减持成长股，增配短债与黄金</td>
+        </tr>
+        <tr>
+          <td><strong>中国房地产二次发酵</strong> <span class="tag tag-gold">中</span></td>
+          <td>头部房企违约，销售断崖</td>
+          <td>减配地产链，增配国债/高股息</td>
+        </tr>
+        <tr style="background:rgba(6,182,212,0.06);">
+          <td><strong>中美关系缓和不及预期</strong> <span class="tag tag-cyan">中</span></td>
+          <td>无联合声明/关税 rhetoric 升温</td>
+          <td><strong>减持中概股与出口链，增配黄金与美债</strong></td>
+        </tr>
+        <tr>
+          <td><strong>地缘冲突升级</strong> <span class="tag tag-gold">低中</span></td>
+          <td>油价飙升/航运中断</td>
+          <td>黄金+原油短线多，股票减仓</td>
+        </tr>
+        <tr>
+          <td><strong>美国债务上限僵局</strong> <span class="tag tag-gold">中</span></td>
+          <td>X-date 临近无协议</td>
+          <td>增持短端美债，规避长端与信用债</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 行动计划 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">✅</span>本周行动计划</div>
+    <div class="action-item">
+      <span class="tag tag-gold">P1</span>
+      <div>
+        <strong>跟踪特朗普访华联合声明措辞</strong>
+        <p class="text-muted">若有关税/科技管制缓和信号 → 加仓中概股与港股科技；若仅"管控分歧" → 利好出尽减仓</p>
+      </div>
+    </div>
+    <div class="action-item">
+      <span class="tag tag-gold">P2</span>
+      <div>
+        <strong>观察伊朗局势联动</strong>
+        <p class="text-muted">若中美在伊朗问题上达成协调 → 减持黄金多头头寸（地缘溢价下降）</p>
+      </div>
+    </div>
+    <div class="card">
+      <ul>
+        <li><span class="tag tag-cyan">常规</span> 复核组合久期与美元敞口</li>
+        <li><span class="tag tag-cyan">常规</span> 设置美债10Y 4.5%/4.7%触发价</li>
+        <li><span class="tag tag-cyan">常规</span> 关注AI龙头财报</li>
+        <li><span class="tag tag-cyan">常规</span> 检查港股高股息股息率是否 &gt; 6%</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 底部 -->
+  <div class="footer">
+    <h2>谢谢</h2>
+    <p>THANKS</p>
+    <div class="tags" style="margin-top:16px;">
+      <span class="tag tag-gold">2026.05.15</span>
+      <span class="tag tag-cyan">下次更新：2026.05.22</span>
+    </div>
+  </div>
+  <p class="disclaimer">*本报告为内部研究参考，不构成投资建议。市场有风险，决策需独立判断。*</p>
+
+</div>
+</body>
+</html>

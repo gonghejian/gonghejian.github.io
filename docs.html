@@ -1,23 +1,30 @@
 ---
 layout: default
-title: 文章
+title: 精选文章
 permalink: /docs/
 ---
 
-{% assign docs_posts = site.posts | where_exp: "post", "post.categories contains 'docs'" | sort: "date" | reverse %}
+{% assign all_docs_posts = site.posts | where_exp: "post", "post.categories contains 'docs'" | sort: "date" | reverse %}
+{% assign featured_posts = site.posts | where_exp: "post", "post.featured == true" | sort: "featured_order" %}
 {% assign review_posts = site.posts | where_exp: "post", "post.categories contains 'reading'" | sort: "date" | reverse %}
 
 <div class="docs-page">
     <div class="container">
         <div class="docs-header">
-            <h1 class="docs-title">文章</h1>
-            <p class="docs-description">收纳博客文章、日记和长期整理的文字。</p>
+            <h1 class="docs-title">精选文章</h1>
+            <p class="docs-description">
+                从旧文中挑出的 5 篇更容易被转发、讨论和再次阅读的文章。它们围绕人生取舍、情绪管理、写作启动、习惯建立和长期练习。
+            </p>
         </div>
 
         <nav class="docs-sections" aria-label="文章目录">
             <a class="docs-section-link active" href="{{ '/docs/' | relative_url }}">
-                <span>文章</span>
-                <strong>{{ docs_posts.size }}</strong>
+                <span>精选文章</span>
+                <strong>{{ featured_posts.size }}</strong>
+            </a>
+            <a class="docs-section-link" href="{{ '/archive/' | relative_url }}">
+                <span>全部归档</span>
+                <strong>{{ site.posts.size }}</strong>
             </a>
             <a class="docs-section-link" href="{{ '/reviews/' | relative_url }}">
                 <span>书评</span>
@@ -25,17 +32,19 @@ permalink: /docs/
             </a>
         </nav>
 
-        {% if docs_posts.size > 0 %}
+        {% if featured_posts.size > 0 %}
         <div class="docs-toolbar">
-            <span class="docs-count">{{ docs_posts.size }} 篇文章</span>
+            <span class="docs-count">{{ featured_posts.size }} 篇精选 / {{ all_docs_posts.size }} 篇文章</span>
         </div>
 
         <div class="docs-list">
-            {% for post in docs_posts %}
+            {% for post in featured_posts %}
             <article class="docs-card">
                 <a class="docs-card-link" href="{{ post.url | relative_url }}" aria-label="{{ post.title }}"></a>
                 <div class="docs-card-main">
                     <div class="docs-card-meta">
+                        <span>精选 {{ post.featured_order }}</span>
+                        <span class="docs-card-dot"></span>
                         <time datetime="{{ post.date | date: '%Y-%m-%d' }}">
                             {{ post.date | date: "%Y年%m月%d日" }}
                         </time>
@@ -48,7 +57,9 @@ permalink: /docs/
                         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
                     </h2>
                     <p class="docs-card-excerpt">
-                        {% if post.excerpt %}
+                        {% if post.featured_reason %}
+                            {{ post.featured_reason }}
+                        {% elsif post.excerpt %}
                             {{ post.excerpt | strip_html | truncate: 120 }}
                         {% else %}
                             {{ post.content | strip_html | truncate: 120 }}
@@ -59,7 +70,7 @@ permalink: /docs/
             {% endfor %}
         </div>
         {% else %}
-        <div class="docs-empty">暂无文章。</div>
+        <div class="docs-empty">暂无精选文章。</div>
         {% endif %}
     </div>
 </div>
@@ -82,7 +93,7 @@ permalink: /docs/
     font-weight: 700;
     color: var(--color-text);
     margin-bottom: var(--spacing-sm);
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
 }
 
 .docs-description {
@@ -99,7 +110,7 @@ permalink: /docs/
 
 .docs-sections {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--spacing-sm);
     margin-bottom: var(--spacing-lg);
 }
