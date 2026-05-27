@@ -111,6 +111,10 @@ include:
 
 # 排除文件
 exclude:
+  - AGENTS.md
+  - content
+  - meta
+  - skills
   - Gemfile
   - Gemfile.lock
   - node_modules
