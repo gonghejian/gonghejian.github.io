@@ -1,0 +1,1520 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 时代个人系统白皮书</title>
+  <style>
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #e8ebed;
+  color: #111111;
+  font-family: "Noto Sans CJK SC", "Microsoft YaHei", "PingFang SC", "Source Han Sans SC", Arial, sans-serif;
+}
+
+body {
+  counter-reset: page;
+}
+
+.sheet {
+  position: relative;
+  width: 210mm;
+  min-height: 297mm;
+  padding: 26mm 20mm 18mm 26mm;
+  margin: 0 auto;
+  overflow: hidden;
+  break-after: page;
+  page-break-after: always;
+  background:
+    linear-gradient(90deg, rgba(30, 111, 140, 0.07) 0, rgba(30, 111, 140, 0.07) 1px, transparent 1px),
+    linear-gradient(180deg, #ffffff 0%, #fbfaf6 100%);
+  background-size: 12mm 12mm, auto;
+}
+
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8mm;
+  height: 100%;
+  background: #111111;
+}
+
+.sheet::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8mm;
+  width: 54mm;
+  height: 4.2mm;
+  background: #1e6f8c;
+}
+
+.kicker,
+footer,
+.page-mark {
+  position: absolute;
+  z-index: 2;
+  color: #6e7478;
+  font-size: 8.5pt;
+  letter-spacing: 0.02em;
+}
+
+.kicker {
+  top: 13mm;
+  left: 26mm;
+  font-family: "Segoe UI", Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+.page-mark {
+  top: 12mm;
+  right: 20mm;
+  color: #1e6f8c;
+  font-size: 18pt;
+  font-weight: 800;
+}
+
+footer {
+  left: 26mm;
+  right: 20mm;
+  bottom: 12mm;
+  padding-top: 4mm;
+  border-top: 1px solid #d9dddf;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+blockquote,
+pre {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 142mm;
+  margin-bottom: 9mm;
+  color: #101010;
+  font-size: 34pt;
+  line-height: 1.08;
+  font-weight: 760;
+}
+
+h2 {
+  max-width: 146mm;
+  margin-bottom: 7.5mm;
+  color: #101010;
+  font-size: 23pt;
+  line-height: 1.22;
+  font-weight: 740;
+}
+
+h2::after {
+  content: "";
+  display: block;
+  width: 18mm;
+  height: 1.2mm;
+  margin-top: 5mm;
+  background: #d9a441;
+}
+
+h3 {
+  margin: 6mm 0 2.5mm;
+  color: #0b465c;
+  font-size: 12.5pt;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+p {
+  margin-bottom: 3.8mm;
+  color: #2f3335;
+  font-size: 10.1pt;
+  line-height: 1.72;
+}
+
+ul {
+  display: grid;
+  gap: 2mm;
+  margin: 3mm 0 5mm;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  position: relative;
+  padding: 2.5mm 3.2mm 2.5mm 7.2mm;
+  border: 1px solid rgba(30, 111, 140, 0.16);
+  border-left: 3px solid #1e6f8c;
+  background: rgba(255, 255, 255, 0.78);
+  color: #2b3033;
+  font-size: 9.6pt;
+  line-height: 1.58;
+  break-inside: avoid;
+}
+
+li::before {
+  content: "";
+  position: absolute;
+  top: 4.3mm;
+  left: 2.5mm;
+  width: 2mm;
+  height: 2mm;
+  background: #d9a441;
+}
+
+blockquote {
+  margin: 5mm 0;
+  padding: 5mm 6mm 5mm 7mm;
+  border: 1px solid #e0d7bf;
+  border-left: 4px solid #d9a441;
+  background: rgba(250, 246, 235, 0.88);
+  break-inside: avoid;
+}
+
+blockquote p {
+  margin-bottom: 2mm;
+  color: #151515;
+  font-size: 13pt;
+  line-height: 1.62;
+  font-weight: 640;
+}
+
+pre {
+  margin: 4mm 0 6mm;
+  padding: 4mm;
+  white-space: pre-wrap;
+  border: 1px solid #d4dcdf;
+  background: #102027;
+  color: #f3f7f8;
+  font-size: 8.5pt;
+  line-height: 1.55;
+  border-radius: 2mm;
+}
+
+code {
+  font-family: Consolas, "SF Mono", monospace;
+}
+
+.sheet:not(.cover):not(.toc) .content {
+  columns: 2;
+  column-gap: 10mm;
+}
+
+.sheet:not(.cover):not(.toc) h2 {
+  column-span: all;
+}
+
+.sheet:not(.cover):not(.toc) h3,
+.sheet:not(.cover):not(.toc) ul,
+.sheet:not(.cover):not(.toc) blockquote,
+.sheet:not(.cover):not(.toc) pre {
+  break-inside: avoid;
+}
+
+.sheet:not(.cover):not(.toc) h2 + p,
+.sheet:not(.cover):not(.toc) .lead {
+  column-span: all;
+  max-width: 142mm;
+  color: #1c2428;
+  font-size: 11.4pt;
+  line-height: 1.7;
+}
+
+.soft-rule {
+  display: none;
+}
+
+.cover {
+  padding: 24mm 20mm 18mm 24mm;
+  background:
+    linear-gradient(110deg, #111111 0 34%, transparent 34%),
+    linear-gradient(135deg, rgba(30, 111, 140, 0.16), transparent 48%),
+    linear-gradient(180deg, #ffffff 0%, #f7f6ef 100%);
+}
+
+.cover::before {
+  width: 8mm;
+  height: 100%;
+  background: #d9a441;
+}
+
+.cover::after {
+  left: auto;
+  right: -26mm;
+  top: auto;
+  bottom: 18mm;
+  width: 104mm;
+  height: 104mm;
+  border: 1px solid rgba(17, 17, 17, 0.18);
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(13deg);
+}
+
+.cover .kicker,
+.cover footer {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.cover footer {
+  border-top-color: rgba(255, 255, 255, 0.25);
+}
+
+.cover-panel {
+  position: relative;
+  z-index: 2;
+  width: 126mm;
+  min-height: 174mm;
+  padding: 16mm 12mm 12mm;
+  background: #ffffff;
+  box-shadow: 0 14mm 34mm rgba(10, 20, 25, 0.12);
+}
+
+.cover-label {
+  margin-bottom: 11mm;
+  color: #1e6f8c;
+  font-size: 9pt;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.cover h1 {
+  max-width: 102mm;
+  margin: 0 0 7mm;
+  color: #0b0b0b;
+  font-size: 34pt;
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.cover .deck {
+  max-width: 94mm;
+  margin: 0 0 7mm;
+  color: #1e6f8c;
+  font-size: 12.8pt;
+  line-height: 1.5;
+  font-weight: 720;
+}
+
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4mm;
+  margin: 0 0 10mm;
+}
+
+.cover-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 9mm;
+  padding: 0 3.5mm;
+  border: 1px solid #ccd7db;
+  background: rgba(255, 255, 255, 0.72);
+  color: #2d3538;
+  font-size: 9pt;
+  font-weight: 650;
+}
+
+.cover .cover-line {
+  position: static;
+  max-width: 94mm;
+  margin: 0 0 7mm;
+  color: #111111;
+  font-size: 12.5pt;
+  line-height: 1.78;
+  font-weight: 650;
+}
+
+.cover blockquote {
+  position: static;
+  width: auto;
+  margin: 0;
+  background: #faf6eb;
+  box-shadow: none;
+}
+
+.cover-number {
+  position: absolute;
+  z-index: 1;
+  right: 18mm;
+  top: 48mm;
+  color: rgba(30, 111, 140, 0.16);
+  font-size: 124pt;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.cover .page-mark {
+  display: none;
+}
+
+.toc {
+  background:
+    linear-gradient(90deg, rgba(30, 111, 140, 0.06) 0, rgba(30, 111, 140, 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, #ffffff 0%, #f8f7f2 100%);
+  background-size: 12mm 12mm, auto;
+}
+
+.toc h2 {
+  font-size: 34pt;
+}
+
+.toc .lead {
+  max-width: 142mm;
+  color: #283237;
+  font-size: 12pt;
+  line-height: 1.75;
+}
+
+.toc-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3mm;
+  margin: 10mm 0 8mm;
+  padding: 0;
+  list-style: none;
+}
+
+.toc-list li {
+  display: grid;
+  grid-template-columns: 12mm minmax(0, 1fr);
+  gap: 3mm;
+  align-items: center;
+  min-height: 15mm;
+  padding: 3mm;
+  border: 1px solid #d9dddf;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.toc-list li::before {
+  display: none;
+}
+
+.toc-list span {
+  color: #1e6f8c;
+  font-size: 12pt;
+  font-weight: 800;
+}
+
+.toc-list strong {
+  color: #111111;
+  font-size: 10pt;
+  line-height: 1.35;
+}
+
+.toc-note {
+  display: grid;
+  grid-template-columns: 26mm minmax(0, 1fr);
+  gap: 5mm;
+  padding: 5mm 6mm;
+  border-left: 4px solid #d9a441;
+  background: #f7f2e7;
+}
+
+.toc-note strong {
+  color: #111111;
+  font-size: 12pt;
+}
+
+.toc-note p {
+  margin: 0;
+  color: #303638;
+}
+
+.worksheet ul,
+.timeline ul,
+.channels ul,
+.product ul {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.3mm;
+}
+
+.worksheet li,
+.timeline li,
+.channels li,
+.product li {
+  min-height: 12mm;
+  border: 1px solid #d7dde0;
+  border-left: 3px solid #1e6f8c;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.appendix {
+  background:
+    linear-gradient(135deg, rgba(217, 164, 65, 0.11), transparent 48%),
+    linear-gradient(180deg, #ffffff 0%, #faf9f4 100%);
+}
+
+.closing h2 {
+  margin-top: 18mm;
+  font-size: 30pt;
+}
+
+@media screen {
+  .sheet {
+    margin: 16px auto;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
+  }
+}
+
+  </style>
+</head>
+<body>
+<section class="sheet cover">
+  <div class="page-mark">01</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+
+<div class="cover-panel">
+  <div class="cover-label">WHITEPAPER 2026 / GONGHEJIAN.CN</div>
+  <h1>AI 时代<br>个人系统<br>白皮书</h1>
+  <p class="deck">写给中高端职场人与专业创造者的 20 页行动手册</p>
+  <div class="cover-meta">
+    <span>弓箭</span>
+    <span>Draft 0.2</span>
+    <span>Personal System</span>
+  </div>
+  <p class="cover-line">在 AI 时代，训练一种新的个人能力。</p>
+  <blockquote>
+    <p>当普通执行被 AI 压缩，当组织不再天然提供安全感，一个人如何把经验、知识、判断和交付能力，整理成一套可以长期运转的个人系统。</p>
+  </blockquote>
+</div>
+<div class="cover-number">20</div>
+
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet toc">
+  <div class="page-mark">TOC</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+
+<h2>目录</h2>
+<p class="lead">这份白皮书按“判断 - 职业 - 行业 - 行动”的顺序展开。先建立共同框架，再让不同职业和行业找到自己的落点。</p>
+<ol class="toc-list">
+<li><span>01</span><strong>封面</strong></li>
+<li><span>02</span><strong>一句话判断</strong></li>
+<li><span>03</span><strong>为什么现在必须重建个人系统</strong></li>
+<li><span>04</span><strong>现代职场人的四个风险</strong></li>
+<li><span>05</span><strong>个人系统四层模型</strong></li>
+<li><span>06</span><strong>AI 工作流如何接入个人系统</strong></li>
+<li><span>07</span><strong>职业路径一，管理者</strong></li>
+<li><span>08</span><strong>职业路径二，产品与运营</strong></li>
+<li><span>09</span><strong>职业路径三，咨询与专业服务</strong></li>
+<li><span>10</span><strong>职业路径四，技术、数据与 AI 从业者</strong></li>
+<li><span>11</span><strong>职业路径五，教育、培训与内容工作者</strong></li>
+<li><span>12</span><strong>职业路径六，销售、BD 与客户成功</strong></li>
+<li><span>13</span><strong>行业路径一，互联网与科技</strong></li>
+<li><span>14</span><strong>行业路径二，金融、法律与咨询</strong></li>
+<li><span>15</span><strong>行业路径三，制造、供应链与传统企业</strong></li>
+<li><span>16</span><strong>行业路径四，教育、医疗、健康与本地服务</strong></li>
+<li><span>17</span><strong>个人系统自检表</strong></li>
+<li><span>18</span><strong>90 天启动路线</strong></li>
+<li><span>19</span><strong>公开表达系统</strong></li>
+<li><span>20</span><strong>从内容到产品</strong></li>
+</ol>
+<div class="toc-note">
+  <strong>阅读方式</strong>
+  <p>先读第 1-6 页理解框架，再跳到与你职业和行业最接近的章节，最后用自检表和 90 天路线启动行动。</p>
+</div>
+
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">02</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>一句话判断</h2>
+<p>未来十年，真正稀缺的不是会不会使用 AI，而是一个人能不能把 AI 接入自己的判断、知识、行动和商业闭环。</p>
+<p>工具会越来越便宜。</p>
+<p>个人系统会越来越贵。</p>
+<p>过去，很多人的能力被组织包裹着：平台提供任务，岗位定义身份，流程分配责任，团队共同承担结果。一个人在组织中可以很强，但离开组织之后，未必还能清楚表达自己能解决什么问题。</p>
+<p>AI 正在加速这个变化。</p>
+<p>写方案、做总结、查资料、生成初稿、整理会议纪要、做基础分析，这些过去需要时间堆出来的工作，正在被快速压缩。普通执行的价格会下降，但清晰判断、可信交付和长期表达的价值会升高。</p>
+<p>所以转型的第一步，不是辞职，不是做账号，也不是追热点。</p>
+<p>第一步是把自己从“组织里的角色”升级成“可以独立运转的能力系统”。</p>
+<p>这套能力至少包括四件事：</p>
+<ul>
+<li>判断力：你如何看问题，如何做选择。</li>
+<li>知识出口：你如何把阅读、经验、项目和观察变成可复用材料。</li>
+<li>交付力：你如何稳定把想法变成结果。</li>
+<li>选择权：你如何在组织之外，也能被理解、被信任、被合作。</li>
+</ul>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">03</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>为什么现在必须重建个人系统</h2>
+<p>个人系统不是一个新词包装出来的焦虑。</p>
+<p>它来自四个现实变化。</p>
+<h3>1. 组织红利正在下降</h3>
+<p>过去，一个人可以依靠平台、岗位、流程和头衔获得稳定增长。只要进入一个好组织，能力、收入和身份会被组织一起托举。</p>
+<p>现在，组织本身也在重组。</p>
+<p>降本增效、业务收缩、岗位消失、项目制协作、外包化、自动化，都会让“职位”不再天然等于安全感。</p>
+<p>组织仍然重要，但不能把全部安全感交给组织。</p>
+<h3>2. 普通执行正在被压缩</h3>
+<p>AI 最先影响的，不是最复杂的战略判断，而是大量标准化、可描述、可拆解的执行工作。</p>
+<p>例如：</p>
+<ul>
+<li>写初稿。</li>
+<li>做摘要。</li>
+<li>整理会议纪要。</li>
+<li>查资料。</li>
+<li>生成方案框架。</li>
+<li>写代码样板。</li>
+<li>做基础数据分析。</li>
+</ul>
+<p>这些工作不会消失，但价格会被重新定义。</p>
+<h3>3. 公开可信度变得更重要</h3>
+<p>当信息越来越多，别人选择你的理由不再只是简历。</p>
+<p>他们会看：</p>
+<ul>
+<li>你长期关注什么问题。</li>
+<li>你是否持续输出过判断。</li>
+<li>你有没有公开作品。</li>
+<li>你是否能把复杂问题讲清楚。</li>
+<li>你过去有没有稳定交付记录。</li>
+</ul>
+<p>公开表达不是表演，而是把可信度从组织内部迁移到公共空间。</p>
+<h3>4. 收入结构需要第二曲线</h3>
+<p>工资是能力的一种变现方式，但不是唯一方式。</p>
+<p>文章、模板、课程、咨询、工作坊、小工具、社群、陪跑服务，都可能成为能力出口。</p>
+<p>但第二曲线不是从变现开始，而是从可信度和可复用价值开始。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">04</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>现代职场人的四个风险</h2>
+<p>这份白皮书默认读者不是没有能力的人。</p>
+<p>相反，它更适合已经有经验、有项目、有积累，但尚未把这些能力系统化、公开化、产品化的人。</p>
+<p>这类人常见四个风险。</p>
+<h3>风险一：被 AI 改写工作方式，却只停留在工具体验</h3>
+<p>很多人会试用 AI 工具，但只是停留在“这个工具真方便”。</p>
+<p>真正重要的问题不是 AI 能不能写一段文字，而是它能不能进入你的工作流：</p>
+<ul>
+<li>帮你拆问题。</li>
+<li>帮你提炼材料。</li>
+<li>帮你挑战判断。</li>
+<li>帮你复盘交付。</li>
+<li>帮你形成可复用模板。</li>
+</ul>
+<p>工具体验不等于系统能力。</p>
+<h3>风险二：长期依赖组织，离开平台后无法独立交付</h3>
+<p>很多人的能力只在组织里可见。</p>
+<p>组织给他任务、资源、团队、授权和评价系统。一旦离开组织，他很难说清楚：</p>
+<ul>
+<li>我最擅长解决什么问题？</li>
+<li>谁会需要我？</li>
+<li>我能交付什么具体结果？</li>
+<li>我的能力如何被验证？</li>
+</ul>
+<p>个人系统要解决的，正是这种“组织之外的表达能力”。</p>
+<h3>风险三：读了很多书，做了很多笔记，但没有形成出口</h3>
+<p>知识如果没有出口，就会变成收藏。</p>
+<p>很多人有大量笔记、书摘、课程资料和方法论截图，但它们没有进入文章、产品、决策和行动。</p>
+<p>真正有用的知识系统，不是资料库，而是厨房。</p>
+<p>材料要能被拿出来加工。</p>
+<h3>风险四：身体状态下滑，拖垮判断和执行</h3>
+<p>长期输出不是靠意志力硬扛。</p>
+<p>睡眠、训练、饮食、注意力和情绪稳定性，都是个人系统的一部分。</p>
+<p>身体状态下滑之后，最先受影响的往往不是体重，而是：</p>
+<ul>
+<li>判断变钝。</li>
+<li>情绪波动。</li>
+<li>执行拖延。</li>
+<li>注意力碎片化。</li>
+<li>复盘能力下降。</li>
+</ul>
+<p>没有身体底盘，个人系统很快会变成自我消耗。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">05</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>个人系统四层模型</h2>
+<p>个人系统不是一个账号，也不是一个 Notion 页面。</p>
+<p>它更像一套能持续运转的能力结构。</p>
+<p>可以分成四层。</p>
+<h3>第一层：判断系统</h3>
+<p>判断系统决定你如何看问题。</p>
+<p>它包括：</p>
+<ul>
+<li>你长期关注的问题。</li>
+<li>你对行业变化的理解。</li>
+<li>你的决策标准。</li>
+<li>你的反共识观察。</li>
+<li>你从经验中提炼出来的原则。</li>
+</ul>
+<p>判断系统的核心产物是判断句。</p>
+<p>例如：</p>
+<blockquote>
+<p>如果一个人只有工具清单，没有稳定工作流，那么他很快会被新工具淹没，因为工具更新速度远高于个人吸收速度。</p>
+</blockquote>
+<h3>第二层：知识系统</h3>
+<p>知识系统决定你如何积累材料。</p>
+<p>它不是越大越好，而是越能服务输出越好。</p>
+<p>好的知识系统至少有六类材料：</p>
+<ul>
+<li>问题。</li>
+<li>案例。</li>
+<li>方法。</li>
+<li>数据。</li>
+<li>金句。</li>
+<li>复盘。</li>
+</ul>
+<p>每条笔记都要尽量回答：它未来可以用于哪篇文章、哪个产品、哪次咨询或哪次决策？</p>
+<h3>第三层：输出系统</h3>
+<p>输出系统决定你如何持续被看见。</p>
+<p>它不是灵感管理，而是节奏管理。</p>
+<p>一个稳定输出系统至少包括：</p>
+<ul>
+<li>长期主题。</li>
+<li>固定栏目。</li>
+<li>发布频率。</li>
+<li>内容模板。</li>
+<li>分发渠道。</li>
+<li>反馈记录。</li>
+</ul>
+<p>长期影响力来自固定主题、固定格式和固定频率。</p>
+<h3>第四层：商业系统</h3>
+<p>商业系统决定你如何形成闭环。</p>
+<p>它不是立刻卖课，而是找到别人愿意为你哪一种确定性付费。</p>
+<p>常见形态包括：</p>
+<ul>
+<li>诊断。</li>
+<li>咨询。</li>
+<li>陪跑。</li>
+<li>工作坊。</li>
+<li>模板。</li>
+<li>工具。</li>
+<li>社群。</li>
+<li>课程。</li>
+</ul>
+<p>商业系统的前提不是包装，而是可信度和真实问题。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">06</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>AI 工作流如何接入个人系统</h2>
+<p>AI 不应该被理解为一个孤立工具。</p>
+<p>它更适合被接入个人系统的四个环节。</p>
+<h3>1. 研究</h3>
+<p>把一个模糊问题拆成：</p>
+<ul>
+<li>背景。</li>
+<li>利益相关者。</li>
+<li>关键变量。</li>
+<li>已有方案。</li>
+<li>争议点。</li>
+<li>可能误区。</li>
+</ul>
+<p>可用提示词：</p>
+<pre><code>请把这个问题拆成 5 个研究维度，并指出每个维度最容易被忽略的变量。</code></pre>
+<h3>2. 提炼</h3>
+<p>从资料中提炼自己的判断，而不是把资料堆成摘要。</p>
+<p>摘要无法建立影响力，判断才可以。</p>
+<p>可用提示词：</p>
+<pre><code>请基于这些材料生成 10 个可能的观点，并标注哪些观点最有争议、最有传播性、最适合写成长文。</code></pre>
+<h3>3. 写作</h3>
+<p>先写出核心判断，再补充案例、方法和行动清单。</p>
+<p>文章不是展示你知道多少，而是帮助读者改变理解和行动。</p>
+<p>可用提示词：</p>
+<pre><code>请把这篇文章改成面向中高端职场人的版本，保留我的观点，增强结构、案例和行动建议，避免营销腔。</code></pre>
+<h3>4. 复盘</h3>
+<p>记录哪些标题被打开，哪些段落被转发，哪些问题被私信追问。</p>
+<p>反馈会告诉你真正的市场在哪里。</p>
+<p>可用提示词：</p>
+<pre><code>请根据这些读者反馈，提炼 5 个后续选题、3 个可产品化方向和 1 个下周行动计划。</code></pre>
+<p>AI 的价值不在于替你表达，而在于放大你的判断、组织你的材料、加速你的交付。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">07</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>职业路径一，管理者</h2>
+<p>管理者最容易低估自己的隐性资产。</p>
+<p>很多管理经验发生在会议、流程、项目、冲突和复盘里。它们在组织内部很有价值，但如果不被整理出来，离开组织后就很难被别人看见。</p>
+<p>管理者可以优先提炼四类资产。</p>
+<h3>1. 项目复盘</h3>
+<p>把项目写成：</p>
+<ul>
+<li>背景是什么。</li>
+<li>核心问题是什么。</li>
+<li>决策点在哪里。</li>
+<li>中间踩了什么坑。</li>
+<li>最后形成什么方法。</li>
+</ul>
+<p>不要只写结果，要写判断过程。</p>
+<h3>2. 团队协作方法</h3>
+<p>例如：</p>
+<ul>
+<li>如何开一次有效周会。</li>
+<li>如何处理跨部门扯皮。</li>
+<li>如何设定项目优先级。</li>
+<li>如何把模糊目标拆成里程碑。</li>
+<li>如何识别团队里的假忙。</li>
+</ul>
+<p>这些都是可公开表达的管理资产。</p>
+<h3>3. 行业判断</h3>
+<p>管理者长期在一线业务里，会看到很多外部观察者看不到的变量。</p>
+<p>这些变量可以变成行业观察：</p>
+<ul>
+<li>某个业务为什么增长乏力。</li>
+<li>某类客户为什么不再买单。</li>
+<li>某种组织结构为什么失效。</li>
+<li>某个岗位为什么会被 AI 重写。</li>
+</ul>
+<h3>4. 轻量服务</h3>
+<p>管理者的第一类产品，不一定是课程。</p>
+<p>更适合从轻服务开始：</p>
+<ul>
+<li>项目复盘诊断。</li>
+<li>组织流程梳理。</li>
+<li>管理者一对一陪跑。</li>
+<li>周会和复盘模板。</li>
+<li>团队协作工作坊。</li>
+</ul>
+<p>管理者的关键不是“我会管理”，而是“我能让一个复杂局面变清楚”。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">08</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>职业路径二，产品与运营</h2>
+<p>产品和运营天然适合做个人系统。</p>
+<p>因为他们每天都在处理用户、需求、数据、内容、转化和反馈。</p>
+<p>这些工作如果只留在公司内部，就只是岗位经验；如果被整理成公开资产，就会变成长期影响力。</p>
+<h3>产品经理的内容资产</h3>
+<p>产品经理可以写：</p>
+<ul>
+<li>一个需求为什么是真需求。</li>
+<li>一个功能为什么没有人用。</li>
+<li>一个指标为什么误导团队。</li>
+<li>一个产品如何从 0 到 1 被验证。</li>
+<li>一个用户访谈如何改变方案。</li>
+</ul>
+<p>产品经理最有价值的不是画原型，而是判断什么值得做。</p>
+<h3>运营和增长的内容资产</h3>
+<p>运营和增长可以写：</p>
+<ul>
+<li>一次活动为什么失败。</li>
+<li>一个标题为什么被打开。</li>
+<li>一个渠道为什么转化差。</li>
+<li>一个用户路径为什么中断。</li>
+<li>一个增长实验如何设计、记录和复盘。</li>
+</ul>
+<p>运营的核心不是忙，而是把不确定性变成可验证的实验。</p>
+<h3>可以产品化的方向</h3>
+<p>产品和运营适合做：</p>
+<ul>
+<li>用户访谈模板。</li>
+<li>增长实验清单。</li>
+<li>内容选题库。</li>
+<li>数据复盘框架。</li>
+<li>AI 产品需求分析提示词。</li>
+<li>行业案例拆解栏目。</li>
+</ul>
+<p>这类职业的关键是把“我做过很多项目”变成“我有一套判断和实验方法”。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">09</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>职业路径三，咨询与专业服务</h2>
+<p>咨询、法律、财税、人力、品牌、营销、顾问类工作，都属于专业服务。</p>
+<p>专业服务的核心不是卖时间，而是卖确定性。</p>
+<p>客户真正购买的是：</p>
+<ul>
+<li>你能不能看清问题。</li>
+<li>你能不能降低不确定性。</li>
+<li>你能不能给出可执行路径。</li>
+<li>你能不能陪他跨过复杂阶段。</li>
+</ul>
+<h3>把交付过程方法化</h3>
+<p>专业服务者最应该公开的，不是客户隐私，而是交付方法。</p>
+<p>例如：</p>
+<ul>
+<li>如何做一次诊断。</li>
+<li>如何识别客户真正的问题。</li>
+<li>如何评估方案风险。</li>
+<li>如何把建议变成行动计划。</li>
+<li>如何判断客户是否适合某种服务。</li>
+</ul>
+<h3>建立诊断框架</h3>
+<p>一个好的诊断框架，可以成为内容、咨询和产品的共同入口。</p>
+<p>例如：</p>
+<ul>
+<li>企业内容系统诊断。</li>
+<li>个人品牌可信度诊断。</li>
+<li>AI 工作流成熟度诊断。</li>
+<li>管理者交付能力诊断。</li>
+<li>专业服务定价诊断。</li>
+</ul>
+<p>诊断框架的好处是：它既能帮助客户理解问题，也能帮助你筛选客户。</p>
+<h3>适合的产品形态</h3>
+<p>专业服务者可以从这些形态开始：</p>
+<ul>
+<li>诊断报告。</li>
+<li>一对一咨询。</li>
+<li>小型工作坊。</li>
+<li>模板包。</li>
+<li>行业白皮书。</li>
+<li>私域问答。</li>
+</ul>
+<p>专业服务者的公开表达要克制。不要过度承诺，不要制造焦虑。真正的高级感来自清晰、准确和可验证。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">10</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>职业路径四，技术、数据与 AI 从业者</h2>
+<p>技术、数据和 AI 从业者常见问题是：能力很强，但表达容易停留在技术内部。</p>
+<p>如果只讲工具、框架、模型和代码，能吸引同行，但很难扩大影响力。</p>
+<p>真正值得训练的是：把技术能力翻译成业务价值。</p>
+<h3>从技术实现到业务判断</h3>
+<p>可以持续写这些问题：</p>
+<ul>
+<li>这个技术真正解决什么业务问题？</li>
+<li>它适合什么规模的团队？</li>
+<li>它的成本、风险和维护难点是什么？</li>
+<li>它和现有流程如何衔接？</li>
+<li>它是否值得现在做？</li>
+</ul>
+<p>技术判断如果不能进入业务场景，就很难形成更大的信任。</p>
+<h3>从代码片段到自动化方案</h3>
+<p>技术从业者很适合把能力做成小工具和自动化流程。</p>
+<p>例如：</p>
+<ul>
+<li>数据清洗脚本。</li>
+<li>报告生成器。</li>
+<li>AI 提示词工具。</li>
+<li>内容发布自动化。</li>
+<li>知识库检索流程。</li>
+<li>业务看板原型。</li>
+</ul>
+<p>这些小工具不一定马上商业化，但能证明交付能力。</p>
+<h3>适合的公开栏目</h3>
+<p>技术、数据和 AI 从业者可以建立三类栏目：</p>
+<ul>
+<li>工具评测：这个工具解决什么问题，不适合谁。</li>
+<li>自动化案例：一个流程如何从手工变成半自动。</li>
+<li>业务翻译：一个技术概念如何影响具体行业。</li>
+</ul>
+<p>技术影响力的上限，往往取决于能不能跨出技术圈。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">11</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>职业路径五，教育、培训与内容工作者</h2>
+<p>教育、培训和内容工作者的优势，是天然拥有知识组织能力。</p>
+<p>但风险也很明显：容易被平台节奏带着走，只追逐选题、流量和热点，最后没有形成自己的系统。</p>
+<h3>从知识点到知识路径</h3>
+<p>真正有价值的教育内容，不是知识点堆叠，而是路径设计。</p>
+<p>你要回答：</p>
+<ul>
+<li>初学者第一步该做什么？</li>
+<li>最常见的误区是什么？</li>
+<li>从入门到熟练有哪些阶段？</li>
+<li>每个阶段的练习和反馈是什么？</li>
+<li>学完之后应该能完成什么任务？</li>
+</ul>
+<h3>从课程到长期栏目</h3>
+<p>教育和内容工作者不要只想着做大课。</p>
+<p>更稳的方式是先建立长期栏目：</p>
+<ul>
+<li>每周一个问题。</li>
+<li>每周一次案例拆解。</li>
+<li>每周一个练习任务。</li>
+<li>每周一次学员反馈复盘。</li>
+</ul>
+<p>栏目比单篇内容更能建立信任。</p>
+<h3>可产品化方向</h3>
+<p>适合的产品形态包括：</p>
+<ul>
+<li>练习手册。</li>
+<li>主题训练营。</li>
+<li>小班工作坊。</li>
+<li>学习路线图。</li>
+<li>反馈型社群。</li>
+<li>AI 辅助学习工具。</li>
+</ul>
+<p>教育类个人系统的核心是：让别人相信跟着你可以走完一段路。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">12</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>职业路径六，销售、BD 与客户成功</h2>
+<p>销售、BD 和客户成功很容易被误解为“会说话的人”。</p>
+<p>真正成熟的销售能力，背后是客户理解、行业判断、关系经营和成交路径设计。</p>
+<p>这些能力非常适合转化为公开资产。</p>
+<h3>客户洞察</h3>
+<p>可以写：</p>
+<ul>
+<li>客户为什么迟迟不决策。</li>
+<li>客户真正担心的风险是什么。</li>
+<li>什么样的方案听起来好但不成交。</li>
+<li>高价值客户和低价值客户的区别。</li>
+<li>一次失败成交给了什么提醒。</li>
+</ul>
+<p>这些内容不是泄露客户信息，而是提炼商业规律。</p>
+<h3>成交路径</h3>
+<p>销售不是催促别人购买，而是帮助客户降低决策成本。</p>
+<p>可以整理：</p>
+<ul>
+<li>第一次沟通问什么。</li>
+<li>如何识别预算和优先级。</li>
+<li>如何判断客户是否真实需求。</li>
+<li>如何设计下一步行动。</li>
+<li>如何处理异议。</li>
+</ul>
+<h3>适合的产品化方向</h3>
+<p>销售和 BD 可以做：</p>
+<ul>
+<li>行业客户画像。</li>
+<li>销售话术复盘。</li>
+<li>客户访谈模板。</li>
+<li>需求识别清单。</li>
+<li>B2B 成交路径工作坊。</li>
+</ul>
+<p>销售型个人系统的关键不是炫耀成交，而是解释信任如何被建立。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">13</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>行业路径一，互联网与科技</h2>
+<p>互联网与科技行业变化快，信息密度高，也最容易被新概念吞没。</p>
+<p>这个行业适合建立“快速迭代型个人系统”。</p>
+<h3>适合的长期主题</h3>
+<ul>
+<li>AI 如何改写具体岗位。</li>
+<li>产品增长从经验到实验。</li>
+<li>项目管理和组织协作。</li>
+<li>新工具评测与工作流重构。</li>
+<li>技术趋势的业务影响。</li>
+</ul>
+<h3>内容策略</h3>
+<p>互联网行业不缺热点，缺的是判断。</p>
+<p>不要只写“某工具发布了什么”，而要写：</p>
+<ul>
+<li>它改变了哪个工作环节？</li>
+<li>谁会因此受益？</li>
+<li>谁会被替代？</li>
+<li>它的边界在哪里？</li>
+<li>它如何接入现有流程？</li>
+</ul>
+<h3>产品化入口</h3>
+<p>可以从这些方向开始：</p>
+<ul>
+<li>AI 工作流模板。</li>
+<li>项目复盘框架。</li>
+<li>产品经理提示词包。</li>
+<li>增长实验清单。</li>
+<li>工具选型咨询。</li>
+</ul>
+<p>互联网行业的优势是反馈快。缺点是容易浮躁。个人系统要做的是把快反馈沉淀成长期资产。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">14</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>行业路径二，金融、法律与咨询</h2>
+<p>金融、法律和咨询行业的共同特点是：高信任、高专业门槛、高风险感知。</p>
+<p>这类行业不适合过度娱乐化表达，也不适合夸张承诺。</p>
+<p>最重要的是可信。</p>
+<h3>适合的长期主题</h3>
+<ul>
+<li>专业问题的通俗解释。</li>
+<li>风险识别和决策框架。</li>
+<li>行业变化和政策影响。</li>
+<li>案例复盘，但不暴露隐私。</li>
+<li>高净值或企业客户的常见误区。</li>
+</ul>
+<h3>内容策略</h3>
+<p>这类行业的内容要遵守三个原则：</p>
+<ul>
+<li>准确比热闹重要。</li>
+<li>边界比承诺重要。</li>
+<li>方法比情绪重要。</li>
+</ul>
+<p>可以多写“如何判断”，少写“保证结果”。</p>
+<h3>产品化入口</h3>
+<p>适合从高信任服务开始：</p>
+<ul>
+<li>诊断报告。</li>
+<li>风险清单。</li>
+<li>决策咨询。</li>
+<li>小范围闭门分享。</li>
+<li>行业白皮书。</li>
+<li>高质量 newsletter。</li>
+</ul>
+<p>这类行业的个人系统，不靠高频曝光取胜，而靠长期稳定的专业可信度。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">15</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>行业路径三，制造、供应链与传统企业</h2>
+<p>制造、供应链和传统企业里，有大量被低估的隐性经验。</p>
+<p>这些经验不一定在互联网上显眼，但非常有价值。</p>
+<p>例如：</p>
+<ul>
+<li>流程如何稳定。</li>
+<li>质量如何控制。</li>
+<li>成本如何下降。</li>
+<li>供应商如何管理。</li>
+<li>现场问题如何排查。</li>
+<li>标准如何建立。</li>
+</ul>
+<h3>适合的长期主题</h3>
+<ul>
+<li>一线流程优化。</li>
+<li>质量管理复盘。</li>
+<li>成本控制案例。</li>
+<li>供应链风险识别。</li>
+<li>传统企业数字化误区。</li>
+<li>AI 在传统流程中的真实边界。</li>
+</ul>
+<h3>内容策略</h3>
+<p>传统行业的内容，不需要追逐网感。</p>
+<p>更适合写清楚：</p>
+<ul>
+<li>一个问题如何发生。</li>
+<li>为什么过去解决不了。</li>
+<li>哪个变量最关键。</li>
+<li>如何设计流程。</li>
+<li>如何验证结果。</li>
+</ul>
+<p>真实、具体、可复用，就是优势。</p>
+<h3>产品化入口</h3>
+<p>可以考虑：</p>
+<ul>
+<li>流程诊断。</li>
+<li>标准作业模板。</li>
+<li>供应商评估清单。</li>
+<li>现场问题复盘库。</li>
+<li>AI 辅助报表和巡检工具。</li>
+</ul>
+<p>传统行业的个人系统，核心是把经验从现场带到可表达、可复制、可交付的层面。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet">
+  <div class="page-mark">16</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>行业路径四，教育、医疗、健康与本地服务</h2>
+<p>教育、医疗、健康和本地服务都有一个共同特点：信任周期长。</p>
+<p>用户不会只因为你说得好就立刻行动。他们更在意：</p>
+<ul>
+<li>你是否稳定。</li>
+<li>你是否真实。</li>
+<li>你是否懂具体处境。</li>
+<li>你是否有长期陪伴能力。</li>
+</ul>
+<h3>适合的长期主题</h3>
+<p>教育：</p>
+<ul>
+<li>学习路径。</li>
+<li>练习方法。</li>
+<li>家庭支持。</li>
+<li>反馈机制。</li>
+</ul>
+<p>健康：</p>
+<ul>
+<li>饮食原则。</li>
+<li>训练习惯。</li>
+<li>睡眠恢复。</li>
+<li>长期生活方式。</li>
+</ul>
+<p>本地服务：</p>
+<ul>
+<li>服务过程透明化。</li>
+<li>用户常见误区。</li>
+<li>价格和质量解释。</li>
+<li>真实案例复盘。</li>
+</ul>
+<h3>内容策略</h3>
+<p>这类行业要少一点宏大叙事，多一点生活样本。</p>
+<p>小红书适合承接具体场景，公众号适合写完整方法，官网适合作为信任中枢，私域适合做持续关系。</p>
+<h3>产品化入口</h3>
+<p>可以从这些形态开始：</p>
+<ul>
+<li>诊断表。</li>
+<li>行动清单。</li>
+<li>7 天或 21 天小训练。</li>
+<li>小班陪跑。</li>
+<li>预约咨询。</li>
+<li>案例库。</li>
+</ul>
+<p>这类行业最重要的不是一次转化，而是长期信任。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet worksheet">
+  <div class="page-mark">17</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>个人系统自检表</h2>
+<p>请给自己做一次自检。</p>
+<p>每项 0-2 分：</p>
+<ul>
+<li>0 分：完全没有。</li>
+<li>1 分：有一点，但不稳定。</li>
+<li>2 分：已经稳定执行。</li>
+</ul>
+<h3>判断系统</h3>
+<ul>
+<li>我有 3 个以上长期关注的问题。</li>
+<li>我能说清楚自己对行业变化的判断。</li>
+<li>我能把经验写成判断句，而不是只讲故事。</li>
+<li>我会定期复盘自己的判断是否正确。</li>
+</ul>
+<h3>知识系统</h3>
+<ul>
+<li>我的笔记有明确分类。</li>
+<li>我的笔记能支持文章、产品或决策。</li>
+<li>我有固定方式整理案例、方法和复盘。</li>
+<li>我会用 AI 帮助归类、追问和提炼。</li>
+</ul>
+<h3>输出系统</h3>
+<ul>
+<li>我有长期主题，而不是随机发内容。</li>
+<li>我有固定栏目。</li>
+<li>我至少每周公开输出一次。</li>
+<li>我会记录内容反馈。</li>
+</ul>
+<h3>商业系统</h3>
+<ul>
+<li>我知道别人可能为什么信任我。</li>
+<li>我知道自己能解决哪类具体问题。</li>
+<li>我有一个轻服务或产品化方向。</li>
+<li>我已经和真实用户聊过需求。</li>
+</ul>
+<h3>身体与纪律系统</h3>
+<ul>
+<li>我有稳定睡眠习惯。</li>
+<li>我每周至少训练 2-3 次。</li>
+<li>我有基本饮食原则。</li>
+<li>我能识别自己状态下滑的信号。</li>
+</ul>
+<p>评分建议：</p>
+<ul>
+<li>0-15 分：先不要急着做产品，先建立基础输出和知识系统。</li>
+<li>16-30 分：可以开始做固定栏目和轻服务验证。</li>
+<li>31-40 分：可以进入产品化、私域和白皮书承接阶段。</li>
+</ul>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet timeline">
+  <div class="page-mark">18</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>90 天启动路线</h2>
+<p>90 天不是为了完成一个宏大转型。</p>
+<p>它的目标只有一个：让个人系统开始运转。</p>
+<h3>第 1-30 天：清点资产</h3>
+<p>任务：</p>
+<ul>
+<li>列出过去十年做过的重要项目。</li>
+<li>列出自己被反复问到的问题。</li>
+<li>列出 20 个失败或踩坑经历。</li>
+<li>列出 30 条可公开表达的判断。</li>
+<li>选定 3 个长期栏目。</li>
+</ul>
+<p>交付物：</p>
+<ul>
+<li>1 份个人资产清单。</li>
+<li>1 份长期问题清单。</li>
+<li>3 个内容栏目。</li>
+</ul>
+<h3>第 31-60 天：建立输出</h3>
+<p>任务：</p>
+<ul>
+<li>每周发布 2 篇公开内容。</li>
+<li>每篇内容都包含一个判断、一个案例、一个行动建议。</li>
+<li>用 AI 做提纲、追问和改写。</li>
+<li>记录标题、阅读、转发、私信反馈。</li>
+</ul>
+<p>交付物：</p>
+<ul>
+<li>8 篇以上公开内容。</li>
+<li>3 个 AI 工作流模板。</li>
+<li>1 份反馈记录表。</li>
+</ul>
+<h3>第 61-90 天：验证转化</h3>
+<p>任务：</p>
+<ul>
+<li>找 10 个真实用户访谈。</li>
+<li>从高反馈内容中提炼 1 个轻服务。</li>
+<li>做 1 次公开复盘。</li>
+<li>设计下一阶段产品化方向。</li>
+</ul>
+<p>交付物：</p>
+<ul>
+<li>10 份访谈记录。</li>
+<li>1 个轻量服务原型。</li>
+<li>1 篇公开复盘。</li>
+<li>1 份产品化路线图。</li>
+</ul>
+<p>90 天后，你不一定已经拥有一个成熟个人品牌，但应该拥有一个正在运转的系统。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet channels">
+  <div class="page-mark">19</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>公开表达系统</h2>
+<p>不同平台承担不同角色。</p>
+<p>不要把所有平台都当成同一种内容出口。</p>
+<h3>小红书</h3>
+<p>定位：钩子、痛点、生活样本。</p>
+<p>适合：</p>
+<ul>
+<li>具体场景。</li>
+<li>情绪共鸣。</li>
+<li>可收藏清单。</li>
+<li>训练、饮食、工作流样本。</li>
+</ul>
+<p>不适合：</p>
+<ul>
+<li>过长推理。</li>
+<li>复杂框架。</li>
+<li>抽象概念堆叠。</li>
+</ul>
+<h3>公众号</h3>
+<p>定位：长文、方法论、深度信任。</p>
+<p>适合：</p>
+<ul>
+<li>完整文章。</li>
+<li>框架解释。</li>
+<li>案例复盘。</li>
+<li>白皮书连载。</li>
+</ul>
+<h3>X</h3>
+<p>定位：英文表达、全球样本、AI 圈观察。</p>
+<p>适合：</p>
+<ul>
+<li>一句话判断。</li>
+<li>英文 thread。</li>
+<li>工具观察。</li>
+<li>全球案例。</li>
+</ul>
+<h3>即刻</h3>
+<p>定位：碎片洞察、实时互动。</p>
+<p>适合：</p>
+<ul>
+<li>当天观察。</li>
+<li>半成品想法。</li>
+<li>问题抛出。</li>
+<li>改写过程记录。</li>
+</ul>
+<h3>官网</h3>
+<p>定位：品牌定性、系统沉淀、转化入口。</p>
+<p>官网不追热点。</p>
+<p>官网负责让人理解：</p>
+<ul>
+<li>你是谁。</li>
+<li>你长期关注什么。</li>
+<li>你有什么系统。</li>
+<li>哪些内容最代表你。</li>
+<li>如何进一步与你发生关系。</li>
+</ul>
+<p>一句话：</p>
+<blockquote>
+<p>平台让人看见你，官网让人理解你，私域让人与你发生关系。</p>
+</blockquote>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet product">
+  <div class="page-mark">20</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>从内容到产品</h2>
+<p>个人系统最终不是为了内容本身。</p>
+<p>内容是入口，产品是承接，关系是长期价值。</p>
+<h3>第一步：文章</h3>
+<p>文章用于建立判断。</p>
+<p>好的文章至少包含：</p>
+<ul>
+<li>一个清晰判断。</li>
+<li>一个真实案例。</li>
+<li>一个方法。</li>
+<li>一个行动建议。</li>
+</ul>
+<h3>第二步：模板</h3>
+<p>模板用于降低使用门槛。</p>
+<p>例如：</p>
+<ul>
+<li>个人系统自检表。</li>
+<li>AI 工作流提示词。</li>
+<li>内容选题表。</li>
+<li>项目复盘模板。</li>
+<li>90 天行动计划。</li>
+</ul>
+<h3>第三步：轻服务</h3>
+<p>轻服务用于验证真实需求。</p>
+<p>例如：</p>
+<ul>
+<li>个人系统诊断。</li>
+<li>内容系统诊断。</li>
+<li>AI 工作流梳理。</li>
+<li>90 天陪跑。</li>
+<li>小型工作坊。</li>
+</ul>
+<h3>第四步：产品</h3>
+<p>产品用于规模化交付。</p>
+<p>可能形态：</p>
+<ul>
+<li>白皮书 PDF。</li>
+<li>训练营。</li>
+<li>课程。</li>
+<li>工具。</li>
+<li>社群。</li>
+<li>会员内容。</li>
+</ul>
+<p>但顺序不能反。</p>
+<p>不要从产品开始。</p>
+<p>先从真实问题、持续输出和可信交付开始。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet closing">
+  <div class="page-mark">21</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>结语：训练一种新的个人能力</h2>
+<p>AI 时代，并不是每个人都要成为网红，也不是每个人都要离开组织。</p>
+<p>更准确的说法是：每个人都需要拥有一部分组织之外也能成立的能力。</p>
+<p>这种能力不是表演，不是包装，也不是短期流量。</p>
+<p>它是一套系统：</p>
+<ul>
+<li>你能独立判断。</li>
+<li>你能持续学习。</li>
+<li>你能稳定输出。</li>
+<li>你能可信交付。</li>
+<li>你能维护身体和注意力。</li>
+<li>你能把经验变成公共价值。</li>
+</ul>
+<p>这就是“在 AI 时代，训练一种新的个人能力”。</p>
+<p>它不会在一天里完成。</p>
+<p>但可以从今天开始。</p>
+<hr class="soft-rule">
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+<section class="sheet appendix">
+  <div class="page-mark">22</div>
+  <div class="kicker">AI Personal System Whitepaper</div>
+  <div class="content">
+<h2>附录 A：可拆分内容清单</h2>
+<h3>公众号长文</h3>
+<ul>
+<li>AI 时代，为什么个人系统比工具更重要。</li>
+<li>中高端职场人如何把组织能力迁移到组织之外。</li>
+<li>不同行业如何建立自己的公开表达系统。</li>
+<li>90 天建立个人系统的行动路线。</li>
+</ul>
+<h3>小红书笔记</h3>
+<ul>
+<li>你不是不会用 AI，你是没有工作流。</li>
+<li>职场人最危险的不是失业，而是离开组织后说不清自己会什么。</li>
+<li>个人知识库不要像仓库，要像厨房。</li>
+<li>90 天个人系统自检表。</li>
+<li>不同行业的个人品牌入口。</li>
+</ul>
+<h3>X / 英文 thread</h3>
+<ul>
+<li>Tools get cheaper. Personal systems get more valuable.</li>
+<li>AI compresses execution, but amplifies judgment.</li>
+<li>Your career should not only live inside an organization.</li>
+<li>A personal system has four layers: judgment, knowledge, output, and business.</li>
+</ul>
+<h3>实验室产品种子</h3>
+<ul>
+<li>个人系统自检工具。</li>
+<li>AI 工作流成熟度测试。</li>
+<li>90 天行动计划生成器。</li>
+<li>内容选题和栏目规划器。</li>
+<li>专业服务诊断表。</li>
+</ul>
+  </div>
+  <footer>gonghejian.cn / 在 AI 时代，训练一种新的个人能力</footer>
+</section>
+</body>
+</html>

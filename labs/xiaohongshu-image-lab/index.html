@@ -15,7 +15,7 @@
                     <div class="product-tagline">输入主题 · 生成知识图 · 配套文案</div>
                 </div>
                 <nav class="product-nav" aria-label="产品导航">
-                    <a href="/labs/">AI 产品</a>
+                    <a href="/labs/">实验室</a>
                 </nav>
             </div>
         </header>
@@ -65,9 +65,14 @@
                 </label>
 
                 <div class="actions compact-actions">
-                    <button type="button" class="primary-button" id="generateTopicBtn">生成知识图示</button>
+                    <button type="button" class="primary-button" id="generateTopicBtn">智能补全并生成</button>
                     <button type="button" class="secondary-button" id="randomizeBtn">换个主题</button>
                 </div>
+
+                <label class="field">
+                    <span>系统补全方案</span>
+                    <textarea id="briefOutput" rows="5" readonly>输入主题后，会自动补全成标题、图示结构、知识点、视觉元素和发布文案。</textarea>
+                </label>
 
                 <div class="field-grid">
                     <label class="field">
@@ -76,7 +81,7 @@
                             <option value="history" selected>历史知识</option>
                             <option value="fitness">健身知识</option>
                             <option value="reading">读书笔记</option>
-                            <option value="ai">AI 产品分享</option>
+                            <option value="ai">AI 工具分享</option>
                             <option value="reflection">日常复盘</option>
                             <option value="method">效率方法</option>
                             <option value="life">生活方式</option>
@@ -141,6 +146,7 @@
                     <button type="button" class="primary-button" id="downloadBtn">下载 PNG</button>
                     <button type="button" class="secondary-button" id="generateCopyBtn">生成发布文案</button>
                     <button type="button" class="secondary-button" id="copyPromptBtn">复制 AI 提示词</button>
+                    <button type="button" class="secondary-button workbench-button" id="openWorkbenchBtn">复制并打开 AICLI 生图</button>
                 </div>
                 <p class="status-line" id="statusLine" aria-live="polite">已实时生成预览。</p>
             </section>
@@ -152,8 +158,12 @@
                 <div class="prompt-panel">
                     <div class="prompt-header">
                         <h2>AI 生图提示词</h2>
-                        <button type="button" id="refreshPromptBtn">刷新</button>
+                        <div class="prompt-actions">
+                            <button type="button" id="refreshPromptBtn">刷新</button>
+                            <button type="button" id="openWorkbenchPanelBtn">打开 AICLI</button>
+                        </div>
                     </div>
+                    <p class="workbench-hint">先复制提示词，再到 AICLI 生图工作台粘贴生成；适合制作更精细的小红书首图。</p>
                     <textarea id="promptOutput" rows="8" readonly></textarea>
                 </div>
                 <div class="publish-panel">

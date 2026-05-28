@@ -339,6 +339,11 @@ button {
     flex-wrap: wrap;
 }
 
+.workbench-button {
+    border-color: rgba(37, 99, 235, 0.22);
+    background: rgba(37, 99, 235, 0.08);
+}
+
 .compact-actions {
     margin-bottom: 16px;
 }
@@ -369,6 +374,19 @@ button {
     margin: 12px 0 0;
     color: var(--muted);
     font-size: 12px;
+}
+
+.prompt-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.workbench-hint {
+    margin: 12px 0 10px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.65;
 }
 
 .preview-panel {

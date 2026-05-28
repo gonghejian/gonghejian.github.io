@@ -11,6 +11,7 @@
         quote: document.getElementById('quoteInput'),
         author: document.getElementById('authorInput'),
         tag: document.getElementById('tagInput'),
+        brief: document.getElementById('briefOutput'),
         prompt: document.getElementById('promptOutput'),
         note: document.getElementById('noteOutput'),
         titleOptions: document.getElementById('titleOptions'),
@@ -41,6 +42,10 @@
         list: { label: '清单', badge: '收藏这 4 点', spark: '清单' },
         result: { label: '结果', badge: '一图看懂', spark: '省时' }
     };
+    const imageWorkbenchUrl = 'https://image.aicli.qzz.io/';
+    let activeKnowledge = null;
+    let activeBrief = '';
+    let autoCompleteTimer = null;
 
     const templatePresets = {
         history: {
@@ -82,6 +87,63 @@
             quote: 'AI 真正有用的时候，往往是它接住了一个稳定流程。',
             tag: 'AI工具',
             hookType: 'result'
+        }
+    };
+
+    const historyPeople = {
+        '秦始皇': {
+            era: '战国末期到秦朝',
+            identity: '中国第一个皇帝，完成大一统制度奠基',
+            events: ['灭六国完成统一', '推行郡县制', '统一文字、度量衡和车轨', '修驰道与长城体系'],
+            ability: '把分裂秩序整合成统一国家机器',
+            impact: '影响了此后两千多年中国政治结构',
+            controversy: '功在制度统一，争议在严刑峻法和高压治理',
+            visual: '秦代黑金配色、竹简、兵马俑剪影、地图统一箭头、篆书纹样'
+        },
+        '武则天': {
+            era: '唐代',
+            identity: '中国历史上少见的女性皇帝',
+            events: ['从后宫进入权力中心', '改唐为周', '重用科举和寒门人才', '维持帝国运转'],
+            ability: '在男性权力结构中完成权力重组',
+            impact: '改变了唐代政治用人结构，也留下女性权力样本',
+            controversy: '能力与手段并存，评价长期被性别和权力叙事影响',
+            visual: '唐代宫廷、金色凤纹、诏书、女性帝王剪影、洛阳意象'
+        },
+        '苏轼': {
+            era: '北宋',
+            identity: '文学家、政治人物，也是一种旷达生活方式的代表',
+            events: ['科举成名', '乌台诗案', '黄州转折', '惠州儋州贬谪'],
+            ability: '把失意转化为作品、生活审美和精神韧性',
+            impact: '留下诗词、散文、书画和人格样本',
+            controversy: '政治上屡遭挫折，精神上反而不断打开',
+            visual: '宋代书卷、江水、月亮、东坡肉、竹影、手写诗词氛围'
+        },
+        '王阳明': {
+            era: '明代',
+            identity: '心学代表人物，提出知行合一',
+            events: ['龙场悟道', '讲学传播心学', '平定宁王之乱', '提出致良知'],
+            ability: '把内在判断和现实行动打通',
+            impact: '影响东亚思想、修身方法和行动哲学',
+            controversy: '心学容易被误读成只讲主观感受，真正难点在行动验证',
+            visual: '山中书院、竹简、心形印章、明代官服剪影、知行合一结构图'
+        },
+        '曾国藩': {
+            era: '晚清',
+            identity: '晚清重臣，湘军创建者，也常被视为自我管理样本',
+            events: ['屡试与修身', '组建湘军', '平定太平天国', '推动洋务尝试'],
+            ability: '用笨功夫、组织力和长期纪律处理复杂局面',
+            impact: '影响晚清政治军事，也留下家书和修身方法',
+            controversy: '历史功过复杂，不能只把他简化成励志人物',
+            visual: '晚清书信、军帐地图、家书、印章、克制灰蓝色调'
+        },
+        '诸葛亮': {
+            era: '三国',
+            identity: '蜀汉丞相，战略、治理和忠诚叙事的代表',
+            events: ['隆中对', '辅佐刘备', '治理蜀汉', '北伐中原'],
+            ability: '在资源有限条件下做长期战略和组织治理',
+            impact: '成为中国文化中智谋、责任和鞠躬尽瘁的象征',
+            controversy: '战略理想与现实资源之间存在长期张力',
+            visual: '羽扇、山川地图、三国棋盘、军帐、木牛流马意象'
         }
     };
 
@@ -162,6 +224,96 @@
         return controls.contentType.value || 'method';
     }
 
+    function cleanTopic(text) {
+        return (text || '')
+            .replace(/帮我|请|生成|做成|介绍|讲讲|一张|适合小红书|小红书|知识图|图示|人物图|历史/g, '')
+            .replace(/[，。,.！？!?、]/g, ' ')
+            .trim();
+    }
+
+    function detectHistoryPerson(text) {
+        const source = text || '';
+        const known = Object.keys(historyPeople).find((name) => source.includes(name));
+        if (known) return known;
+
+        const cleaned = cleanTopic(source).split(/\s+/).filter(Boolean)[0];
+        if (cleaned && cleaned.length >= 2 && cleaned.length <= 4 && /人物|传记|历史|皇帝|诗人|思想家|名人|介绍|讲讲/.test(source)) {
+            return cleaned;
+        }
+        return '';
+    }
+
+    function buildHistoryPersonKnowledge(name) {
+        const data = historyPeople[name] || {
+            era: '历史人物所处时代',
+            identity: `${name}的身份、位置和代表性需要先交代清楚`,
+            events: ['时代背景', '关键转折', '代表行动', '长期影响'],
+            ability: '理解这个人物，要看他解决了什么时代问题',
+            impact: '把人物放回时代，才能看见真正影响',
+            controversy: '不要只做单一评价，要保留功过和时代限制',
+            visual: '历史人物半身像、年代轴、地图、书卷、印章、关键事件图标'
+        };
+
+        return {
+            diagram: 'profile',
+            subject: name,
+            labels: ['背景', '转折', '高光', '影响'],
+            visual: data.visual,
+            sections: [
+                { title: '时代位置', body: `${data.era}：${data.identity}` },
+                { title: '关键事件', body: data.events.slice(0, 3).join(' / ') },
+                { title: '人物能力', body: data.ability },
+                { title: '历史影响', body: `${data.impact}；${data.controversy}` }
+            ],
+            noteLead: `如果只记住${name}的故事，很容易碎片化。更好的方式，是把他放回时代位置，看关键转折、能力结构和长期影响。`
+        };
+    }
+
+    function buildSmartPlan(text) {
+        const type = inferType(text);
+        const person = type === 'history' ? detectHistoryPerson(text) : '';
+        if (person) {
+            const knowledge = buildHistoryPersonKnowledge(person);
+            return {
+                type: 'history',
+                stylePreset: 'editorial',
+                hookType: 'result',
+                title: `一张图看懂${person}`,
+                subtitle: '先看时代位置，再看关键事件、人物能力和历史影响',
+                quote: `理解${person}，不是背故事，而是看他如何回应自己的时代。`,
+                tag: `${person}人物图`,
+                knowledge,
+                brief: [
+                    `主题识别：历史人物知识图`,
+                    `人物：${person}`,
+                    `系统补全：时代位置 / 关键事件 / 人物能力 / 历史影响`,
+                    `图示建议：人物主视觉 + 四张信息卡 + 小时间线`,
+                    `视觉元素：${knowledge.visual}`
+                ].join('\n')
+            };
+        }
+
+        const preset = templatePresets[type];
+        const fallbackTopic = cleanTopic(text).slice(0, 18) || '这个主题';
+        const baseKnowledge = knowledgeBase[type] || knowledgeBase.default;
+        return {
+            type,
+            stylePreset: preset ? preset.stylePreset : 'minimal',
+            hookType: preset ? preset.hookType : 'list',
+            title: preset ? preset.title : `一张图看懂${fallbackTopic}`,
+            subtitle: preset ? preset.subtitle : '先抓核心概念，再看步骤、误区和行动',
+            quote: preset ? preset.quote : '好内容不是堆知识点，而是帮读者形成清晰结构。',
+            tag: preset ? preset.tag : fallbackTopic.replace(/[，。,. ]/g, '') || '知识图示',
+            knowledge: baseKnowledge,
+            brief: [
+                `主题识别：${typeMap[type] ? typeMap[type].label : '通用知识图示'}`,
+                `系统补全：${baseKnowledge.sections.map((item) => item.title).join(' / ')}`,
+                `图示建议：${baseKnowledge.diagram === 'timeline' ? '时间线图示' : baseKnowledge.diagram === 'matrix' ? '四象限卡片' : '步骤卡片'}`,
+                `视觉元素：${typeMap[type] ? typeMap[type].topic : '知识卡片、流程箭头、重点标注'}`
+            ].join('\n')
+        };
+    }
+
     function resizeCanvas() {
         const dimensions = {
             '3:4': [900, 1200],
@@ -237,7 +389,7 @@
 
     function currentKnowledge() {
         const type = controls.contentType.value;
-        return knowledgeBase[type] || knowledgeBase.default;
+        return activeKnowledge || knowledgeBase[type] || knowledgeBase.default;
     }
 
     function drawCover() {
@@ -308,6 +460,10 @@
     }
 
     function drawKnowledgeDiagram(knowledge, colors, style, x, y, width, height) {
+        if (knowledge.diagram === 'profile') {
+            drawProfile(knowledge, colors, style, x, y, width, height);
+            return;
+        }
         if (knowledge.diagram === 'timeline') {
             drawTimeline(knowledge, colors, style, x, y, width, height);
             return;
@@ -317,6 +473,54 @@
             return;
         }
         drawCards(knowledge, colors, style, x, y, width, height);
+    }
+
+    function drawProfile(knowledge, colors, style, x, y, width, height) {
+        drawRoundRect(x, y, width, height, 24, style === 'tech' ? 'rgba(255,255,255,0.08)' : '#f8fafc');
+        const portraitSize = Math.min(width * 0.28, height * 0.5);
+        const portraitX = x + 24;
+        const portraitY = y + 28;
+
+        drawRoundRect(portraitX, portraitY, portraitSize, portraitSize, 26, style === 'tech' ? 'rgba(56,189,248,0.16)' : '#fff7ed');
+        ctx.fillStyle = colors[2];
+        ctx.beginPath();
+        ctx.arc(portraitX + portraitSize / 2, portraitY + portraitSize * 0.34, portraitSize * 0.16, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = style === 'tech' ? '#e0f2fe' : '#111827';
+        ctx.font = `900 ${Math.round(canvas.width * 0.044)}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText(knowledge.subject || '人物', portraitX + portraitSize / 2, portraitY + portraitSize * 0.72);
+        ctx.textAlign = 'left';
+
+        ctx.strokeStyle = colors[2];
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(portraitX + portraitSize + 22, portraitY + portraitSize * 0.42);
+        ctx.lineTo(x + width - 34, portraitY + portraitSize * 0.42);
+        ctx.stroke();
+
+        knowledge.labels.forEach((label, index) => {
+            const px = portraitX + portraitSize + 22 + ((width - portraitSize - 80) / (knowledge.labels.length - 1)) * index;
+            ctx.fillStyle = index % 2 === 0 ? colors[2] : colors[4];
+            ctx.beginPath();
+            ctx.arc(px, portraitY + portraitSize * 0.42, 13, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = style === 'tech' ? '#e0f2fe' : '#17202a';
+            ctx.font = `900 ${Math.round(canvas.width * 0.022)}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.fillText(label, px, portraitY + portraitSize * 0.42 + 44);
+        });
+        ctx.textAlign = 'left';
+
+        const cardGap = 12;
+        const cardW = (width - cardGap) / 2;
+        const cardH = (height - portraitSize - 68 - cardGap) / 2;
+        const startY = y + portraitSize + 50;
+        knowledge.sections.forEach((item, index) => {
+            const cx = x + (index % 2) * (cardW + cardGap);
+            const cy = startY + Math.floor(index / 2) * (cardH + cardGap);
+            drawInfoCard(item, index, colors, style, cx, cy, cardW, cardH);
+        });
     }
 
     function drawTimeline(knowledge, colors, style, x, y, width, height) {
@@ -403,40 +607,38 @@
     }
 
     function generateFromTopic() {
-        const type = inferType(controls.topic.value);
-        const preset = templatePresets[type];
-        controls.contentType.value = type;
-        if (preset) {
-            controls.stylePreset.value = preset.stylePreset;
-            controls.title.value = preset.title;
-            controls.subtitle.value = preset.subtitle;
-            controls.quote.value = preset.quote;
-            controls.tag.value = preset.tag;
-            setRadioValue('hookType', preset.hookType);
-        } else {
-            const clean = controls.topic.value.replace(/^帮我|请|生成|做成/g, '').slice(0, 18) || '这个主题';
-            controls.title.value = `一张图看懂${clean}`;
-            controls.subtitle.value = '先抓核心概念，再看步骤、误区和行动';
-            controls.quote.value = '好内容不是堆知识点，而是帮读者形成清晰结构。';
-            controls.tag.value = clean.replace(/[，。,. ]/g, '') || '知识图示';
-        }
-        syncTemplateActive(type);
+        const plan = buildSmartPlan(controls.topic.value);
+        controls.contentType.value = plan.type;
+        controls.stylePreset.value = plan.stylePreset;
+        controls.title.value = plan.title;
+        controls.subtitle.value = plan.subtitle;
+        controls.quote.value = plan.quote;
+        controls.tag.value = plan.tag;
+        controls.brief.value = plan.brief;
+        activeKnowledge = plan.knowledge;
+        activeBrief = plan.brief;
+        setRadioValue('hookType', plan.hookType);
+        syncTemplateActive(plan.type);
         drawCover();
-        setStatus('已根据主题生成知识图示。');
+        setStatus('已主动补全需求并生成知识图示。');
     }
 
     function updatePrompt() {
         const type = typeMap[controls.contentType.value] || typeMap.method;
         const styleName = controls.stylePreset.options[controls.stylePreset.selectedIndex].text;
+        const knowledge = currentKnowledge();
         controls.prompt.value = [
             `请生成一张适合小红书发布的中文知识图示，比例 ${getRadioValue('ratio')}。`,
             `用户需求：${controls.topic.value}`,
+            `系统补全方案：${activeBrief || controls.brief.value}`,
             `主题：${controls.title.value}`,
             `内容场景：${type.topic}。`,
-            `画面结构：标题区 + ${currentKnowledge().diagram === 'timeline' ? '时间线图示' : currentKnowledge().diagram === 'matrix' ? '四象限知识卡片' : '步骤卡片'} + 总结金句。`,
+            `知识点：${knowledge.sections.map((item) => `${item.title}：${item.body}`).join('；')}`,
+            `画面结构：标题区 + ${knowledge.diagram === 'profile' ? '历史人物主视觉和四张信息卡' : knowledge.diagram === 'timeline' ? '时间线图示' : knowledge.diagram === 'matrix' ? '四象限知识卡片' : '步骤卡片'} + 总结金句。`,
+            knowledge.visual ? `视觉元素：${knowledge.visual}。` : '',
             `视觉风格：${styleName}，信息清晰，有收藏感，适合小红书知识类笔记。`,
-            `要求：中文文字清晰，不要水印，不要真实品牌 Logo，画面不要杂乱。`
-        ].join('\n');
+            `要求：中文文字清晰，不要水印，不要真实品牌 Logo，画面不要杂乱；如果模型文字不稳定，请优先保证人物、氛围、图示底图和信息分区清晰。`
+        ].filter(Boolean).join('\n');
     }
 
     function buildTitleIdeas() {
@@ -485,6 +687,8 @@
     function applyTemplate(key) {
         const preset = templatePresets[key];
         if (!preset) return;
+        activeKnowledge = null;
+        activeBrief = '';
         controls.topic.value = preset.topic;
         controls.contentType.value = preset.contentType;
         controls.stylePreset.value = preset.stylePreset;
@@ -492,6 +696,7 @@
         controls.subtitle.value = preset.subtitle;
         controls.quote.value = preset.quote;
         controls.tag.value = preset.tag;
+        controls.brief.value = '已套用模板。也可以输入更具体的人物、事件、书名或工具名，再点“智能补全并生成”。';
         setRadioValue('hookType', preset.hookType);
         syncTemplateActive(key);
         drawCover();
@@ -541,6 +746,32 @@
         copyTextFrom(controls.prompt, 'AI 生图提示词已复制。');
     }
 
+    function openImageWorkbench() {
+        updatePrompt();
+        const openWorkbench = () => {
+            const win = window.open(imageWorkbenchUrl, '_blank', 'noopener,noreferrer');
+            if (win) {
+                setStatus('提示词已复制，已打开 AICLI 生图工作台。');
+            } else {
+                setStatus('提示词已复制。浏览器拦截了新窗口，请手动打开 AICLI。');
+            }
+        };
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(controls.prompt.value).then(
+                openWorkbench,
+                () => {
+                    copyTextFrom(controls.prompt, 'AI 生图提示词已复制。');
+                    openWorkbench();
+                }
+            );
+            return;
+        }
+
+        copyTextFrom(controls.prompt, 'AI 生图提示词已复制。');
+        openWorkbench();
+    }
+
     function setStatus(text) {
         controls.status.textContent = text;
         window.clearTimeout(setStatus.timer);
@@ -563,10 +794,22 @@
         card.addEventListener('click', () => applyTemplate(card.dataset.template));
     });
 
+    controls.topic.addEventListener('input', () => {
+        window.clearTimeout(autoCompleteTimer);
+        autoCompleteTimer = window.setTimeout(() => {
+            const value = controls.topic.value.trim();
+            if (value.length >= 4) {
+                generateFromTopic();
+            }
+        }, 650);
+    });
+
     document.getElementById('generateTopicBtn').addEventListener('click', generateFromTopic);
     document.getElementById('randomizeBtn').addEventListener('click', randomize);
     document.getElementById('downloadBtn').addEventListener('click', downloadImage);
     document.getElementById('copyPromptBtn').addEventListener('click', copyPrompt);
+    document.getElementById('openWorkbenchBtn').addEventListener('click', openImageWorkbench);
+    document.getElementById('openWorkbenchPanelBtn').addEventListener('click', openImageWorkbench);
     document.getElementById('generateCopyBtn').addEventListener('click', () => updatePublishCopy(true));
     document.getElementById('copyNoteBtn').addEventListener('click', () => copyTextFrom(controls.note, '发布文案已复制。'));
     document.getElementById('refreshPromptBtn').addEventListener('click', () => {
