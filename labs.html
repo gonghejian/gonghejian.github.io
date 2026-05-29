@@ -143,11 +143,29 @@ permalink: /labs/
     color: var(--labs-ink);
 }
 
+[data-theme="dark"] .labs-page {
+    --labs-ink: #e5e7eb;
+    --labs-muted: #94a3b8;
+    --labs-line: rgba(148, 163, 184, 0.18);
+    --labs-soft: #111827;
+    --labs-surface: #0f172a;
+    --labs-blue: #60a5fa;
+    --labs-green: #34d399;
+    --labs-amber: #f59e0b;
+    --labs-rose: #fb7185;
+    --labs-shadow: 0 18px 44px rgba(2, 6, 23, 0.42);
+}
+
 .labs-hero {
     padding: 64px 0 42px;
     background:
         linear-gradient(180deg, rgba(245, 247, 251, 0.92) 0%, rgba(255, 255, 255, 1) 100%);
     border-bottom: 1px solid var(--labs-line);
+}
+
+[data-theme="dark"] .labs-hero {
+    background:
+        linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(2, 6, 23, 1) 100%);
 }
 
 .labs-hero-inner {
@@ -169,6 +187,12 @@ permalink: /labs/
     color: #047857;
     font-size: 13px;
     font-weight: 700;
+}
+
+[data-theme="dark"] .labs-kicker {
+    border-color: rgba(52, 211, 153, 0.22);
+    background: rgba(52, 211, 153, 0.12);
+    color: #86efac;
 }
 
 .labs-title {
@@ -218,12 +242,27 @@ permalink: /labs/
     color: #ffffff;
 }
 
+[data-theme="dark"] .labs-primary-action {
+    border-color: #e5e7eb;
+    background: #e5e7eb;
+    color: #0f172a;
+}
+
 .labs-secondary-action,
 .labs-tab,
 .project-link {
     border: 1px solid var(--labs-line);
     background: var(--labs-surface);
     color: var(--labs-ink);
+}
+
+[data-theme="dark"] .labs-secondary-action:hover,
+[data-theme="dark"] .project-link:hover,
+[data-theme="dark"] .labs-tab:hover,
+[data-theme="dark"] .labs-tab.active {
+    border-color: rgba(96, 165, 250, 0.35);
+    color: #93c5fd;
+    background: rgba(59, 130, 246, 0.12);
 }
 
 .labs-primary-action:hover,
@@ -251,6 +290,11 @@ permalink: /labs/
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.82);
     box-shadow: 0 12px 34px rgba(15, 23, 42, 0.06);
+}
+
+[data-theme="dark"] .labs-signal-item {
+    background: rgba(15, 23, 42, 0.9);
+    box-shadow: 0 12px 34px rgba(2, 6, 23, 0.32);
 }
 
 .labs-signal-item span {
@@ -288,6 +332,12 @@ permalink: /labs/
     backdrop-filter: blur(16px);
 }
 
+[data-theme="dark"] .labs-toolbar {
+    border-color: rgba(148, 163, 184, 0.14);
+    background: rgba(15, 23, 42, 0.86);
+    box-shadow: 0 14px 36px rgba(2, 6, 23, 0.34);
+}
+
 .labs-tabs {
     display: flex;
     flex-wrap: wrap;
@@ -319,6 +369,11 @@ permalink: /labs/
     outline: none;
 }
 
+[data-theme="dark"] .labs-search input {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
 .labs-search input:focus {
     border-color: rgba(37, 99, 235, 0.45);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
@@ -346,6 +401,11 @@ permalink: /labs/
     transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
+[data-theme="dark"] .project-card {
+    background: rgba(15, 23, 42, 0.96);
+    box-shadow: 0 18px 44px rgba(2, 6, 23, 0.34);
+}
+
 .project-card::before {
     content: "";
     position: absolute;
@@ -360,6 +420,12 @@ permalink: /labs/
     transform: translateY(-3px);
     border-color: rgba(37, 99, 235, 0.26);
     box-shadow: 0 24px 54px rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="dark"] .project-card:hover,
+[data-theme="dark"] .project-card:focus-within {
+    border-color: rgba(96, 165, 250, 0.34);
+    box-shadow: 0 24px 54px rgba(2, 6, 23, 0.48);
 }
 
 .project-card-top,
@@ -383,6 +449,10 @@ permalink: /labs/
     flex-shrink: 0;
 }
 
+[data-theme="dark"] .project-icon {
+    background: rgba(30, 41, 59, 0.95);
+}
+
 .project-status {
     display: inline-flex;
     align-items: center;
@@ -395,6 +465,12 @@ permalink: /labs/
     font-size: 12px;
     font-weight: 700;
     white-space: nowrap;
+}
+
+[data-theme="dark"] .project-status {
+    border-color: rgba(52, 211, 153, 0.2);
+    background: rgba(52, 211, 153, 0.12);
+    color: #86efac;
 }
 
 .project-card-body {
@@ -450,6 +526,11 @@ permalink: /labs/
     font-size: 12px;
 }
 
+[data-theme="dark"] .project-tags span {
+    background: rgba(30, 41, 59, 0.95);
+    color: #cbd5e1;
+}
+
 .project-link {
     position: relative;
     z-index: 2;
@@ -469,6 +550,10 @@ permalink: /labs/
     background: var(--labs-surface);
     color: var(--labs-muted);
     text-align: center;
+}
+
+[data-theme="dark"] .projects-empty {
+    background: rgba(15, 23, 42, 0.92);
 }
 
 .sr-only {
