@@ -24,12 +24,12 @@
             <div class="product-hero-main">
                 <p class="product-kicker">输入一个主题，直接生成能发的小红书知识图示</p>
                 <h1>比如历史、健身、读书、AI，都能变成一张有结构的图。</h1>
-                <p>把“帮我介绍历史”“健身方式怎么选”这类模糊需求，自动整理成标题、知识点、图示结构、正文和话题标签。图片在本地生成，可直接下载 PNG。</p>
+                <p>把“日本动漫风健身图”“油画风苏轼”“中国山水画知识卡”这类模糊需求，先补全成画面风格、主体、构图和生图提示词，再叠加清晰标题与知识点。</p>
             </div>
             <div class="product-stats" aria-label="产品能力">
-                <div><span>主题识别</span><strong>历史 / 健身 / AI</strong></div>
-                <div><span>图示结构</span><strong>时间线 / 流程 / 清单</strong></div>
-                <div><span>导出方式</span><strong>PNG / 文案 / 提示词</strong></div>
+                <div><span>主题识别</span><strong>人物 / 健身 / 历史</strong></div>
+                <div><span>画风补全</span><strong>动漫 / 油画 / 山水</strong></div>
+                <div><span>导出方式</span><strong>PNG / 文案 / AICLI</strong></div>
             </div>
         </section>
 
@@ -41,6 +41,18 @@
                 </div>
 
                 <div class="template-strip" aria-label="模板场景">
+                    <button type="button" class="template-card" data-template="anime">
+                        <strong>日本动漫</strong>
+                        <span>角色 / 动作 / 情绪张力</span>
+                    </button>
+                    <button type="button" class="template-card" data-template="oil">
+                        <strong>油画海报</strong>
+                        <span>厚涂 / 光影 / 人物肖像</span>
+                    </button>
+                    <button type="button" class="template-card" data-template="ink">
+                        <strong>中国山水</strong>
+                        <span>水墨 / 留白 / 国风意境</span>
+                    </button>
                     <button type="button" class="template-card active" data-template="history">
                         <strong>历史入门</strong>
                         <span>时间线 / 时代脉络 / 关键人物</span>
@@ -61,7 +73,7 @@
 
                 <label class="field">
                     <span>你想生成什么图示？</span>
-                    <textarea id="topicInput" rows="3" maxlength="120">帮我介绍历史，做成一张适合小红书的时间线知识图</textarea>
+                    <textarea id="topicInput" rows="3" maxlength="120">生成一张日本动漫风的新手健身知识图，像我发的参考图一样，先有画面再加字</textarea>
                 </label>
 
                 <div class="actions compact-actions">
@@ -99,6 +111,20 @@
                         </select>
                     </label>
                 </div>
+
+                <label class="field">
+                    <span>生图画风</span>
+                    <select id="artStyle">
+                        <option value="auto" selected>自动识别</option>
+                        <option value="anime">日本动漫风</option>
+                        <option value="oil">油画风</option>
+                        <option value="ink">中国山水画</option>
+                        <option value="gongbi">国风工笔</option>
+                        <option value="watercolor">水彩插画</option>
+                        <option value="picturebook">儿童绘本</option>
+                        <option value="realistic">写实摄影</option>
+                    </select>
+                </label>
 
                 <fieldset class="ratio-field">
                     <legend>标题钩子</legend>

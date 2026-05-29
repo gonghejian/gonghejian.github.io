@@ -1,193 +1,582 @@
 ---
 layout: default
-title: AI 产品
+title: 实验室
 permalink: /labs/
 ---
 
+{% assign projects = site.projects | sort: "order" %}
+
 <div class="labs-page">
-    <div class="container">
-        <div class="labs-hero">
-            <h1 class="labs-title">AI 产品</h1>
-            <p class="labs-description">一些用 AI 做出来、正在迭代的小产品和工具。</p>
-        </div>
-        
-        <div class="labs-content">
-            {% assign projects = site.projects | sort: "order" %}
-            {% if projects.size > 0 %}
-            <div class="projects-grid">
-                {% for project in projects %}
-                <div class="project-item">
-                    {% assign target_link = project.link | default: project.url %}
-                    {% if project.icon %}
-                    <div class="project-icon">{{ project.icon }}</div>
-                    {% endif %}
-                    <div class="project-content">
-                        <h3 class="project-title">
-                            {% if project.external %}
-                            <a href="{{ target_link }}" target="_blank" rel="noopener noreferrer">{{ project.title }}</a>
-                            {% else %}
-                            <a href="{{ target_link | relative_url }}">{{ project.title }}</a>
-                            {% endif %}
-                        </h3>
-                        {% if project.short_description %}
-                        <p class="project-description">{{ project.short_description }}</p>
-                        {% elsif project.description %}
-                        <p class="project-description">{{ project.description }}</p>
-                        {% endif %}
-                    </div>
+    <section class="labs-hero">
+        <div class="container labs-hero-inner">
+            <div class="labs-hero-main">
+                <p class="labs-kicker">个人系统实验室</p>
+                <h1 class="labs-title">把想法做成可以试用的工具。</h1>
+                <p class="labs-description">
+                    这里收纳我正在迭代的小产品和原型：AI 工作流、知识出口、学习训练、内容生产。它们不是展示品，而是个人系统的一部分。
+                </p>
+                <div class="labs-actions" aria-label="实验室操作">
+                    <a class="labs-primary-action" href="#labsProjects">查看项目</a>
+                    <a class="labs-secondary-action" href="{{ '/whitepaper/' | relative_url }}">阅读白皮书</a>
                 </div>
-                {% endfor %}
             </div>
-            {% else %}
-            <p class="projects-empty">暂无项目</p>
-            {% endif %}
+
+            <div class="labs-signal" aria-label="实验室状态">
+                <div class="labs-signal-item">
+                    <span>项目数量</span>
+                    <strong>{{ projects.size }}</strong>
+                </div>
+                <div class="labs-signal-item">
+                    <span>系统主线</span>
+                    <strong>AI / 知识 / 训练</strong>
+                </div>
+                <div class="labs-signal-item">
+                    <span>当前阶段</span>
+                    <strong>原型验证</strong>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <main class="container labs-main" id="labsProjects">
+        <div class="labs-toolbar" aria-label="项目筛选">
+            <div class="labs-tabs" role="tablist" aria-label="项目分类">
+                <button type="button" class="labs-tab active" data-filter="all">全部</button>
+                <button type="button" class="labs-tab" data-filter="ai">AI 工作流</button>
+                <button type="button" class="labs-tab" data-filter="knowledge">知识表达</button>
+                <button type="button" class="labs-tab" data-filter="learning">学习训练</button>
+                <button type="button" class="labs-tab" data-filter="content">内容创作</button>
+            </div>
+
+            <label class="labs-search">
+                <span class="sr-only">搜索实验项目</span>
+                <input id="labsSearchInput" type="search" placeholder="搜索项目、标签或用途" autocomplete="off">
+            </label>
+        </div>
+
+        {% if projects.size > 0 %}
+        <div class="projects-grid" id="labsProjectGrid">
+            {% for project in projects %}
+            {% assign target_link = project.link | default: project.url %}
+            {% assign tag_text = project.tags | join: ' ' %}
+            {% assign filter_text = tag_text | append: ' ' | append: project.title | append: ' ' | append: project.short_description | append: ' ' | append: project.description %}
+            {% assign categories = '' %}
+            {% if filter_text contains 'AI' or filter_text contains 'DeepSeek' or filter_text contains '工具' %}
+                {% assign categories = categories | append: ' ai' %}
+            {% endif %}
+            {% if filter_text contains '阅读' or filter_text contains '知识' or filter_text contains '星盘' or filter_text contains '易经' %}
+                {% assign categories = categories | append: ' knowledge' %}
+            {% endif %}
+            {% if filter_text contains '会考' or filter_text contains '学习' or filter_text contains '训练' or filter_text contains '刷题' %}
+                {% assign categories = categories | append: ' learning' %}
+            {% endif %}
+            {% if filter_text contains '小红书' or filter_text contains '内容' or filter_text contains '图片' %}
+                {% assign categories = categories | append: ' content' %}
+            {% endif %}
+            <article
+                class="project-card"
+                data-categories="{{ categories | strip }}"
+                data-search="{{ filter_text | strip_html | downcase | escape }}"
+            >
+                <div class="project-card-top">
+                    <div class="project-icon" aria-hidden="true">{{ project.icon | default: "◎" }}</div>
+                    {% if project.status %}
+                    <span class="project-status">{{ project.status }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="project-card-body">
+                    <h2 class="project-title">
+                        {% if project.external %}
+                        <a href="{{ target_link }}" target="_blank" rel="noopener noreferrer">{{ project.title }}</a>
+                        {% else %}
+                        <a href="{{ target_link | relative_url }}">{{ project.title }}</a>
+                        {% endif %}
+                    </h2>
+                    {% if project.short_description %}
+                    <p class="project-description">{{ project.short_description }}</p>
+                    {% elsif project.description %}
+                    <p class="project-description">{{ project.description }}</p>
+                    {% endif %}
+                </div>
+
+                {% if project.tags %}
+                <div class="project-tags" aria-label="项目标签">
+                    {% for tag in project.tags limit: 4 %}
+                    <span>{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="project-card-footer">
+                    {% if project.external %}
+                    <a class="project-link" href="{{ target_link }}" target="_blank" rel="noopener noreferrer">打开项目</a>
+                    {% else %}
+                    <a class="project-link" href="{{ target_link | relative_url }}">进入实验</a>
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        <div class="projects-empty" id="labsEmptyState" hidden>
+            没有匹配的项目。换一个关键词，或者切回“全部”。
+        </div>
+        {% else %}
+        <p class="projects-empty">暂无项目。</p>
+        {% endif %}
+    </main>
 </div>
 
 <style>
 .labs-page {
-    padding: 60px 0 80px;
+    --labs-ink: #172033;
+    --labs-muted: #667085;
+    --labs-line: rgba(23, 32, 51, 0.11);
+    --labs-soft: #f5f7fb;
+    --labs-surface: #ffffff;
+    --labs-blue: #2563eb;
+    --labs-green: #0f9f6e;
+    --labs-amber: #b45309;
+    --labs-rose: #e11d48;
+    --labs-shadow: 0 18px 44px rgba(15, 23, 42, 0.08);
+    color: var(--labs-ink);
 }
 
 .labs-hero {
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto 64px;
+    padding: 64px 0 42px;
+    background:
+        linear-gradient(180deg, rgba(245, 247, 251, 0.92) 0%, rgba(255, 255, 255, 1) 100%);
+    border-bottom: 1px solid var(--labs-line);
+}
+
+.labs-hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 36px;
+    align-items: end;
+}
+
+.labs-kicker {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    margin: 0 0 14px;
+    padding: 0 12px;
+    border: 1px solid rgba(15, 159, 110, 0.2);
+    border-radius: 8px;
+    background: rgba(15, 159, 110, 0.08);
+    color: #047857;
+    font-size: 13px;
+    font-weight: 700;
 }
 
 .labs-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0 0 8px 0;
-    color: var(--color-text);
-    letter-spacing: -0.01em;
-    line-height: 1.4;
+    max-width: 760px;
+    margin: 0;
+    font-size: 44px;
+    line-height: 1.12;
+    font-weight: 760;
+    letter-spacing: 0;
+    color: var(--labs-ink);
 }
 
 .labs-description {
-    font-size: 14px;
-    color: var(--color-text-secondary);
-    margin: 0;
-    font-weight: 400;
-    line-height: 1.5;
+    max-width: 700px;
+    margin: 18px 0 0;
+    color: var(--labs-muted);
+    font-size: 16px;
+    line-height: 1.85;
 }
 
-.labs-content {
-    max-width: 900px;
-    margin: 0 auto;
+.labs-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.labs-primary-action,
+.labs-secondary-action,
+.labs-tab,
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.labs-primary-action {
+    border: 1px solid #172033;
+    background: #172033;
+    color: #ffffff;
+}
+
+.labs-secondary-action,
+.labs-tab,
+.project-link {
+    border: 1px solid var(--labs-line);
+    background: var(--labs-surface);
+    color: var(--labs-ink);
+}
+
+.labs-primary-action:hover,
+.labs-secondary-action:hover,
+.project-link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.labs-secondary-action:hover,
+.project-link:hover {
+    border-color: rgba(37, 99, 235, 0.34);
+    color: var(--labs-blue);
+}
+
+.labs-signal {
+    display: grid;
+    gap: 10px;
+}
+
+.labs-signal-item {
+    min-height: 82px;
+    padding: 16px;
+    border: 1px solid var(--labs-line);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 12px 34px rgba(15, 23, 42, 0.06);
+}
+
+.labs-signal-item span {
+    display: block;
+    color: var(--labs-muted);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.labs-signal-item strong {
+    display: block;
+    margin-top: 8px;
+    font-size: 20px;
+    line-height: 1.25;
+}
+
+.labs-main {
+    padding: 28px var(--spacing-md) 80px;
+}
+
+.labs-toolbar {
+    position: sticky;
+    top: 66px;
+    z-index: 9;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 22px;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+    backdrop-filter: blur(16px);
+}
+
+.labs-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.labs-tab {
+    min-height: 36px;
+    padding: 0 12px;
+    cursor: pointer;
+}
+
+.labs-tab:hover,
+.labs-tab.active {
+    border-color: rgba(37, 99, 235, 0.26);
+    background: rgba(37, 99, 235, 0.08);
+    color: var(--labs-blue);
+}
+
+.labs-search input {
+    width: 100%;
+    min-height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--labs-line);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--labs-ink);
+    font: inherit;
+    outline: none;
+}
+
+.labs-search input:focus {
+    border-color: rgba(37, 99, 235, 0.45);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
     text-align: left;
 }
 
-.project-item {
+.project-card {
+    position: relative;
+    min-height: 300px;
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+    padding: 20px;
+    border: 1px solid var(--labs-line);
+    border-radius: 8px;
+    background: var(--labs-surface);
+    box-shadow: var(--labs-shadow);
+    overflow: hidden;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.project-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: linear-gradient(90deg, var(--labs-blue), var(--labs-green), var(--labs-amber), var(--labs-rose));
+    opacity: 0.82;
+}
+
+.project-card:hover,
+.project-card:focus-within {
+    transform: translateY(-3px);
+    border-color: rgba(37, 99, 235, 0.26);
+    box-shadow: 0 24px 54px rgba(15, 23, 42, 0.12);
+}
+
+.project-card-top,
+.project-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 12px;
-    padding: 0;
-    transition: var(--transition);
 }
 
 .project-icon {
-    font-size: 24px;
-    line-height: 1;
-    flex-shrink: 0;
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-bg-secondary);
     border-radius: 8px;
-    transition: var(--transition);
+    background: var(--labs-soft);
+    font-size: 24px;
+    line-height: 1;
+    flex-shrink: 0;
 }
 
-.project-item:hover .project-icon {
-    background: var(--color-primary);
-    transform: scale(1.05);
+.project-status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border: 1px solid rgba(15, 159, 110, 0.18);
+    border-radius: 999px;
+    background: rgba(15, 159, 110, 0.08);
+    color: #047857;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
-.project-content {
+.project-card-body {
     flex: 1;
-    min-width: 0;
 }
 
 .project-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 4px 0;
-    line-height: 1.4;
-    letter-spacing: -0.01em;
+    margin: 0 0 9px;
+    font-size: 22px;
+    font-weight: 760;
+    line-height: 1.35;
+    letter-spacing: 0;
 }
 
 .project-title a {
-    color: var(--color-text);
+    color: var(--labs-ink);
     text-decoration: none;
-    transition: var(--transition);
     border-bottom: none;
-    display: inline-block;
 }
 
-.project-title a:hover {
-    color: var(--color-primary);
+.project-title a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.project-title a:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.24);
+    outline-offset: 4px;
 }
 
 .project-description {
-    font-size: 13px;
-    color: var(--color-text-secondary);
-    line-height: 1.5;
     margin: 0;
+    color: var(--labs-muted);
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.project-tags span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 0 9px;
+    border-radius: 999px;
+    background: var(--labs-soft);
+    color: #475467;
+    font-size: 12px;
+}
+
+.project-link {
+    position: relative;
+    z-index: 2;
+    min-height: 36px;
+    padding: 0 12px;
+    margin-left: auto;
+}
+
+.project-card.is-hidden {
+    display: none;
 }
 
 .projects-empty {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-base);
-    font-style: italic;
+    padding: 34px;
+    border: 1px solid var(--labs-line);
+    border-radius: 8px;
+    background: var(--labs-surface);
+    color: var(--labs-muted);
     text-align: center;
 }
 
-@media (max-width: 768px) {
-    .labs-page {
-        padding: 40px 0 60px;
-    }
-    
-    .labs-hero {
-        margin-bottom: 48px;
-        padding: 0 16px;
-    }
-    
-    .labs-content {
-        padding: 0 16px;
-    }
-    
-    .projects-grid {
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 980px) {
+    .labs-hero-inner,
+    .labs-toolbar {
         grid-template-columns: 1fr;
-        gap: 20px;
     }
-    
-    .project-item {
-        gap: 10px;
+
+    .labs-signal {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
-    
-    .project-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 20px;
+
+    .projects-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    
-    .project-title {
+}
+
+@media (max-width: 680px) {
+    .labs-hero {
+        padding: 42px 0 30px;
+    }
+
+    .labs-title {
+        font-size: 32px;
+    }
+
+    .labs-description {
         font-size: 15px;
     }
-    
-    .project-description {
-        font-size: 12px;
+
+    .labs-actions a,
+    .labs-tab {
+        width: 100%;
+    }
+
+    .labs-tabs,
+    .labs-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .labs-signal,
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .labs-toolbar {
+        position: static;
+    }
+
+    .project-card {
+        min-height: 260px;
     }
 }
 </style>
 
+<script>
+(function () {
+    const tabs = Array.from(document.querySelectorAll('.labs-tab'));
+    const cards = Array.from(document.querySelectorAll('.project-card'));
+    const searchInput = document.getElementById('labsSearchInput');
+    const emptyState = document.getElementById('labsEmptyState');
+    let activeFilter = 'all';
 
+    function applyFilters() {
+        const query = (searchInput ? searchInput.value : '').trim().toLowerCase();
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+            const categories = (card.dataset.categories || '').split(/\s+/);
+            const searchText = card.dataset.search || '';
+            const matchFilter = activeFilter === 'all' || categories.includes(activeFilter);
+            const matchSearch = !query || searchText.includes(query);
+            const visible = matchFilter && matchSearch;
+            card.classList.toggle('is-hidden', !visible);
+            if (visible) visibleCount += 1;
+        });
+
+        if (emptyState) emptyState.hidden = visibleCount !== 0;
+    }
+
+    tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+            activeFilter = tab.dataset.filter || 'all';
+            tabs.forEach((item) => {
+                item.classList.toggle('active', item === tab);
+                item.setAttribute('aria-selected', item === tab ? 'true' : 'false');
+            });
+            applyFilters();
+        });
+    });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', applyFilters);
+    }
+
+    applyFilters();
+})();
+</script>

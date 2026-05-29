@@ -6,6 +6,7 @@
         topic: document.getElementById('topicInput'),
         contentType: document.getElementById('contentType'),
         stylePreset: document.getElementById('stylePreset'),
+        artStyle: document.getElementById('artStyle'),
         title: document.getElementById('titleInput'),
         subtitle: document.getElementById('subtitleInput'),
         quote: document.getElementById('quoteInput'),
@@ -45,7 +46,53 @@
     const imageWorkbenchUrl = 'https://image.aicli.qzz.io/';
     let activeKnowledge = null;
     let activeBrief = '';
+    let activeArtStyle = null;
     let autoCompleteTimer = null;
+
+    const artStyleMap = {
+        anime: {
+            label: '日本动漫风',
+            prompt: 'Japanese anime poster style, clean line art, expressive character design, bright but controlled colors, dynamic pose, soft cel shading, cute informative layout',
+            overlay: '适合叠加粗标题、对比卡片和小图标',
+            palette: '明亮蓝、珊瑚橙、奶油白'
+        },
+        oil: {
+            label: '油画风',
+            prompt: 'classical oil painting style, rich brush strokes, dramatic light and shadow, museum poster composition, textured canvas, cinematic portrait atmosphere',
+            overlay: '适合叠加少量大字、金色标签和深色说明框',
+            palette: '赭石、深棕、暗金、象牙白'
+        },
+        ink: {
+            label: '中国山水画',
+            prompt: 'traditional Chinese ink landscape painting, mountains, mist, flowing water, rice paper texture, elegant negative space, restrained ink wash, poetic composition',
+            overlay: '适合叠加竖排标题、印章、留白说明区',
+            palette: '墨黑、灰青、宣纸白、朱砂红'
+        },
+        gongbi: {
+            label: '国风工笔',
+            prompt: 'Chinese gongbi illustration style, delicate linework, elegant traditional clothing, refined floral or cloud patterns, soft mineral colors, high detail',
+            overlay: '适合叠加细边框、标签和人物信息卡',
+            palette: '石青、胭脂、米白、淡金'
+        },
+        watercolor: {
+            label: '水彩插画',
+            prompt: 'soft watercolor illustration, translucent colors, paper texture, gentle light, airy composition, hand drawn educational poster style',
+            overlay: '适合叠加手帐标签、柔和标题和步骤清单',
+            palette: '浅蓝、浅粉、草绿、暖白'
+        },
+        picturebook: {
+            label: '儿童绘本',
+            prompt: 'children picture book illustration, warm rounded characters, simple friendly shapes, playful scene, clean background, gentle educational tone',
+            overlay: '适合叠加大标题、编号步骤和亲和力图标',
+            palette: '奶油黄、天空蓝、苹果绿、暖橙'
+        },
+        realistic: {
+            label: '写实摄影',
+            prompt: 'realistic editorial photography, natural lighting, high quality magazine composition, clean background, strong subject focus, commercial poster style',
+            overlay: '适合叠加杂志标题、信息条和品牌感说明',
+            palette: '黑白灰、冷蓝、少量强调色'
+        }
+    };
 
     const templatePresets = {
         history: {
@@ -86,6 +133,39 @@
             subtitle: '把重复劳动拆成输入、判断和输出',
             quote: 'AI 真正有用的时候，往往是它接住了一个稳定流程。',
             tag: 'AI工具',
+            hookType: 'result'
+        },
+        anime: {
+            topic: '生成一张日本动漫风的新手健身知识图，像参考图一样，先有画面再加字',
+            contentType: 'fitness',
+            stylePreset: 'notebook',
+            artStyle: 'anime',
+            title: '新手必看！多聊天 vs 单聊怎么选',
+            subtitle: '先看目标，再决定训练方式和节奏',
+            quote: '好图先让人看懂场景，再用文字补清楚方法。',
+            tag: '动漫知识图',
+            hookType: 'result'
+        },
+        oil: {
+            topic: '生成一张油画风的苏轼人物海报，适合小红书历史人物笔记',
+            contentType: 'history',
+            stylePreset: 'warm',
+            artStyle: 'oil',
+            title: '一张图看懂苏轼',
+            subtitle: '从乌台诗案到黄州转折，看一个人的精神韧性',
+            quote: '理解苏轼，不只是背诗词，而是看他如何把失意变成作品。',
+            tag: '苏轼人物图',
+            hookType: 'result'
+        },
+        ink: {
+            topic: '生成一张中国山水画风的王阳明心学知识图',
+            contentType: 'history',
+            stylePreset: 'minimal',
+            artStyle: 'ink',
+            title: '一张图看懂王阳明',
+            subtitle: '从龙场悟道到知行合一，看心学如何落到行动',
+            quote: '知行合一不是口号，而是用行动验证判断。',
+            tag: '国风知识图',
             hookType: 'result'
         }
     };
@@ -243,6 +323,18 @@
         return '';
     }
 
+    function detectArtStyle(text) {
+        const source = (text || '').toLowerCase();
+        if (/日漫|动漫|anime|二次元|漫画|卡通/.test(source)) return 'anime';
+        if (/油画|oil|厚涂|古典|伦勃朗|肖像画/.test(source)) return 'oil';
+        if (/山水|水墨|国画|ink|中国画|留白/.test(source)) return 'ink';
+        if (/工笔|国风|敦煌|唐风|宋画/.test(source)) return 'gongbi';
+        if (/水彩|watercolor|手绘/.test(source)) return 'watercolor';
+        if (/绘本|儿童|亲子/.test(source)) return 'picturebook';
+        if (/写实|摄影|真人|照片|realistic/.test(source)) return 'realistic';
+        return controls.artStyle && controls.artStyle.value !== 'auto' ? controls.artStyle.value : 'anime';
+    }
+
     function buildHistoryPersonKnowledge(name) {
         const data = historyPeople[name] || {
             era: '历史人物所处时代',
@@ -271,12 +363,15 @@
 
     function buildSmartPlan(text) {
         const type = inferType(text);
+        const artStyle = detectArtStyle(text);
+        const art = artStyleMap[artStyle];
         const person = type === 'history' ? detectHistoryPerson(text) : '';
         if (person) {
             const knowledge = buildHistoryPersonKnowledge(person);
             return {
                 type: 'history',
-                stylePreset: 'editorial',
+                stylePreset: artStyle === 'oil' || artStyle === 'ink' || artStyle === 'gongbi' ? 'warm' : 'editorial',
+                artStyle,
                 hookType: 'result',
                 title: `一张图看懂${person}`,
                 subtitle: '先看时代位置，再看关键事件、人物能力和历史影响',
@@ -286,9 +381,11 @@
                 brief: [
                     `主题识别：历史人物知识图`,
                     `人物：${person}`,
+                    `画风：${art.label}`,
                     `系统补全：时代位置 / 关键事件 / 人物能力 / 历史影响`,
-                    `图示建议：人物主视觉 + 四张信息卡 + 小时间线`,
-                    `视觉元素：${knowledge.visual}`
+                    `图示建议：先生成${art.label}主画面，再叠加标题、信息卡和小时间线`,
+                    `视觉元素：${knowledge.visual}`,
+                    `文字策略：画面里尽量不让模型生成中文，中文由网页/设计模板后叠`
                 ].join('\n')
             };
         }
@@ -299,6 +396,7 @@
         return {
             type,
             stylePreset: preset ? preset.stylePreset : 'minimal',
+            artStyle,
             hookType: preset ? preset.hookType : 'list',
             title: preset ? preset.title : `一张图看懂${fallbackTopic}`,
             subtitle: preset ? preset.subtitle : '先抓核心概念，再看步骤、误区和行动',
@@ -307,9 +405,11 @@
             knowledge: baseKnowledge,
             brief: [
                 `主题识别：${typeMap[type] ? typeMap[type].label : '通用知识图示'}`,
+                `画风：${art.label}`,
                 `系统补全：${baseKnowledge.sections.map((item) => item.title).join(' / ')}`,
-                `图示建议：${baseKnowledge.diagram === 'timeline' ? '时间线图示' : baseKnowledge.diagram === 'matrix' ? '四象限卡片' : '步骤卡片'}`,
-                `视觉元素：${typeMap[type] ? typeMap[type].topic : '知识卡片、流程箭头、重点标注'}`
+                `图示建议：先生成${art.label}主画面，再叠加标题和知识卡片`,
+                `视觉元素：${typeMap[type] ? typeMap[type].topic : '知识卡片、流程箭头、重点标注'}`,
+                `文字策略：AICLI 负责画面，中文标题和说明后叠，保证清晰`
             ].join('\n')
         };
     }
@@ -610,6 +710,7 @@
         const plan = buildSmartPlan(controls.topic.value);
         controls.contentType.value = plan.type;
         controls.stylePreset.value = plan.stylePreset;
+        controls.artStyle.value = plan.artStyle || 'auto';
         controls.title.value = plan.title;
         controls.subtitle.value = plan.subtitle;
         controls.quote.value = plan.quote;
@@ -617,6 +718,7 @@
         controls.brief.value = plan.brief;
         activeKnowledge = plan.knowledge;
         activeBrief = plan.brief;
+        activeArtStyle = plan.artStyle || detectArtStyle(controls.topic.value);
         setRadioValue('hookType', plan.hookType);
         syncTemplateActive(plan.type);
         drawCover();
@@ -627,17 +729,22 @@
         const type = typeMap[controls.contentType.value] || typeMap.method;
         const styleName = controls.stylePreset.options[controls.stylePreset.selectedIndex].text;
         const knowledge = currentKnowledge();
+        const artStyleKey = activeArtStyle || detectArtStyle(controls.topic.value);
+        const art = artStyleMap[artStyleKey] || artStyleMap.anime;
         controls.prompt.value = [
-            `请生成一张适合小红书发布的中文知识图示，比例 ${getRadioValue('ratio')}。`,
+            `请生成一张适合小红书发布的主视觉插画底图，比例 ${getRadioValue('ratio')}。`,
             `用户需求：${controls.topic.value}`,
             `系统补全方案：${activeBrief || controls.brief.value}`,
             `主题：${controls.title.value}`,
             `内容场景：${type.topic}。`,
+            `核心画风：${art.label}。${art.prompt}。`,
+            `画面优先级：先完成主体画面、人物/场景、风格和构图，再预留清晰的文字留白区。`,
             `知识点：${knowledge.sections.map((item) => `${item.title}：${item.body}`).join('；')}`,
-            `画面结构：标题区 + ${knowledge.diagram === 'profile' ? '历史人物主视觉和四张信息卡' : knowledge.diagram === 'timeline' ? '时间线图示' : knowledge.diagram === 'matrix' ? '四象限知识卡片' : '步骤卡片'} + 总结金句。`,
+            `构图建议：${knowledge.diagram === 'profile' ? '人物主视觉在中间或左侧，右侧预留四张信息卡区域' : knowledge.diagram === 'timeline' ? '主体画面 + 下方时间线留白区' : knowledge.diagram === 'matrix' ? '主体画面 + 四象限卡片留白区' : '主体画面 + 步骤卡片留白区'}。`,
             knowledge.visual ? `视觉元素：${knowledge.visual}。` : '',
-            `视觉风格：${styleName}，信息清晰，有收藏感，适合小红书知识类笔记。`,
-            `要求：中文文字清晰，不要水印，不要真实品牌 Logo，画面不要杂乱；如果模型文字不稳定，请优先保证人物、氛围、图示底图和信息分区清晰。`
+            `配色建议：${art.palette}。后期叠字方式：${art.overlay}。`,
+            `网页卡片风格：${styleName}，信息清晰，有收藏感，适合小红书知识类笔记。`,
+            `重要要求：不要在图中生成中文文字，不要水印，不要真实品牌 Logo。请优先保证画风、主体、氛围和信息分区清晰，中文标题与说明后续由网页模板叠加。`
         ].filter(Boolean).join('\n');
     }
 
@@ -689,9 +796,11 @@
         if (!preset) return;
         activeKnowledge = null;
         activeBrief = '';
+        activeArtStyle = preset.artStyle || null;
         controls.topic.value = preset.topic;
         controls.contentType.value = preset.contentType;
         controls.stylePreset.value = preset.stylePreset;
+        controls.artStyle.value = preset.artStyle || 'auto';
         controls.title.value = preset.title;
         controls.subtitle.value = preset.subtitle;
         controls.quote.value = preset.quote;

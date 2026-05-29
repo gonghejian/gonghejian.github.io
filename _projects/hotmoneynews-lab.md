@@ -1,9 +1,9 @@
 ---
-title: "AI 搞钱项目分析器（Show HN）"
-description: "每天自动抓取 Hacker News 的 Show HN 项目，用 DeepSeek 以「毒辣创业教练」视角输出：怎么赚钱 & 如何低成本模仿，并在页面里展示结果。"
-short_description: "每天自动抓取 Show HN 项目，用 AI 分析如何赚钱和低成本模仿"
+title: "AI 商业样本分析器（Show HN）"
+description: "每天自动抓取 Hacker News 的 Show HN 项目，用 DeepSeek 以创业教练视角输出：商业化路径、低成本复刻方式和风险判断。"
+short_description: "每天抓取 Show HN 项目，用 AI 分析商业化路径和复刻方式"
 icon: "💰"
-tags: ["Show HN", "Hacker News", "DeepSeek", "AI", "搞钱"]
+tags: ["Show HN", "Hacker News", "DeepSeek", "AI", "商业样本"]
 status: "实验中"
 order: 2
 link: "/labs/hotmoneynews-lab/"
