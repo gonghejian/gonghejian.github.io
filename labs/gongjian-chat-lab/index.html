@@ -471,6 +471,7 @@ layout: null
                     <button class="quick-btn" type="button">如何用 AI 重建我的写作和研究工作流？</button>
                     <button class="quick-btn" type="button">读了很多书但没有输出，怎么建立知识出口？</button>
                     <button class="quick-btn" type="button">身体训练和长期输出之间有什么关系？</button>
+                    <button class="quick-btn" type="button">心情不好，怎么先把自己拉回来一点？</button>
                 </div>
 
                 <div class="mode-grid" aria-label="回答模式">
@@ -565,8 +566,11 @@ layout: null
                 { key: 'ai', label: 'AI 工作流', words: ['AI', '工具', '自动化', '工作流', '模型', '提示词', '效率'] },
                 { key: 'knowledge', label: '知识与表达系统', words: ['读书', '写作', '文章', '笔记', '输出', '知识', '表达'] },
                 { key: 'body', label: '身体与纪律系统', words: ['身体', '训练', '跑步', '健身', '睡眠', '饮食', '长期'] },
+                { key: 'emotion', label: '情绪与恢复', words: ['心情', '难受', '低落', '焦虑', '压力', '烦', '崩溃', '失眠', '情绪', '抑郁', '不开心', '没劲'] },
                 { key: 'business', label: '一人公司实验', words: ['一人公司', '组织', '产品', '商业', '私域', '选择权', '交付'] }
             ];
+
+            const crisisWords = ['自杀', '轻生', '不想活', '活不下去', '伤害自己', '结束生命'];
 
             function normalize(text) {
                 return String(text || '').toLowerCase().replace(/\s+/g, ' ').trim();
@@ -583,6 +587,9 @@ layout: null
 
             function detectTheme(question) {
                 const text = normalize(question);
+                if (themes.find((theme) => theme.key === 'emotion').words.some((word) => text.includes(normalize(word)))) {
+                    return themes.find((theme) => theme.key === 'emotion');
+                }
                 const scored = themes.map((theme) => ({
                     ...theme,
                     score: theme.words.reduce((sum, word) => sum + (text.includes(normalize(word)) ? 2 : 0), 0)
@@ -614,6 +621,17 @@ layout: null
                     .slice(0, 5);
             }
 
+            function retrieveForQuestion(question) {
+                const theme = detectTheme(question);
+                const results = retrieve(question);
+                if (theme.key !== 'emotion') return results;
+                const usefulWords = ['身体', '睡眠', '跑步', '训练', '休息', '恢复', '压力', '情绪', '低落', '生活', '生理'];
+                return results.filter((source) => {
+                    const text = [source.title, source.excerpt, source.content].join(' ');
+                    return usefulWords.some((word) => text.includes(word));
+                }).slice(0, 3);
+            }
+
             function modeText(mode) {
                 return {
                     system: '我会先把它放回一个系统里看。',
@@ -626,6 +644,7 @@ layout: null
             function buildAnswer(question, sources) {
                 const theme = detectTheme(question);
                 const mode = document.querySelector('input[name="answerMode"]:checked').value;
+                if (theme.key === 'emotion') return buildEmotionAnswer(question, sources, mode);
                 const sourceTitles = sources.slice(0, 3).map((item) => item.title).join('、') || '站内现有文章';
                 const first = sources[0];
                 const concrete = first ? first.excerpt || first.content.slice(0, 90) : '这个问题需要先变成一个能持续执行的流程。';
@@ -640,9 +659,37 @@ layout: null
                 return paragraphs;
             }
 
+            function buildEmotionAnswer(question, sources, mode) {
+                const text = normalize(question);
+                const hasCrisis = crisisWords.some((word) => text.includes(word));
+                if (hasCrisis) {
+                    return [
+                        '先把“解决问题”放一放。你现在最重要的不是分析清楚，而是保证自己安全。',
+                        '如果你已经有伤害自己的念头，或者觉得自己可能控制不住，请立刻联系身边可信任的人，或拨打当地紧急电话。不要一个人扛这一段。',
+                        '此刻可以做一个很小的动作：离开危险物品，去有人的地方，给一个朋友发一句“我现在状态很差，能不能陪我十分钟”。',
+                        '等安全感回来一点，再谈工作、选择、个人系统。人在情绪最低处，不适合做重大判断。'
+                    ];
+                }
+
+                const sourceTitles = sources.slice(0, 2).map((item) => item.title).join('、');
+                const sourceLine = sourceTitles ? `站内有些文章会谈到输入输出、身体状态和长期节奏，比如：${sourceTitles}。但这时候它们只能作为后续材料，不应该拿来压你。` : '这类问题不一定需要先找文章解释，先照顾当下状态更重要。';
+                const actionLine = mode === 'action'
+                    ? '现在只做一件事：喝水，站起来走五分钟，洗把脸，然后写下“我现在最难受的具体点是什么”。不要写解决方案，只写事实。'
+                    : '可以先把目标降到很低：不是立刻开心起来，而是让自己从 2 分回到 3 分。情绪恢复经常不是顿悟，而是降低负荷。';
+
+                return [
+                    '先别急着解决。心情不好时，人很容易把一个短时状态解释成“我整个人都不行”。这通常不准确，也不公平。',
+                    actionLine,
+                    '我会先看三个底层变量：你是不是太累了、是不是太久没有和真实的人连接、是不是把一个暂时的问题想成了永久问题。很多情绪不是靠道理解决，而是先靠睡眠、身体移动、进食、洗澡、见人这些基础动作往回拉。',
+                    sourceLine,
+                    '等情绪稍微落地以后，再问一个更适合系统处理的问题：这次低落是由什么触发的？它重复出现吗？我能不能为它设计一个“下次先做什么”的小预案。'
+                ];
+            }
+
             function actionForTheme(themeKey, mode) {
                 if (themeKey === 'ai') return '下一步可以很小：选一个重复工作，写出固定输入、处理步骤和输出模板，然后让 AI 只接管其中最稳定的一段。';
                 if (themeKey === 'body') return '下一步不是上强度，而是先保护长期输出：固定睡眠、固定训练频率、固定复盘指标。身体不是附属品，它会直接影响判断力。';
+                if (themeKey === 'emotion') return '下一步先别做重大决定。把状态降噪：喝水、走路、洗澡、找人说一句实话，然后再回来判断问题本身。';
                 if (themeKey === 'business') return '下一步不是马上商业化，而是先证明你能在组织之外稳定交付：一篇文章、一个小工具、一次访谈、一个可复用流程。';
                 if (mode === 'writing') return '下一步可以把这个问题写成一篇短文：先写一个具体场景，再写一个误区，最后给出一个你亲自验证过的流程。';
                 return '下一步可以先做一张表：我有哪些输入、哪些判断、哪些输出、哪些反馈。个人系统不是口号，是这些环节能不能反复运转。';
@@ -738,7 +785,7 @@ layout: null
                 const clean = String(question || '').trim();
                 if (!clean) return;
                 appendMessage('user', clean);
-                const sources = retrieve(clean);
+                const sources = retrieveForQuestion(clean);
                 const answer = buildAnswer(clean, sources);
                 lastAnswer = answer.join('\n\n');
                 lastSources = sources;
