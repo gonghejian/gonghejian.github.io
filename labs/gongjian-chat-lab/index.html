@@ -1,0 +1,782 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>弓箭对话室</title>
+    <style>
+        * { box-sizing: border-box; }
+        :root {
+            --ink: #111827;
+            --muted: #667085;
+            --line: rgba(17, 24, 39, 0.1);
+            --paper: #ffffff;
+            --soft: #f6f8fb;
+            --deep: #172033;
+            --blue: #2563eb;
+            --green: #0f9f6e;
+            --shadow: 0 18px 44px rgba(15, 23, 42, 0.1);
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            background: linear-gradient(180deg, #f8fafc 0%, #ffffff 42%, #f4f7fb 100%);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        }
+        button, textarea, input, select { font: inherit; }
+        button { cursor: pointer; }
+        .app {
+            width: min(1360px, calc(100% - 32px));
+            margin: 0 auto;
+            padding-bottom: 44px;
+        }
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            margin: 0 calc((100% - 100vw) / 2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(16px);
+        }
+        .topbar-inner {
+            width: min(1360px, calc(100% - 32px));
+            min-height: 64px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .brand-title {
+            font-size: 15px;
+            font-weight: 900;
+        }
+        .brand-subtitle {
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav a, .ghost-btn, .primary-btn, .chip, .source-link {
+            min-height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 750;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+        }
+        .nav a, .ghost-btn, .chip, .source-link {
+            padding: 0 13px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.88);
+            color: var(--ink);
+        }
+        .primary-btn {
+            padding: 0 16px;
+            border: 1px solid var(--deep);
+            background: var(--deep);
+            color: #ffffff;
+        }
+        .ghost-btn:hover, .nav a:hover, .source-link:hover, .chip:hover {
+            transform: translateY(-1px);
+            border-color: rgba(37, 99, 235, 0.28);
+            box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+            color: var(--blue);
+        }
+        .primary-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+        }
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 380px;
+            gap: 32px;
+            align-items: end;
+            padding: 50px 0 30px;
+        }
+        .kicker {
+            display: inline-flex;
+            min-height: 30px;
+            align-items: center;
+            padding: 0 12px;
+            border: 1px solid rgba(15, 159, 110, 0.2);
+            border-radius: 8px;
+            background: rgba(15, 159, 110, 0.08);
+            color: #047857;
+            font-size: 13px;
+            font-weight: 850;
+        }
+        .hero h1 {
+            max-width: 820px;
+            margin: 14px 0 0;
+            font-size: 46px;
+            line-height: 1.12;
+            letter-spacing: 0;
+        }
+        .hero p {
+            max-width: 790px;
+            margin: 18px 0 0;
+            color: #4b5563;
+            font-size: 16px;
+            line-height: 1.85;
+        }
+        .signals {
+            display: grid;
+            gap: 10px;
+        }
+        .signal {
+            min-height: 76px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.86);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.78);
+            box-shadow: var(--shadow);
+        }
+        .signal span {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 750;
+        }
+        .signal strong {
+            display: block;
+            margin-top: 7px;
+            font-size: 18px;
+            line-height: 1.35;
+        }
+        .workspace {
+            display: grid;
+            grid-template-columns: 390px minmax(0, 1fr);
+            gap: 20px;
+            align-items: start;
+        }
+        .panel, .chat-panel, .context-panel {
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.86);
+            box-shadow: var(--shadow);
+        }
+        .panel {
+            position: sticky;
+            top: 84px;
+            padding: 18px;
+        }
+        .panel h2, .chat-head h2, .context-panel h2 {
+            margin: 0;
+            font-size: 18px;
+            line-height: 1.35;
+        }
+        .panel p, .context-panel p {
+            margin: 8px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.65;
+        }
+        .quick-list {
+            display: grid;
+            gap: 9px;
+            margin-top: 16px;
+        }
+        .quick-btn {
+            min-height: 48px;
+            padding: 11px 12px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--paper);
+            color: var(--ink);
+            text-align: left;
+            font-weight: 750;
+        }
+        .quick-btn:hover {
+            border-color: rgba(37, 99, 235, 0.28);
+            background: #f8fbff;
+        }
+        .mode-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 18px;
+        }
+        .mode-grid label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            min-height: 40px;
+            padding: 0 10px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fff;
+            color: #344054;
+            font-size: 13px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .stat {
+            padding: 12px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--soft);
+        }
+        .stat span {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 750;
+        }
+        .stat strong {
+            display: block;
+            margin-top: 6px;
+            font-size: 18px;
+        }
+        .chat-panel {
+            overflow: hidden;
+        }
+        .chat-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(248, 250, 252, 0.72);
+        }
+        .chat-body {
+            min-height: 540px;
+            max-height: 68vh;
+            overflow: auto;
+            padding: 18px;
+        }
+        .message {
+            display: grid;
+            grid-template-columns: 38px minmax(0, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .avatar {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: var(--deep);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 900;
+        }
+        .message.user .avatar {
+            background: #e5e7eb;
+            color: #172033;
+        }
+        .bubble {
+            padding: 13px 14px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fff;
+            line-height: 1.78;
+            font-size: 15px;
+        }
+        .message.user .bubble {
+            background: #f8fafc;
+        }
+        .bubble p {
+            margin: 0 0 10px;
+        }
+        .bubble p:last-child {
+            margin-bottom: 0;
+        }
+        .answer-section {
+            margin-top: 10px;
+        }
+        .answer-section strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .source-list {
+            display: grid;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .source-card {
+            padding: 10px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+        .source-card a {
+            color: var(--ink);
+            font-weight: 850;
+            text-decoration: none;
+        }
+        .source-card a:hover { color: var(--blue); }
+        .source-card span {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .composer {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 10px;
+            padding: 14px;
+            border-top: 1px solid var(--line);
+            background: rgba(248, 250, 252, 0.88);
+        }
+        .composer textarea {
+            width: 100%;
+            min-height: 54px;
+            max-height: 160px;
+            resize: vertical;
+            padding: 12px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            color: var(--ink);
+            background: #fff;
+            outline: none;
+        }
+        .composer textarea:focus {
+            border-color: rgba(37, 99, 235, 0.42);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .side-stack {
+            display: grid;
+            gap: 16px;
+        }
+        .context-panel {
+            padding: 16px;
+        }
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+        .prompt-box {
+            width: 100%;
+            min-height: 190px;
+            margin-top: 12px;
+            padding: 12px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            color: #374151;
+            background: #fff;
+            resize: vertical;
+            line-height: 1.65;
+            font-size: 13px;
+        }
+        .hint {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.65;
+        }
+        @media (max-width: 1100px) {
+            .hero, .workspace {
+                grid-template-columns: 1fr;
+            }
+            .panel {
+                position: static;
+            }
+            .side-stack {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 680px) {
+            .app { width: min(100% - 20px, 1360px); }
+            .topbar-inner {
+                min-height: auto;
+                padding: 12px 0;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+            .hero {
+                padding-top: 28px;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+            .signals, .mode-grid, .stats, .composer {
+                grid-template-columns: 1fr;
+            }
+            .primary-btn, .ghost-btn {
+                width: 100%;
+            }
+            .chat-body {
+                min-height: 420px;
+                max-height: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="topbar">
+            <div class="topbar-inner">
+                <div>
+                    <div class="brand-title">弓箭对话室</div>
+                    <div class="brand-subtitle">文章检索 · 风格回应 · 个人系统入口</div>
+                </div>
+                <nav class="nav" aria-label="产品导航">
+                    <a href="/labs/">实验室</a>
+                    <a href="/">首页</a>
+                </nav>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div>
+                <span class="kicker">个人系统聊天原型</span>
+                <h1>把弓箭的文章，变成一个可以追问的入口。</h1>
+                <p>这个原型会检索站内文章和白皮书片段，用弓箭一贯的冷静、系统化语气组织回答。它不是本人即时回复，而是一个基于公开内容的个人风格对话实验。</p>
+            </div>
+            <div class="signals" aria-label="产品状态">
+                <div class="signal">
+                    <span>内容来源</span>
+                    <strong>站内文章 / 白皮书 / 系统叙事</strong>
+                </div>
+                <div class="signal">
+                    <span>当前能力</span>
+                    <strong>本地检索 + 风格化回答</strong>
+                </div>
+                <div class="signal">
+                    <span>下一阶段</span>
+                    <strong>接入模型，形成个人分身</strong>
+                </div>
+            </div>
+        </section>
+
+        <main class="workspace">
+            <aside class="panel">
+                <h2>可以这样问</h2>
+                <p>围绕 AI 工作流、知识系统、身体训练和一人公司实验提问，效果会更接近这个网站的核心叙事。</p>
+                <div class="quick-list">
+                    <button class="quick-btn" type="button">我现在想离开组织做一人公司，第一步应该训练什么能力？</button>
+                    <button class="quick-btn" type="button">如何用 AI 重建我的写作和研究工作流？</button>
+                    <button class="quick-btn" type="button">读了很多书但没有输出，怎么建立知识出口？</button>
+                    <button class="quick-btn" type="button">身体训练和长期输出之间有什么关系？</button>
+                </div>
+
+                <div class="mode-grid" aria-label="回答模式">
+                    <label><input type="radio" name="answerMode" value="system" checked> 系统分析</label>
+                    <label><input type="radio" name="answerMode" value="action"> 行动建议</label>
+                    <label><input type="radio" name="answerMode" value="writing"> 写作陪跑</label>
+                    <label><input type="radio" name="answerMode" value="sharp"> 冷静提醒</label>
+                </div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <span>已载入文章</span>
+                        <strong id="postCount">0</strong>
+                    </div>
+                    <div class="stat">
+                        <span>核心主线</span>
+                        <strong>3</strong>
+                    </div>
+                </div>
+                <p class="hint">当前不调用外部模型，不需要密钥；回答来自本地规则和站内内容检索。</p>
+            </aside>
+
+            <section class="chat-panel" aria-label="弓箭对话">
+                <div class="chat-head">
+                    <div>
+                        <h2>对话</h2>
+                        <p class="hint" style="margin: 4px 0 0;">基于公开文章生成，不代表本人即时承诺。</p>
+                    </div>
+                    <button class="ghost-btn" id="resetBtn" type="button">重置</button>
+                </div>
+                <div class="chat-body" id="chatBody"></div>
+                <form class="composer" id="chatForm">
+                    <textarea id="questionInput" placeholder="输入你想和弓箭聊的问题，比如：我如何把自己的经验变成一个个人系统？"></textarea>
+                    <button class="primary-btn" type="submit">发送</button>
+                </form>
+            </section>
+
+            <div class="side-stack">
+                <section class="context-panel">
+                    <h2>相关来源</h2>
+                    <p>每次回答会从站内内容中挑出最接近的问题材料。</p>
+                    <div class="source-list" id="sourceList"></div>
+                </section>
+
+                <section class="context-panel">
+                    <h2>深聊提示词</h2>
+                    <p>如果之后接入大模型，可以直接用这段提示词作为上下文。</p>
+                    <div class="chips">
+                        <button class="chip" id="copyPromptBtn" type="button">复制提示词</button>
+                        <button class="chip" id="copyAnswerBtn" type="button">复制回答</button>
+                    </div>
+                    <textarea class="prompt-box" id="promptBox" readonly></textarea>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        window.GONGJIAN_CORPUS = [
+            {% for post in site.posts limit: 160 %}
+            {
+                title: {{ post.title | jsonify }},
+                url: {{ post.url | relative_url | jsonify }},
+                date: {{ post.date | date: "%Y-%m-%d" | jsonify }},
+                categories: {{ post.categories | jsonify }},
+                excerpt: {{ post.excerpt | strip_html | normalize_whitespace | jsonify }},
+                content: {{ post.content | strip_html | normalize_whitespace | truncate: 900 | jsonify }}
+            }{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+        ];
+        window.GONGJIAN_CORPUS.unshift({
+            title: "AI 时代个人系统白皮书",
+            url: "/whitepaper/",
+            date: "2026-05-28",
+            categories: ["whitepaper"],
+            excerpt: "一份写给中高端职场人的行动手册，讨论 AI 工作流、知识出口、身体底盘和个人商业化。",
+            content: "在 AI 时代，个人需要重建工作流、知识系统、身体纪律和组织之外的交付能力。官网是信任中枢，白皮书是系统框架入口。"
+        });
+    </script>
+    <script>
+        (function () {
+            const corpus = (window.GONGJIAN_CORPUS || []).filter(Boolean);
+            const chatBody = document.getElementById('chatBody');
+            const sourceList = document.getElementById('sourceList');
+            const questionInput = document.getElementById('questionInput');
+            const promptBox = document.getElementById('promptBox');
+            const postCount = document.getElementById('postCount');
+            let lastAnswer = '';
+            let lastSources = [];
+
+            const themes = [
+                { key: 'ai', label: 'AI 工作流', words: ['AI', '工具', '自动化', '工作流', '模型', '提示词', '效率'] },
+                { key: 'knowledge', label: '知识与表达系统', words: ['读书', '写作', '文章', '笔记', '输出', '知识', '表达'] },
+                { key: 'body', label: '身体与纪律系统', words: ['身体', '训练', '跑步', '健身', '睡眠', '饮食', '长期'] },
+                { key: 'business', label: '一人公司实验', words: ['一人公司', '组织', '产品', '商业', '私域', '选择权', '交付'] }
+            ];
+
+            function normalize(text) {
+                return String(text || '').toLowerCase().replace(/\s+/g, ' ').trim();
+            }
+
+            function tokens(text) {
+                const source = normalize(text);
+                const latin = source.match(/[a-z0-9]+/g) || [];
+                const cn = Array.from(source.replace(/[^\u4e00-\u9fa5]/g, ''));
+                const pairs = [];
+                for (let i = 0; i < cn.length - 1; i += 1) pairs.push(cn[i] + cn[i + 1]);
+                return Array.from(new Set([...latin, ...cn, ...pairs])).filter((item) => item.length > 0);
+            }
+
+            function detectTheme(question) {
+                const text = normalize(question);
+                const scored = themes.map((theme) => ({
+                    ...theme,
+                    score: theme.words.reduce((sum, word) => sum + (text.includes(normalize(word)) ? 2 : 0), 0)
+                })).sort((a, b) => b.score - a.score);
+                return scored[0].score > 0 ? scored[0] : themes[1];
+            }
+
+            function scoreDoc(questionTokens, doc, question) {
+                const text = normalize([doc.title, doc.excerpt, doc.content, (doc.categories || []).join(' ')].join(' '));
+                let score = 0;
+                questionTokens.forEach((token) => {
+                    if (token.length >= 2 && text.includes(token)) score += token.length > 2 ? 3 : 1;
+                });
+                themes.forEach((theme) => {
+                    theme.words.forEach((word) => {
+                        if (normalize(question).includes(normalize(word)) && text.includes(normalize(word))) score += 4;
+                    });
+                });
+                if (doc.title && normalize(question).includes(normalize(doc.title))) score += 12;
+                return score;
+            }
+
+            function retrieve(question) {
+                const qTokens = tokens(question);
+                return corpus
+                    .map((doc) => ({ ...doc, score: scoreDoc(qTokens, doc, question) }))
+                    .filter((doc) => doc.score > 0)
+                    .sort((a, b) => b.score - a.score)
+                    .slice(0, 5);
+            }
+
+            function modeText(mode) {
+                return {
+                    system: '我会先把它放回一个系统里看。',
+                    action: '如果今天就要往前走，我会先收窄动作。',
+                    writing: '如果把它变成一篇文章，重点不是堆观点，而是找到一个稳定问题。',
+                    sharp: '先说一个不太舒服但有用的判断。'
+                }[mode] || '我会先把它放回一个系统里看。';
+            }
+
+            function buildAnswer(question, sources) {
+                const theme = detectTheme(question);
+                const mode = document.querySelector('input[name="answerMode"]:checked').value;
+                const sourceTitles = sources.slice(0, 3).map((item) => item.title).join('、') || '站内现有文章';
+                const first = sources[0];
+                const concrete = first ? first.excerpt || first.content.slice(0, 90) : '这个问题需要先变成一个能持续执行的流程。';
+
+                const paragraphs = [
+                    `${modeText(mode)}你的问题表面上是在问“${question}”，但在这个网站的语境里，它更接近一件事：如何在 AI 时代重新训练个人系统。`,
+                    `我会把它拆成三层：第一是判断力，先知道什么值得做；第二是交付力，把想法变成可见作品；第三是选择权，减少对单一组织、单一平台和单一身份的依赖。`,
+                    `对应到“${theme.label}”，不要急着追求完整方案。更好的起点是选一个最小闭环：输入什么材料，用什么流程处理，最后交付成什么可被别人理解的东西。`,
+                    `从相关文章来看，最接近的材料是：${sourceTitles}。其中一个可用线索是：“${concrete.slice(0, 110)}”。这不是结论，而是可以继续往下追问的入口。`,
+                    actionForTheme(theme.key, mode)
+                ];
+                return paragraphs;
+            }
+
+            function actionForTheme(themeKey, mode) {
+                if (themeKey === 'ai') return '下一步可以很小：选一个重复工作，写出固定输入、处理步骤和输出模板，然后让 AI 只接管其中最稳定的一段。';
+                if (themeKey === 'body') return '下一步不是上强度，而是先保护长期输出：固定睡眠、固定训练频率、固定复盘指标。身体不是附属品，它会直接影响判断力。';
+                if (themeKey === 'business') return '下一步不是马上商业化，而是先证明你能在组织之外稳定交付：一篇文章、一个小工具、一次访谈、一个可复用流程。';
+                if (mode === 'writing') return '下一步可以把这个问题写成一篇短文：先写一个具体场景，再写一个误区，最后给出一个你亲自验证过的流程。';
+                return '下一步可以先做一张表：我有哪些输入、哪些判断、哪些输出、哪些反馈。个人系统不是口号，是这些环节能不能反复运转。';
+            }
+
+            function buildDeepPrompt(question, answer, sources) {
+                const context = sources.slice(0, 4).map((item, index) => (
+                    `${index + 1}. ${item.title}\n链接：${item.url}\n摘要：${item.excerpt || item.content.slice(0, 160)}`
+                )).join('\n\n');
+                return [
+                    '你是“弓箭对话室”的回答引擎。请使用冷静、克制、实用、有系统感的中文表达。',
+                    '核心叙事：在 AI 时代，训练一种新的个人能力；围绕 AI 工作流、知识与表达系统、身体与纪律系统，最终获得组织之外的判断力、交付力和选择权。',
+                    '',
+                    `用户问题：${question}`,
+                    '',
+                    '站内相关材料：',
+                    context || '暂无命中文章，请基于网站核心叙事回答。',
+                    '',
+                    '当前原型回答：',
+                    answer,
+                    '',
+                    '请继续追问用户一个关键问题，并给出一个可以今天执行的小动作。'
+                ].join('\n');
+            }
+
+            function appendMessage(role, content, sources) {
+                const wrapper = document.createElement('div');
+                wrapper.className = `message ${role}`;
+                const avatar = document.createElement('div');
+                avatar.className = 'avatar';
+                avatar.textContent = role === 'user' ? '你' : '弓';
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+
+                if (Array.isArray(content)) {
+                    content.forEach((line) => {
+                        const p = document.createElement('p');
+                        p.textContent = line;
+                        bubble.appendChild(p);
+                    });
+                    if (sources && sources.length) {
+                        const section = document.createElement('div');
+                        section.className = 'answer-section';
+                        const strong = document.createElement('strong');
+                        strong.textContent = '可继续读：';
+                        section.appendChild(strong);
+                        sources.slice(0, 3).forEach((source) => {
+                            const link = document.createElement('a');
+                            link.className = 'source-link';
+                            link.href = source.url;
+                            link.target = '_blank';
+                            link.rel = 'noopener noreferrer';
+                            link.textContent = source.title;
+                            section.appendChild(link);
+                        });
+                        bubble.appendChild(section);
+                    }
+                } else {
+                    const p = document.createElement('p');
+                    p.textContent = content;
+                    bubble.appendChild(p);
+                }
+
+                wrapper.appendChild(avatar);
+                wrapper.appendChild(bubble);
+                chatBody.appendChild(wrapper);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+
+            function renderSources(sources) {
+                sourceList.innerHTML = '';
+                if (!sources.length) {
+                    sourceList.innerHTML = '<div class="source-card"><span>还没有命中文章。换一个更具体的问题试试。</span></div>';
+                    return;
+                }
+                sources.forEach((source) => {
+                    const card = document.createElement('div');
+                    card.className = 'source-card';
+                    const link = document.createElement('a');
+                    link.href = source.url;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    link.textContent = source.title;
+                    const meta = document.createElement('span');
+                    meta.textContent = `${source.date || ''} · ${source.excerpt || source.content.slice(0, 90)}`;
+                    card.appendChild(link);
+                    card.appendChild(meta);
+                    sourceList.appendChild(card);
+                });
+            }
+
+            function ask(question) {
+                const clean = String(question || '').trim();
+                if (!clean) return;
+                appendMessage('user', clean);
+                const sources = retrieve(clean);
+                const answer = buildAnswer(clean, sources);
+                lastAnswer = answer.join('\n\n');
+                lastSources = sources;
+                appendMessage('assistant', answer, sources);
+                renderSources(sources);
+                promptBox.value = buildDeepPrompt(clean, lastAnswer, sources);
+                questionInput.value = '';
+            }
+
+            function reset() {
+                chatBody.innerHTML = '';
+                renderSources([]);
+                promptBox.value = '';
+                appendMessage('assistant', [
+                    '你好，我是弓箭对话室的原型。',
+                    '你可以把一个职业选择、写作卡点、AI 工作流、读书输出或身体训练问题扔给我。我会先从站内文章里找相近材料，再用“个人系统”的方式回答。',
+                    '当前版本不调用外部模型，所以回答是本地检索和风格规则生成的。它适合做方向判断和问题拆解，不适合替代本人承诺。'
+                ]);
+            }
+
+            document.getElementById('chatForm').addEventListener('submit', (event) => {
+                event.preventDefault();
+                ask(questionInput.value);
+            });
+            document.querySelectorAll('.quick-btn').forEach((button) => {
+                button.addEventListener('click', () => ask(button.textContent));
+            });
+            document.getElementById('resetBtn').addEventListener('click', reset);
+            document.getElementById('copyPromptBtn').addEventListener('click', () => {
+                navigator.clipboard && navigator.clipboard.writeText(promptBox.value);
+            });
+            document.getElementById('copyAnswerBtn').addEventListener('click', () => {
+                navigator.clipboard && navigator.clipboard.writeText(lastAnswer);
+            });
+
+            postCount.textContent = String(Math.max(0, corpus.length - 1));
+            reset();
+        })();
+    </script>
+</body>
+</html>
