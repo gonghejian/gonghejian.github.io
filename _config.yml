@@ -139,6 +139,7 @@ exclude:
   - preview.html
   - preview-*.html
   - .github
+  - api
   - README.md
   - ACTIONS_SETUP_STEPS.md
   - AUTH_SETUP.md

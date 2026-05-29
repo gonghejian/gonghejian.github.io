@@ -339,6 +339,12 @@ button {
     flex-wrap: wrap;
 }
 
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    transform: none;
+}
+
 .workbench-button {
     border-color: rgba(37, 99, 235, 0.22);
     background: rgba(37, 99, 235, 0.08);
@@ -432,11 +438,53 @@ button {
     background: #fff;
 }
 
+.generated-panel,
 .prompt-panel,
 .publish-panel {
     margin-top: 16px;
     padding: 16px;
     box-shadow: 0 12px 32px rgba(24, 32, 56, 0.08);
+}
+
+.generated-panel {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+.generated-image-frame {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 420px;
+    border: 1px dashed rgba(23, 25, 35, 0.16);
+    border-radius: 8px;
+    background:
+        linear-gradient(135deg, rgba(255, 45, 85, 0.06), rgba(37, 99, 235, 0.08)),
+        #f8fafc;
+    overflow: hidden;
+}
+
+.generated-image-frame img {
+    display: block;
+    width: min(100%, 470px);
+    max-height: 72vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow:
+        0 24px 70px rgba(24, 32, 56, 0.2),
+        0 0 0 10px rgba(255, 255, 255, 0.72);
+}
+
+.generated-empty {
+    width: min(100% - 32px, 360px);
+    padding: 20px;
+    border: 1px solid rgba(23, 25, 35, 0.08);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.84);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+    text-align: center;
 }
 
 .prompt-header {

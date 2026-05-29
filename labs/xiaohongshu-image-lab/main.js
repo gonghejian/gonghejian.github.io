@@ -16,7 +16,12 @@
         prompt: document.getElementById('promptOutput'),
         note: document.getElementById('noteOutput'),
         titleOptions: document.getElementById('titleOptions'),
-        status: document.getElementById('statusLine')
+        status: document.getElementById('statusLine'),
+        generatedImage: document.getElementById('generatedImage'),
+        generatedEmpty: document.getElementById('generatedEmpty'),
+        generateRealImage: document.getElementById('generateRealImageBtn'),
+        generateRealImagePanel: document.getElementById('generateRealImagePanelBtn'),
+        downloadGenerated: document.getElementById('downloadGeneratedBtn')
     };
 
     const typeMap = {
@@ -48,6 +53,7 @@
     let activeBrief = '';
     let activeArtStyle = null;
     let autoCompleteTimer = null;
+    let generatedImageDataUrl = '';
 
     const artStyleMap = {
         anime: {
@@ -832,6 +838,64 @@
         setStatus('PNG 已生成并开始下载。');
     }
 
+    function setRealImageLoading(isLoading) {
+        [controls.generateRealImage, controls.generateRealImagePanel].forEach((button) => {
+            if (!button) return;
+            button.disabled = isLoading;
+            button.textContent = isLoading ? '生成中...' : (button.id === 'generateRealImagePanelBtn' ? '生成' : '生成真实风格图');
+        });
+    }
+
+    function showGeneratedImage(imageDataUrl) {
+        generatedImageDataUrl = imageDataUrl;
+        controls.generatedImage.src = imageDataUrl;
+        controls.generatedImage.hidden = false;
+        controls.generatedEmpty.hidden = true;
+        controls.downloadGenerated.disabled = false;
+    }
+
+    async function generateRealImage() {
+        updatePrompt();
+        setRealImageLoading(true);
+        setStatus('正在调用 AICLI 生成真实图片...');
+        try {
+            const response = await fetch('/api/xhs-generate-image', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    prompt: controls.prompt.value,
+                    ratio: getRadioValue('ratio'),
+                    title: controls.title.value
+                })
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                const message = data.hint ? `${data.error} ${data.hint}` : (data.error || '真实生图失败。');
+                throw new Error(message);
+            }
+            if (!data.imageDataUrl) throw new Error('AICLI 返回成功，但没有图片数据。');
+            showGeneratedImage(data.imageDataUrl);
+            setStatus('真实风格图已生成。');
+        } catch (error) {
+            setStatus(error.message || '真实生图失败。');
+        } finally {
+            setRealImageLoading(false);
+        }
+    }
+
+    function downloadGeneratedImage() {
+        if (!generatedImageDataUrl) {
+            setStatus('还没有真实生图结果。');
+            return;
+        }
+        const link = document.createElement('a');
+        const safeTitle = (controls.title.value || 'xiaohongshu-ai-image').replace(/[\\/:*?"<>|]/g, '').slice(0, 24);
+        link.download = `${safeTitle || 'xiaohongshu-ai-image'}-real.png`;
+        link.href = generatedImageDataUrl;
+        link.click();
+        setStatus('真实图片已开始下载。');
+    }
+
     function copyTextFrom(element, successMessage) {
         element.focus();
         element.select();
@@ -916,6 +980,9 @@
     document.getElementById('generateTopicBtn').addEventListener('click', generateFromTopic);
     document.getElementById('randomizeBtn').addEventListener('click', randomize);
     document.getElementById('downloadBtn').addEventListener('click', downloadImage);
+    controls.generateRealImage.addEventListener('click', generateRealImage);
+    controls.generateRealImagePanel.addEventListener('click', generateRealImage);
+    controls.downloadGenerated.addEventListener('click', downloadGeneratedImage);
     document.getElementById('copyPromptBtn').addEventListener('click', copyPrompt);
     document.getElementById('openWorkbenchBtn').addEventListener('click', openImageWorkbench);
     document.getElementById('openWorkbenchPanelBtn').addEventListener('click', openImageWorkbench);

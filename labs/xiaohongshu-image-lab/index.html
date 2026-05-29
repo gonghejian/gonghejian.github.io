@@ -77,7 +77,7 @@
                 </label>
 
                 <div class="actions compact-actions">
-                    <button type="button" class="primary-button" id="generateTopicBtn">智能补全并生成</button>
+                    <button type="button" class="primary-button" id="generateTopicBtn">智能补全本地预览</button>
                     <button type="button" class="secondary-button" id="randomizeBtn">换个主题</button>
                 </div>
 
@@ -169,7 +169,9 @@
                 </fieldset>
 
                 <div class="actions">
-                    <button type="button" class="primary-button" id="downloadBtn">下载 PNG</button>
+                    <button type="button" class="primary-button" id="generateRealImageBtn">生成真实风格图</button>
+                    <button type="button" class="secondary-button" id="downloadGeneratedBtn" disabled>下载真实图片</button>
+                    <button type="button" class="secondary-button" id="downloadBtn">下载本地预览</button>
                     <button type="button" class="secondary-button" id="generateCopyBtn">生成发布文案</button>
                     <button type="button" class="secondary-button" id="copyPromptBtn">复制 AI 提示词</button>
                     <button type="button" class="secondary-button workbench-button" id="openWorkbenchBtn">复制并打开 AICLI 生图</button>
@@ -178,6 +180,19 @@
             </section>
 
             <section class="preview-panel" aria-label="图片预览">
+                <div class="generated-panel">
+                    <div class="prompt-header">
+                        <h2>真实生图结果</h2>
+                        <button type="button" id="generateRealImagePanelBtn">生成</button>
+                    </div>
+                    <p class="workbench-hint">这里会调用站点后台的 AICLI 代理生成真实图片。没有配置令牌时，只能使用下方本地排版预览。</p>
+                    <div class="generated-image-frame">
+                        <img id="generatedImage" alt="AI 生成的小红书风格图" hidden>
+                        <div class="generated-empty" id="generatedEmpty">
+                            还没有生成真实图片。选择画风后点击“生成真实风格图”。
+                        </div>
+                    </div>
+                </div>
                 <div class="canvas-shell">
                     <canvas id="coverCanvas" width="900" height="1200"></canvas>
                 </div>
