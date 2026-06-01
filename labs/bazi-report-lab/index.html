@@ -68,7 +68,7 @@
                     <div class="field-grid">
                         <label>
                             <span>出生日期</span>
-                            <input id="birth-date" type="date" value="1983-07-31" required>
+                            <input id="birth-date" type="date" value="1997-09-01" required>
                         </label>
                         <label>
                             <span>出生时间</span>
@@ -103,6 +103,11 @@
                     </div>
 
                     <div class="chapter-nav" id="chapter-nav" aria-label="报告目录"></div>
+                    <div class="page-pager" aria-label="报告翻页">
+                        <button class="ghost-button" id="prev-page" type="button" disabled>上一页</button>
+                        <span id="page-indicator">第 0 / 0 页</span>
+                        <button class="ghost-button" id="next-page" type="button" disabled>下一页</button>
+                    </div>
                     <div class="report-stage" id="report-stage">
                         <div class="empty-state">填写信息后生成报告图片。</div>
                     </div>

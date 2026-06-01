@@ -324,6 +324,29 @@ textarea:focus {
     color: var(--cinnabar);
 }
 
+.page-pager {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 0 18px;
+    padding: 12px;
+    border: 1px solid rgba(24, 32, 43, 0.1);
+    background: rgba(255, 255, 255, 0.36);
+}
+
+.page-pager .ghost-button {
+    min-width: 92px;
+}
+
+#page-indicator {
+    min-width: 110px;
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 800;
+    text-align: center;
+}
+
 .report-stage {
     display: grid;
     gap: 18px;

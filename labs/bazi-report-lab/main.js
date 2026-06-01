@@ -29,6 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
         generateReport();
     });
     document.getElementById('download-current').addEventListener('click', downloadCurrentPage);
+    document.getElementById('prev-page').addEventListener('click', () => showPage(currentPage - 1));
+    document.getElementById('next-page').addEventListener('click', () => showPage(currentPage + 1));
+    document.addEventListener('keydown', (event) => {
+        if (!reportPages.length) return;
+        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target?.tagName)) return;
+        if (event.key === 'ArrowLeft') showPage(currentPage - 1);
+        if (event.key === 'ArrowRight') showPage(currentPage + 1);
+    });
     generateReport();
 });
 
@@ -742,14 +750,27 @@ function generateReport() {
 }
 
 function showPage(index) {
-    currentPage = index;
+    if (!reportPages.length) return;
+    const pageIndex = Math.max(0, Math.min(index, reportPages.length - 1));
+    currentPage = pageIndex;
     reportPages.forEach((item, itemIndex) => {
-        item.page.classList.toggle('active', itemIndex === index);
+        item.page.classList.toggle('active', itemIndex === pageIndex);
     });
     const buttons = document.querySelectorAll('#chapter-nav button');
     buttons.forEach((button, buttonIndex) => {
-        button.classList.toggle('active', buttonIndex === reportPages[index]?.chapterIndex);
+        button.classList.toggle('active', buttonIndex === reportPages[pageIndex]?.chapterIndex);
     });
+    updatePager();
+}
+
+function updatePager() {
+    const indicator = document.getElementById('page-indicator');
+    const prev = document.getElementById('prev-page');
+    const next = document.getElementById('next-page');
+    if (!indicator || !prev || !next) return;
+    indicator.textContent = `第 ${currentPage + 1} / ${reportPages.length} 页`;
+    prev.disabled = currentPage <= 0;
+    next.disabled = currentPage >= reportPages.length - 1;
 }
 
 function downloadCurrentPage() {
@@ -764,7 +785,7 @@ function downloadCurrentPage() {
 function drawCoverPreview() {
     const canvas = document.getElementById('cover-preview');
     if (!canvas) return;
-    const data = { name: '弓箭', date: '1983-07-31', time: '01:00', place: '江苏南京' };
+    const data = { name: '弓箭', date: '1997-09-01', time: '01:00', place: '南京市' };
     const profile = calculateProfile({ ...data, sex: '男', calendar: '公历', focus: '个人系统' });
     drawReportPage(canvas, {
         title: '八字概要',
