@@ -7,8 +7,6 @@
 let calculator;
 let renderer;
 let interpreter;
-let divination;
-let ichingInterpreter;
 let recommender;
 let transitCalculator;
 
@@ -19,9 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     interpreter = new ChartInterpreter();
     recommender = new ChartRecommender();
     transitCalculator = new TransitCalculator();
-    divination = new IChingDivination();
-    ichingInterpreter = new IChingInterpreter();
-
     // 标签页切换
     setupTabs();
 
@@ -45,9 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 解析结果标签页切换
     setupInterpretationTabs();
-
-    // 易经功能
-    setupIChing();
 
     // 尝试加载保存的数据
     loadSavedData();

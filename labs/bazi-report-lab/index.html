@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>八字报告实验室</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="bazi-app">
+        <header class="topbar">
+            <div class="topbar-inner">
+                <div>
+                    <div class="brand">八字报告实验室</div>
+                    <div class="tagline">出生信息 · 五行结构 · 中国风报告图片</div>
+                </div>
+                <nav class="topnav" aria-label="产品导航">
+                    <a href="/labs/">实验室</a>
+                    <a href="/labs/mystic-lab/">星盘实验室</a>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="hero-copy">
+                    <p class="kicker">实验版 · 本地生成</p>
+                    <h1>输入生辰信息，生成一份结构化八字报告。</h1>
+                    <p>
+                        这个实验把八字概要、五行喜忌、人生阶段、关系模式和年度提示整理成一组中国风报告图片。它更像内容产品原型，不是专业命理服务。
+                    </p>
+                </div>
+                <div class="hero-card" aria-hidden="true">
+                    <canvas id="cover-preview" width="900" height="1280"></canvas>
+                </div>
+            </section>
+
+            <section class="workspace">
+                <form id="bazi-form" class="input-panel">
+                    <div class="panel-head">
+                        <h2>出生信息</h2>
+                        <p>数据只在浏览器本地使用，不上传。</p>
+                    </div>
+
+                    <label>
+                        <span>姓名 / 昵称</span>
+                        <input id="person-name" type="text" value="弓箭" maxlength="16" required>
+                    </label>
+
+                    <div class="field-grid">
+                        <label>
+                            <span>性别</span>
+                            <select id="person-sex">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                                <option value="未设定">不设定</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>历法</span>
+                            <select id="calendar-type">
+                                <option value="公历">公历</option>
+                                <option value="农历">农历（暂按公历试算）</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="field-grid">
+                        <label>
+                            <span>出生日期</span>
+                            <input id="birth-date" type="date" value="1983-07-31" required>
+                        </label>
+                        <label>
+                            <span>出生时间</span>
+                            <input id="birth-time" type="time" value="01:00" required>
+                        </label>
+                    </div>
+
+                    <label>
+                        <span>出生地</span>
+                        <input id="birth-place" type="text" value="江苏南京" maxlength="24" required>
+                    </label>
+
+                    <label>
+                        <span>当前关注</span>
+                        <textarea id="focus-question" rows="3" maxlength="80" placeholder="例如：我接下来三年应该把精力放在哪里？">个人系统、长期输出与一人公司实验</textarea>
+                    </label>
+
+                    <button class="primary-button" type="submit">生成报告</button>
+                </form>
+
+                <section class="report-panel" id="report-panel">
+                    <div class="report-head">
+                        <div>
+                            <p class="kicker">报告目录</p>
+                            <h2 id="report-title">等待生成</h2>
+                        </div>
+                        <button class="ghost-button" id="download-current" type="button" disabled>下载当前页 PNG</button>
+                    </div>
+
+                    <div class="chapter-nav" id="chapter-nav" aria-label="报告目录"></div>
+                    <div class="report-stage" id="report-stage">
+                        <div class="empty-state">填写信息后生成报告图片。</div>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <script src="./main.js"></script>
+</body>
+</html>

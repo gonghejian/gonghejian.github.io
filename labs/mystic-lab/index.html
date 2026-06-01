@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 星盘与易经分析器</title>
+    <title>AI 星盘分析器</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -11,13 +11,12 @@
         <header class="product-topbar">
             <div class="product-topbar-inner">
                 <div>
-                    <div class="product-name">AI 星盘与易经分析器</div>
-                    <div class="product-tagline">出生信息计算 · 星盘可视化 · 易经起卦解读</div>
+                    <div class="product-name">AI 星盘分析器</div>
+                    <div class="product-tagline">出生信息计算 · 星盘可视化 · 结构化解读</div>
                 </div>
                 <nav class="product-nav" aria-label="产品导航">
                     <a href="/labs/">实验室</a>
                     <a href="#astrology-tab" onclick="document.querySelector('[data-tab=astrology]').click()">星盘</a>
-                    <a href="#iching-tab" onclick="document.querySelector('[data-tab=iching]').click()">易经</a>
                 </nav>
             </div>
         </header>
@@ -25,9 +24,9 @@
         <section class="product-hero">
             <div class="product-hero-main">
                 <p class="product-kicker">实验版排盘工具 · 先把基础结果算准</p>
-                <h1>输入出生信息，生成星盘图、结构化解析和易经测算结果。</h1>
+                <h1>输入出生信息，生成星盘图和结构化解析。</h1>
                 <p>
-                    这个产品把星盘绘制、行星落座落宫、相位解析、文化推荐和易经起卦放在同一个页面里。当前重点是修正出生时间、时区、太阳、月亮、上升和宫位这些基础结果，适合个人探索、内容创作和工具原型验证。
+                    这个产品把星盘绘制、行星落座落宫、相位解析和文化推荐放在同一个页面里。当前重点是修正出生时间、时区、太阳、月亮、上升和宫位这些基础结果，适合个人探索、内容创作和工具原型验证。
                 </p>
             </div>
             <div class="product-stats" aria-label="产品能力">
@@ -41,7 +40,6 @@
             <!-- 标签页切换 -->
             <div class="tabs">
                 <button class="tab-button active" data-tab="astrology">星盘</button>
-                <button class="tab-button" data-tab="iching">易经</button>
             </div>
 
             <!-- 星盘标签页 -->
@@ -258,82 +256,6 @@
                 </section>
             </div>
 
-            <!-- 易经标签页 -->
-            <div id="iching-tab" class="tab-content">
-                <section class="iching-section">
-                    <h2 class="section-title">易经测算</h2>
-                    <p class="section-description">选择起卦方式，输入问题，获得卦象和解读</p>
-                    
-                    <div class="iching-methods">
-                        <div class="method-tabs">
-                            <button class="method-tab active" data-method="time">时间起卦</button>
-                            <button class="method-tab" data-method="number">数字起卦</button>
-                            <button class="method-tab" data-method="coin">手动起卦</button>
-                        </div>
-
-                        <!-- 时间起卦 -->
-                        <div id="time-method" class="method-content active">
-                            <form id="time-divination-form" class="divination-form">
-                                <div class="form-group">
-                                    <label for="divination-question">问题（可选）</label>
-                                    <textarea id="divination-question" rows="3" placeholder="输入你想问的问题，例如：这次投资能否成功？"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="divination-date">起卦时间</label>
-                                    <input type="datetime-local" id="divination-date" required>
-                                </div>
-                                <button type="submit" class="primary-button">起卦</button>
-                            </form>
-                        </div>
-
-                        <!-- 数字起卦 -->
-                        <div id="number-method" class="method-content">
-                            <form id="number-divination-form" class="divination-form">
-                                <div class="form-group">
-                                    <label for="divination-question-number">问题（可选）</label>
-                                    <textarea id="divination-question-number" rows="3" placeholder="输入你想问的问题"></textarea>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="number1">第一个数字</label>
-                                        <input type="number" id="number1" min="1" required placeholder="输入任意数字">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="number2">第二个数字</label>
-                                        <input type="number" id="number2" min="1" required placeholder="输入任意数字">
-                                    </div>
-                                </div>
-                                <button type="submit" class="primary-button">起卦</button>
-                            </form>
-                        </div>
-
-                        <!-- 手动起卦 -->
-                        <div id="coin-method" class="method-content">
-                            <form id="coin-divination-form" class="divination-form">
-                                <div class="form-group">
-                                    <label for="divination-question-coin">问题（可选）</label>
-                                    <textarea id="divination-question-coin" rows="3" placeholder="输入你想问的问题"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>投掷三枚硬币（共6次，从下往上）</label>
-                                    <p class="form-hint">每次投掷3枚硬币，记录正面（1）和反面（0）的数量</p>
-                                    <div id="coin-throws" class="coin-throws">
-                                        <!-- 动态生成投掷输入 -->
-                                    </div>
-                                </div>
-                                <button type="submit" class="primary-button">起卦</button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- 卦象结果 -->
-                    <div id="iching-result" class="iching-result" style="display: none;">
-                        <h3 class="result-title">卦象结果</h3>
-                        <div id="hexagram-visualization" class="hexagram-visualization"></div>
-                        <div id="hexagram-interpretation" class="hexagram-interpretation"></div>
-                    </div>
-                </section>
-            </div>
         </main>
     </div>
 
@@ -346,9 +268,6 @@
     <script src="./astrology/interpreter.js"></script>
     <script src="./astrology/recommendations.js"></script>
     <script src="./astrology/transit.js"></script>
-    <script src="./iching/hexagrams.js"></script>
-    <script src="./iching/divination.js"></script>
-    <script src="./iching/interpreter.js"></script>
     <script src="./main.js"></script>
 </body>
 </html>
