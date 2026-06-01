@@ -582,6 +582,27 @@ body::before {
     margin-bottom: 48px;
 }
 
+.accuracy-notice {
+    display: grid;
+    gap: 6px;
+    margin: 0 0 18px;
+    padding: 14px 16px;
+    border: 1px solid rgba(125, 211, 252, 0.22);
+    border-radius: 8px;
+    background: rgba(14, 165, 233, 0.08);
+    color: rgba(255, 255, 255, 0.74);
+}
+
+.accuracy-notice strong {
+    color: #e0f2fe;
+    font-size: 0.92rem;
+}
+
+.accuracy-notice span {
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
 .chart-container {
     display: flex;
     align-items: flex-start;

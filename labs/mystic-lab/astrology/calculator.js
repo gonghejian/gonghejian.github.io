@@ -49,14 +49,14 @@ class AstrologyCalculator {
             // 计算儒略日
             const julianDay = this.calculateJulianDay(dateTime);
             
-            // 计算行星位置（简化版本，使用近似公式）
+            // 计算行星位置（实验版近似公式）
             const planetPositions = this.calculatePlanetPositions(julianDay);
             
-            // 计算上升点（简化计算）
+            // 计算上升点
             const ascendant = this.calculateAscendant(dateTime, birthData.latitude, birthData.longitude);
             
             // 计算宫位
-            const houses = this.calculateHouses(ascendant, birthData.latitude);
+            const houses = this.calculateHouses(ascendant, birthData.latitude, birthData.houseSystem);
             
             // 计算相位
             const aspects = this.calculateAspects(planetPositions);
@@ -66,7 +66,14 @@ class AstrologyCalculator {
                 houses: houses,
                 aspects: aspects,
                 ascendant: ascendant,
-                mc: this.calculateMC(ascendant)
+                mc: this.calculateMC(dateTime, birthData.longitude),
+                meta: {
+                    julianDay,
+                    timezoneOffset: dateTime.timezoneOffset,
+                    houseSystem: this.normalizeHouseSystem(birthData.houseSystem),
+                    accuracy: 'experimental',
+                    note: '当前版本采用前端近似天文算法，太阳、月亮、上升和等宫制结果适合实验参考；专业排盘仍建议接入 Swiss Ephemeris。'
+                }
             };
         } catch (error) {
             console.error('计算星盘时出错:', error);
@@ -78,21 +85,28 @@ class AstrologyCalculator {
      * 解析日期时间
      */
     parseDateTime(date, time, timezone) {
-        const dateTimeStr = `${date}T${time}`;
-        const dateObj = new Date(dateTimeStr);
-        
-        // 简单的时区处理（实际应该使用更精确的时区库）
+        const [year, month, day] = date.split('-').map(Number);
+        const [hour, minute] = time.split(':').map(Number);
         const timezoneOffset = this.getTimezoneOffset(timezone);
-        const utcTime = dateObj.getTime() - (dateObj.getTimezoneOffset() * 60000);
-        const localTime = new Date(utcTime + (timezoneOffset * 3600000));
-        
+
+        // 用户输入的是出生地墙上时间。先按所选时区换算成 UTC，避免浏览器本机时区二次干扰。
+        const utcMillis = Date.UTC(year, month - 1, day, hour, minute, 0) - timezoneOffset * 3600000;
+        const utcDate = new Date(utcMillis);
+
         return {
-            year: localTime.getFullYear(),
-            month: localTime.getMonth() + 1,
-            day: localTime.getDate(),
-            hour: localTime.getHours(),
-            minute: localTime.getMinutes(),
-            second: localTime.getSeconds()
+            year,
+            month,
+            day,
+            hour,
+            minute,
+            second: 0,
+            timezoneOffset,
+            utcYear: utcDate.getUTCFullYear(),
+            utcMonth: utcDate.getUTCMonth() + 1,
+            utcDay: utcDate.getUTCDate(),
+            utcHour: utcDate.getUTCHours(),
+            utcMinute: utcDate.getUTCMinutes(),
+            utcSecond: utcDate.getUTCSeconds()
         };
     }
 
@@ -126,10 +140,17 @@ class AstrologyCalculator {
     }
 
     /**
-     * 计算儒略日（简化版本）
+     * 计算儒略日（UTC）
      */
     calculateJulianDay(dateTime) {
-        const { year, month, day, hour, minute, second } = dateTime;
+        const {
+            utcYear: year,
+            utcMonth: month,
+            utcDay: day,
+            utcHour: hour,
+            utcMinute: minute,
+            utcSecond: second
+        } = dateTime;
         const a = Math.floor((14 - month) / 12);
         const y = year + 4800 - a;
         const m = month + 12 * a - 3;
@@ -142,24 +163,22 @@ class AstrologyCalculator {
     }
 
     /**
-     * 计算行星位置（简化版本，使用近似公式）
-     * 注意：这是简化版本，实际应该使用 Swiss Ephemeris 等专业库
+     * 计算行星位置（实验版近似公式）
+     * 注意：不是 Swiss Ephemeris 级别，重点修正太阳/月亮和大体落座稳定性。
      */
     calculatePlanetPositions(julianDay) {
         const positions = [];
         const daysSince2000 = julianDay - 2451545.0;
-        
+
         this.planets.forEach((planet, index) => {
-            // 简化的行星位置计算（仅用于演示）
-            // 实际应该使用精确的天文计算
             let longitude;
             
             switch (index) {
                 case 0: // 太阳
-                    longitude = (280.4665 + 0.98564736 * daysSince2000) % 360;
+                    longitude = this.calculateSunLongitude(daysSince2000);
                     break;
                 case 1: // 月亮
-                    longitude = (218.3165 + 13.176396 * daysSince2000) % 360;
+                    longitude = this.calculateMoonLongitude(daysSince2000);
                     break;
                 case 2: // 水星
                     longitude = (252.2509 + 4.092334 * daysSince2000) % 360;
@@ -189,7 +208,7 @@ class AstrologyCalculator {
                     longitude = 0;
             }
             
-            if (longitude < 0) longitude += 360;
+            longitude = this.normalizeDegrees(longitude);
             
             const signIndex = Math.floor(longitude / 30);
             const signDegree = longitude % 30;
@@ -209,17 +228,50 @@ class AstrologyCalculator {
     }
 
     /**
-     * 计算上升点（简化版本）
+     * 太阳黄经。使用常见低精度太阳近似式，足以修正太阳星座边界外的大多数错误。
+     */
+    calculateSunLongitude(daysSince2000) {
+        const meanLongitude = this.normalizeDegrees(280.460 + 0.9856474 * daysSince2000);
+        const meanAnomaly = this.normalizeDegrees(357.528 + 0.9856003 * daysSince2000);
+        return meanLongitude +
+            1.915 * this.sinDeg(meanAnomaly) +
+            0.020 * this.sinDeg(2 * meanAnomaly);
+    }
+
+    /**
+     * 月亮黄经。使用低精度月球项修正，比单纯平均运动更稳定。
+     */
+    calculateMoonLongitude(daysSince2000) {
+        const l0 = this.normalizeDegrees(218.316 + 13.176396 * daysSince2000);
+        const mMoon = this.normalizeDegrees(134.963 + 13.064993 * daysSince2000);
+        const d = this.normalizeDegrees(297.850 + 12.190749 * daysSince2000);
+        const f = this.normalizeDegrees(93.272 + 13.229350 * daysSince2000);
+        const mSun = this.normalizeDegrees(357.529 + 0.98560028 * daysSince2000);
+
+        return l0 +
+            6.289 * this.sinDeg(mMoon) +
+            1.274 * this.sinDeg(2 * d - mMoon) +
+            0.658 * this.sinDeg(2 * d) +
+            0.214 * this.sinDeg(2 * mMoon) -
+            0.186 * this.sinDeg(mSun) -
+            0.114 * this.sinDeg(2 * f);
+    }
+
+    /**
+     * 计算上升点（基于本地恒星时的近似算法）
      */
     calculateAscendant(dateTime, latitude, longitude) {
-        // 简化的上升点计算
-        // 实际应该使用更精确的算法
-        const hour = dateTime.hour + dateTime.minute / 60;
-        const dayOfYear = this.getDayOfYear(dateTime.year, dateTime.month, dateTime.day);
-        
-        // 简化的上升点计算（仅用于演示）
-        let ascendantLongitude = (longitude + (hour - 12) * 15 + dayOfYear * 0.9856) % 360;
-        if (ascendantLongitude < 0) ascendantLongitude += 360;
+        const jd = this.calculateJulianDay(dateTime);
+        const lst = this.localSiderealTime(jd, longitude);
+        const eps = this.degToRad(23.439291);
+        const phi = this.degToRad(latitude);
+        const theta = this.degToRad(lst);
+
+        let ascendantLongitude = this.radToDeg(Math.atan2(
+            -Math.cos(theta),
+            Math.sin(theta) * Math.cos(eps) + Math.tan(phi) * Math.sin(eps)
+        ));
+        ascendantLongitude = this.normalizeDegrees(ascendantLongitude);
         
         const signIndex = Math.floor(ascendantLongitude / 30);
         const signDegree = ascendantLongitude % 30;
@@ -243,15 +295,17 @@ class AstrologyCalculator {
     }
 
     /**
-     * 计算宫位（简化版本，使用等宫制）
+     * 计算宫位
      */
-    calculateHouses(ascendant, latitude) {
+    calculateHouses(ascendant, latitude, houseSystem = 'equal') {
         const houses = [];
-        const ascendantLongitude = ascendant.longitude;
-        
-        // 等宫制：每个宫位30度
+        const normalizedSystem = this.normalizeHouseSystem(houseSystem);
+        const startLongitude = normalizedSystem === 'whole'
+            ? ascendant.signIndex * 30
+            : ascendant.longitude;
+
         for (let i = 0; i < 12; i++) {
-            const cuspLongitude = (ascendantLongitude + i * 30) % 360;
+            const cuspLongitude = this.normalizeDegrees(startLongitude + i * 30);
             const signIndex = Math.floor(cuspLongitude / 30);
             const signDegree = cuspLongitude % 30;
             
@@ -271,8 +325,15 @@ class AstrologyCalculator {
     /**
      * 计算天顶（MC）
      */
-    calculateMC(ascendant) {
-        const mcLongitude = (ascendant.longitude + 90) % 360;
+    calculateMC(dateTime, longitude) {
+        const jd = this.calculateJulianDay(dateTime);
+        const lst = this.localSiderealTime(jd, longitude);
+        const eps = this.degToRad(23.439291);
+        const theta = this.degToRad(lst);
+        const mcLongitude = this.normalizeDegrees(this.radToDeg(Math.atan2(
+            Math.sin(theta),
+            Math.cos(theta) * Math.cos(eps)
+        )));
         const signIndex = Math.floor(mcLongitude / 30);
         const signDegree = mcLongitude % 30;
         
@@ -282,6 +343,36 @@ class AstrologyCalculator {
             signIndex: signIndex,
             degree: signDegree
         };
+    }
+
+    normalizeHouseSystem(system) {
+        if (system === 'whole') return 'whole';
+        return 'equal';
+    }
+
+    localSiderealTime(julianDay, longitude) {
+        const t = (julianDay - 2451545.0) / 36525;
+        const gmst = 280.46061837 +
+            360.98564736629 * (julianDay - 2451545.0) +
+            0.000387933 * t * t -
+            (t * t * t) / 38710000;
+        return this.normalizeDegrees(gmst + longitude);
+    }
+
+    normalizeDegrees(degrees) {
+        return ((degrees % 360) + 360) % 360;
+    }
+
+    degToRad(degrees) {
+        return degrees * Math.PI / 180;
+    }
+
+    radToDeg(radians) {
+        return radians * 180 / Math.PI;
+    }
+
+    sinDeg(degrees) {
+        return Math.sin(this.degToRad(degrees));
     }
 
     /**

@@ -24,16 +24,16 @@
 
         <section class="product-hero">
             <div class="product-hero-main">
-                <p class="product-kicker">把复杂命理计算做成可操作工具</p>
+                <p class="product-kicker">实验版排盘工具 · 先把基础结果算准</p>
                 <h1>输入出生信息，生成星盘图、结构化解析和易经测算结果。</h1>
                 <p>
-                    这个产品把星盘绘制、行星落座落宫、相位解析、文化推荐和易经起卦放在同一个页面里，适合做个人探索、内容创作和命理工具原型验证。
+                    这个产品把星盘绘制、行星落座落宫、相位解析、文化推荐和易经起卦放在同一个页面里。当前重点是修正出生时间、时区、太阳、月亮、上升和宫位这些基础结果，适合个人探索、内容创作和工具原型验证。
                 </p>
             </div>
             <div class="product-stats" aria-label="产品能力">
-                <div><span>星盘模块</span><strong>行星 / 宫位 / 相位</strong></div>
+                <div><span>星盘模块</span><strong>太阳 / 月亮 / 上升</strong></div>
                 <div><span>解读模块</span><strong>综合建议 / 运势 / 推荐</strong></div>
-                <div><span>易经模块</span><strong>时间 / 数字 / 手动起卦</strong></div>
+                <div><span>准确边界</span><strong>实验版 / 非专业星历</strong></div>
             </div>
         </section>
 
@@ -185,11 +185,9 @@
                                         <div class="form-inputs">
                                             <select id="house-system">
                                                 <option value="equal" selected>等宫制 (Equal)</option>
-                                                <option value="placidus">普拉西德制 (Placidus)</option>
-                                                <option value="koch">科赫制 (Koch)</option>
                                                 <option value="whole">整宫制 (Whole Sign)</option>
-                                                <option value="porphyry">波菲力制 (Porphyry)</option>
                                             </select>
+                                            <small class="form-hint">当前只开放等宫制和整宫制；Placidus / Koch 需要专业星历库支持，后续单独接入。</small>
                                         </div>
                                     </div>
                                     <div class="form-row nested">
@@ -220,6 +218,10 @@
 
                 <section class="chart-section" id="chart-section" style="display: none;">
                     <h2 class="section-title">星盘图</h2>
+                    <div class="accuracy-notice" id="accuracy-notice">
+                        <strong>实验版说明</strong>
+                        <span>本页采用前端近似算法，已修正时区、太阳、月亮和上升点计算；若用于严肃咨询，请以 Swiss Ephemeris 等专业星历结果为准。</span>
+                    </div>
                     <div class="chart-container">
                         <canvas id="chart-canvas"></canvas>
                         <div class="chart-legend">
