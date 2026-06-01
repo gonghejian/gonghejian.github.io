@@ -23,6 +23,7 @@ let currentPage = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     drawCoverPreview();
+    setupPlaceSearch();
     document.getElementById('bazi-form').addEventListener('submit', (event) => {
         event.preventDefault();
         generateReport();
@@ -32,15 +33,79 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function getFormData() {
+    const placeInput = document.getElementById('birth-place');
     return {
         name: document.getElementById('person-name').value.trim() || '未命名',
         sex: document.getElementById('person-sex').value,
         calendar: document.getElementById('calendar-type').value,
         date: document.getElementById('birth-date').value,
         time: document.getElementById('birth-time').value,
-        place: document.getElementById('birth-place').value.trim() || '未设定',
+        place: placeInput.value.trim() || '未设定',
+        latitude: Number(placeInput.dataset.lat || 32.060255),
+        longitude: Number(placeInput.dataset.lng || 118.796877),
         focus: document.getElementById('focus-question').value.trim() || '个人节奏与长期选择'
     };
+}
+
+function setupPlaceSearch() {
+    const input = document.getElementById('birth-place');
+    const results = document.getElementById('place-search-results');
+    const hint = document.getElementById('selected-place-info');
+    if (!input || !results || typeof CITY_DATABASE === 'undefined') return;
+
+    const cityIndex = Object.entries(CITY_DATABASE)
+        .map(([name, coord]) => ({ name, lat: coord.lat, lng: coord.lng }))
+        .filter((item) => Number.isFinite(item.lat) && Number.isFinite(item.lng));
+
+    selectPlace({ name: '南京市', lat: 32.060255, lng: 118.796877 }, false);
+
+    function selectPlace(item, shouldGenerate = true) {
+        input.value = item.name;
+        input.dataset.lat = item.lat;
+        input.dataset.lng = item.lng;
+        hint.textContent = `已定位：${item.name}（${item.lat.toFixed(2)}, ${item.lng.toFixed(2)}）`;
+        results.classList.remove('active');
+        if (shouldGenerate) generateReport();
+    }
+
+    function render(matches) {
+        results.innerHTML = '';
+        if (!matches.length) {
+            results.classList.remove('active');
+            return;
+        }
+        matches.forEach((item) => {
+            const option = document.createElement('div');
+            option.className = 'place-option';
+            option.textContent = `${item.name}（${item.lat.toFixed(2)}, ${item.lng.toFixed(2)}）`;
+            option.addEventListener('mousedown', (event) => {
+                event.preventDefault();
+                selectPlace(item);
+            });
+            results.appendChild(option);
+        });
+        results.classList.add('active');
+    }
+
+    input.addEventListener('input', () => {
+        delete input.dataset.lat;
+        delete input.dataset.lng;
+        const query = input.value.trim();
+        if (!query) {
+            hint.textContent = '输入城市或区县名称后选择定位结果。';
+            results.classList.remove('active');
+            return;
+        }
+        const matches = cityIndex
+            .filter((item) => item.name.includes(query))
+            .slice(0, 12);
+        hint.textContent = matches.length ? '请选择下方定位结果。' : '未找到匹配地点，可继续作为文本使用。';
+        render(matches);
+    });
+
+    input.addEventListener('blur', () => {
+        window.setTimeout(() => results.classList.remove('active'), 140);
+    });
 }
 
 function calculateProfile(data) {
@@ -596,16 +661,33 @@ function buildReportPages(data, profile) {
         }
     ];
 
-    return chapters.flatMap((chapter, chapterIndex) => (
-        chapter.sections.map(([subtitle, lines], sectionIndex) => ({
-            title: chapter.title,
-            subtitle: `${subtitle} · ${sectionIndex + 1}/${chapter.sections.length}`,
-            lines,
-            chapterIndex,
-            pageInChapter: sectionIndex + 1,
-            totalInChapter: chapter.sections.length
-        }))
-    ));
+    return chapters.flatMap((chapter, chapterIndex) => {
+        const sectionPages = [];
+        chapter.sections.forEach(([subtitle, lines], sectionIndex) => {
+            chunkLines(lines, 2).forEach((chunk, chunkIndex, chunks) => {
+                sectionPages.push({
+                    title: chapter.title,
+                    subtitle: `${subtitle} · ${sectionIndex + 1}/${chapter.sections.length}${chunks.length > 1 ? `-${chunkIndex + 1}` : ''}`,
+                    lines: chunk,
+                    chapterIndex,
+                    pageInChapter: sectionPages.length + 1,
+                    totalInChapter: 0
+                });
+            });
+        });
+        sectionPages.forEach((page) => {
+            page.totalInChapter = sectionPages.length;
+        });
+        return sectionPages;
+    });
+}
+
+function chunkLines(lines, size) {
+    const chunks = [];
+    for (let index = 0; index < lines.length; index += size) {
+        chunks.push(lines.slice(index, index + size));
+    }
+    return chunks;
 }
 
 function generateReport() {
@@ -705,42 +787,44 @@ function drawReportPage(canvas, chapter, index, data, profile, totalPages = chap
     drawMountains(ctx, width, height, index);
     drawSeal(ctx, width - 170, 96, index);
 
+    const textFont = '"Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif';
+
     ctx.fillStyle = '#18202b';
     ctx.textAlign = 'left';
-    ctx.font = '700 30px "Microsoft YaHei", sans-serif';
+    ctx.font = `700 26px ${textFont}`;
     ctx.fillText('八字报告实验室', 78, 94);
 
     ctx.fillStyle = '#68717f';
-    ctx.font = '24px "Microsoft YaHei", sans-serif';
-    ctx.fillText(`${data.name || '未命名'} · ${data.date || ''} ${data.time || ''}`, 78, 132);
+    ctx.font = `20px ${textFont}`;
+    ctx.fillText(`${data.name || '未命名'} · ${data.date || ''} ${data.time || ''} · ${data.place || ''}`, 78, 130);
 
     ctx.fillStyle = '#b5362d';
-    ctx.font = '700 28px "Microsoft YaHei", sans-serif';
-    ctx.fillText(String(index + 1).padStart(2, '0'), 78, 210);
+    ctx.font = `700 24px ${textFont}`;
+    ctx.fillText(String(index + 1).padStart(2, '0'), 78, 194);
 
     ctx.fillStyle = '#18202b';
-    ctx.font = '800 58px "Microsoft YaHei", sans-serif';
-    wrapText(ctx, chapter.title, 78, 286, 720, 66);
+    ctx.font = `800 48px ${textFont}`;
+    wrapText(ctx, chapter.title, 78, 262, 720, 58);
 
     if (chapter.subtitle) {
         ctx.fillStyle = '#68717f';
-        ctx.font = '700 25px "Microsoft YaHei", sans-serif';
-        wrapText(ctx, chapter.subtitle, 78, 348, 720, 34);
+        ctx.font = `700 22px ${textFont}`;
+        wrapText(ctx, `${chapter.subtitle} · 本章 ${chapter.pageInChapter}/${chapter.totalInChapter}`, 78, 320, 720, 30);
     }
 
-    drawPillars(ctx, profile, 78, 384);
+    drawPillars(ctx, profile, 78, 358);
 
     ctx.fillStyle = '#243040';
-    ctx.font = '22px "Microsoft YaHei", sans-serif';
-    let y = 528;
+    ctx.font = `24px ${textFont}`;
+    let y = 512;
     chapter.lines.forEach((paragraph) => {
-        y = wrapText(ctx, paragraph, 86, y, 720, 32) + 16;
+        y = wrapParagraph(ctx, paragraph, 86, y, 720, 38) + 24;
     });
 
-    drawElementStrip(ctx, profile, 86, 1102);
+    drawElementStrip(ctx, profile, 86, 1088);
 
     ctx.fillStyle = '#68717f';
-    ctx.font = '22px "Microsoft YaHei", sans-serif';
+    ctx.font = `20px ${textFont}`;
     ctx.fillText('实验型解释器 · 非专业命理结论', 78, 1194);
     ctx.textAlign = 'right';
     ctx.fillText(`${index + 1} / ${totalPages}`, width - 78, 1194);
@@ -803,16 +887,16 @@ function drawPillars(ctx, profile, x, y) {
     profile.pillars.forEach((pillar, index) => {
         const left = x + index * (cellWidth + 12);
         ctx.fillStyle = 'rgba(255, 255, 255, 0.46)';
-        ctx.fillRect(left, y, cellWidth, 120);
+        ctx.fillRect(left, y, cellWidth, 104);
         ctx.strokeStyle = 'rgba(24, 32, 43, 0.18)';
-        ctx.strokeRect(left, y, cellWidth, 120);
+        ctx.strokeRect(left, y, cellWidth, 104);
         ctx.fillStyle = '#68717f';
-        ctx.font = '22px "Microsoft YaHei", sans-serif';
+        ctx.font = '20px "Microsoft YaHei", "PingFang SC", sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(pillar.label, left + cellWidth / 2, y + 34);
+        ctx.fillText(pillar.label, left + cellWidth / 2, y + 30);
         ctx.fillStyle = elementColors[pillar.element];
-        ctx.font = '800 42px "Microsoft YaHei", sans-serif';
-        ctx.fillText(`${pillar.stem}${pillar.branch}`, left + cellWidth / 2, y + 84);
+        ctx.font = '800 38px "Microsoft YaHei", "PingFang SC", sans-serif';
+        ctx.fillText(`${pillar.stem}${pillar.branch}`, left + cellWidth / 2, y + 76);
     });
     ctx.textAlign = 'left';
 }
@@ -868,6 +952,29 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
     }
     if (line) {
         ctx.fillText(line, x, cursorY);
+    }
+    return cursorY;
+}
+
+function wrapParagraph(ctx, text, x, y, maxWidth, lineHeight) {
+    const firstLineIndent = 34;
+    let line = '';
+    let cursorY = y;
+    let isFirstLine = true;
+    for (const char of text) {
+        const offset = isFirstLine ? firstLineIndent : 0;
+        const testLine = line + char;
+        if (ctx.measureText(testLine).width > maxWidth - offset && line) {
+            ctx.fillText(line, x + offset, cursorY);
+            line = char;
+            cursorY += lineHeight;
+            isFirstLine = false;
+        } else {
+            line = testLine;
+        }
+    }
+    if (line) {
+        ctx.fillText(line, x + (isFirstLine ? firstLineIndent : 0), cursorY);
     }
     return cursorY;
 }

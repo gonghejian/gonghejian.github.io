@@ -193,6 +193,53 @@ label span {
     font-weight: 700;
 }
 
+.place-search-wrap {
+    position: relative;
+}
+
+.place-search-results {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    z-index: 30;
+    display: none;
+    max-height: 220px;
+    overflow: auto;
+    border: 1px solid rgba(24, 32, 43, 0.16);
+    border-radius: 6px;
+    background: #fffdf7;
+    box-shadow: 0 14px 30px rgba(24, 32, 43, 0.14);
+}
+
+.place-search-results.active {
+    display: block;
+}
+
+.place-option {
+    padding: 10px 11px;
+    cursor: pointer;
+    color: var(--ink);
+    border-bottom: 1px solid rgba(24, 32, 43, 0.08);
+    font-size: 14px;
+}
+
+.place-option:last-child {
+    border-bottom: none;
+}
+
+.place-option:hover,
+.place-option.active {
+    background: rgba(181, 54, 45, 0.08);
+    color: var(--cinnabar);
+}
+
+.place-hint {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
 input,
 select,
 textarea {
