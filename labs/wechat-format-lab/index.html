@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公众号 Markdown 排版工具</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="wechat-app">
+        <header class="product-topbar">
+            <div class="product-topbar-inner">
+                <div>
+                    <div class="product-name">公众号 Markdown 排版工具</div>
+                    <div class="product-tagline">Markdown 输入 · 公众号预览 · 富文本复制</div>
+                </div>
+                <nav class="product-nav" aria-label="产品导航">
+                    <a href="/labs/">实验室</a>
+                </nav>
+            </div>
+        </header>
+
+        <section class="product-hero">
+            <div class="product-hero-main">
+                <p class="product-kicker">把写作源稿变成可以直接粘贴到公众号的排版</p>
+                <h1>左边写 Markdown，右边生成公众号友好的富文本。</h1>
+                <p>适合长文、白皮书片段、读书笔记和产品说明。工具会把标题、引用、列表、重点、代码和分割线转成内联样式，减少在公众号后台反复调格式的时间。</p>
+            </div>
+            <div class="product-stats" aria-label="产品能力">
+                <div><span>输入</span><strong>Markdown</strong></div>
+                <div><span>输出</span><strong>富文本 / HTML</strong></div>
+                <div><span>风格</span><strong>克制 / 书信 / 深色</strong></div>
+            </div>
+        </section>
+
+        <main class="workspace">
+            <section class="editor-panel" aria-label="Markdown 输入">
+                <div class="panel-header">
+                    <div>
+                        <h2>源稿</h2>
+                        <p>支持标题、加粗、引用、列表、链接、代码块和分割线。</p>
+                    </div>
+                    <div class="counter" id="counter">0 字</div>
+                </div>
+
+                <div class="toolbar" aria-label="排版设置">
+                    <div class="segmented" role="tablist" aria-label="主题风格">
+                        <button type="button" class="active" data-theme="system">系统感</button>
+                        <button type="button" data-theme="letter">书信感</button>
+                        <button type="button" data-theme="dark">深色卡片</button>
+                    </div>
+                    <div class="toolbar-actions">
+                        <button type="button" id="sampleBtn">示例</button>
+                        <button type="button" id="clearBtn">清空</button>
+                    </div>
+                </div>
+
+                <textarea id="markdownInput" spellcheck="false"># 在 AI 时代，训练一种新的个人能力
+
+我记录 AI 工具、知识系统、身体训练与一人公司实验。
+
+不是为了追热点，而是为了在组织之外，重新获得 **判断力、交付力和选择权**。
+
+## 现代职场人的四个风险
+
+- 被 AI 改写工作方式，却只停留在工具体验
+- 长期依赖组织，离开平台后无法独立交付
+- 读了很多书，做了很多笔记，但没有形成出口
+- 身体状态下滑，导致判断力和执行力下降
+
+> 平台让人看见你，官网让人理解你，私域让人与你发生关系。
+
+## 一个最小行动
+
+今天先选一篇旧文章，把它改成三个出口：
+
+1. 官网长文
+2. 公众号正文
+3. 小红书笔记
+
+---
+
+真正的个人系统，不是口号，是输入、判断、输出、反馈能不能反复运转。</textarea>
+            </section>
+
+            <section class="preview-panel" aria-label="公众号预览">
+                <div class="panel-header">
+                    <div>
+                        <h2>公众号预览</h2>
+                        <p>点击复制后，直接粘贴到公众号编辑器正文区域。</p>
+                    </div>
+                    <div class="toolbar-actions">
+                        <button type="button" class="primary-button" id="copyRichBtn">复制富文本</button>
+                        <button type="button" id="copyHtmlBtn">复制 HTML</button>
+                    </div>
+                </div>
+
+                <div class="status-line" id="statusLine">已生成公众号排版</div>
+
+                <article id="wechatPreview" class="wechat-preview" aria-live="polite"></article>
+
+                <details class="html-drawer">
+                    <summary>查看 HTML</summary>
+                    <textarea id="htmlOutput" readonly></textarea>
+                </details>
+            </section>
+        </main>
+    </div>
+
+    <script src="./main.js"></script>
+</body>
+</html>
