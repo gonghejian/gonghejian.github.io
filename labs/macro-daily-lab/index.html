@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>宏观政策与全球资产配置日报</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="macro-app">
+    <header class="product-topbar">
+      <div class="product-topbar-inner">
+        <div>
+          <div class="product-name">宏观政策与全球资产配置日报</div>
+          <div class="product-tagline">政策解读 · 资产配置 · 风险监控 · 自动归档</div>
+        </div>
+        <nav class="product-nav" aria-label="产品导航">
+          <a href="/labs/">实验室</a>
+          <a href="/daily-report/2026-05-15.html">旧版样稿</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="product-hero">
+      <div class="product-hero-main">
+        <p class="product-kicker">把宏观信息压缩成每天可读的一页策略报告</p>
+        <h1>每日自动生成一份宏观政策解读与全球资产配置策略报告。</h1>
+        <p>这个实验室把公开信息源、AI 摘要和资产配置框架接在一起，固定输出政策周期、资产方向、风险事件和行动清单。它服务的是判断力，不是追热点。</p>
+      </div>
+      <div class="product-stats" aria-label="产品状态">
+        <div><span>频率</span><strong>每日生成</strong></div>
+        <div><span>范围</span><strong>全球宏观 / 多资产</strong></div>
+        <div><span>定位</span><strong>研究辅助 / 非投资建议</strong></div>
+      </div>
+    </section>
+
+    <main class="macro-main">
+      <section class="latest-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>最新日报</h2>
+            <p id="generatedAt">读取中</p>
+          </div>
+          <a class="primary-link" id="latestLink" href="./reports/2026-06-01.html">打开报告</a>
+        </div>
+
+        <div class="latest-card">
+          <div class="latest-meta">
+            <span id="latestDate">-</span>
+            <span id="latestStance">-</span>
+            <span id="latestRisk">-</span>
+          </div>
+          <h3 id="latestTitle">宏观政策解读与全球资产配置策略日报</h3>
+          <p id="latestSummary">正在读取最新日报。</p>
+          <ul id="latestHighlights"></ul>
+        </div>
+      </section>
+
+      <section class="framework-grid" aria-label="日报框架">
+        <article>
+          <span>01</span>
+          <h3>宏观总览</h3>
+          <p>全球政策周期、流动性环境、通胀与增长的主要矛盾。</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>政策解读</h3>
+          <p>美联储、中国政策、欧洲央行、日本央行与地缘事件。</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>资产配置</h3>
+          <p>权益、债券、黄金、美元、人民币和大宗商品的方向判断。</p>
+        </article>
+        <article>
+          <span>04</span>
+          <h3>风险与行动</h3>
+          <p>把风险矩阵转成可执行的观察清单，而不是情绪判断。</p>
+        </article>
+      </section>
+
+      <section class="archive-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>历史归档</h2>
+            <p>每日生成的报告会保存在本实验室目录中。</p>
+          </div>
+        </div>
+        <div class="archive-list" id="archiveList"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./main.js"></script>
+</body>
+</html>
