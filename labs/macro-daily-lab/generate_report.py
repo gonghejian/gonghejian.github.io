@@ -39,6 +39,38 @@ FEEDS = [
     },
 ]
 
+KEYWORD_WEIGHTS = {
+    "rate": 5,
+    "inflation": 5,
+    "employment": 4,
+    "fomc": 5,
+    "tariff": 4,
+    "growth": 4,
+    "recession": 5,
+    "stablecoin": 3,
+    "liquidity": 5,
+    "financial stability": 4,
+    "bond": 4,
+    "treasury": 4,
+    "oil": 4,
+    "china": 4,
+    "credit": 4,
+    "fiscal": 4,
+    "policy": 3,
+    "央行": 5,
+    "通胀": 5,
+    "就业": 4,
+    "降息": 5,
+    "加息": 5,
+    "财政": 4,
+    "信用": 4,
+    "流动性": 5,
+    "增长": 4,
+    "衰退": 5,
+    "黄金": 4,
+    "美元": 4,
+}
+
 
 @dataclass
 class NewsItem:
@@ -108,6 +140,44 @@ def collect_news(limit_per_feed: int = 5) -> list[NewsItem]:
     return items
 
 
+def importance_score(item: NewsItem) -> int:
+    text = f"{item.title} {item.summary} {item.tag}".lower()
+    score = 0
+    for keyword, weight in KEYWORD_WEIGHTS.items():
+        if keyword.lower() in text:
+            score += weight
+    if item.source in {"Federal Reserve", "ECB", "IMF"}:
+        score += 2
+    return score
+
+
+def rank_news(items: list[NewsItem], limit: int = 10) -> list[NewsItem]:
+    return sorted(items, key=importance_score, reverse=True)[:limit]
+
+
+def analyze_event(item: NewsItem) -> dict:
+    text = f"{item.title} {item.summary}".lower()
+    if "discount rate" in text or "fomc" in text or "monetary" in text:
+        why = "这类信息直接影响市场对美联储政策利率路径的判断，是美债收益率、美元和全球风险资产估值的上游变量。"
+        impact = "若纪要偏鹰，权益估值承压、美元和短端利率偏强；若偏鸽，成长股、长久期债券和黄金更容易获得支撑。"
+    elif "stablecoin" in text or "money market" in text or "digital" in text:
+        why = "货币市场基金、稳定币和数字货币讨论，本质上涉及流动性载体、支付体系和金融稳定边界。"
+        impact = "短期影响偏主题和监管预期；中期会影响美元流动性、银行负债结构、金融科技和加密资产风险偏好。"
+    elif "bank" in text or "resolution" in text or "enforcement" in text:
+        why = "银行监管和处置计划会影响信用创造、金融系统稳定预期和银行股风险溢价。"
+        impact = "若监管趋严，银行板块估值和信用扩张受压；若风险处置清晰，反而有助于降低系统性风险溢价。"
+    elif "payment account" in text or "clearing" in text or "settling" in text:
+        why = "支付账户和清算结算安排关系到金融基础设施开放程度，也会影响非银机构接入央行支付体系的预期。"
+        impact = "对短期大类资产影响有限，但会改变金融机构竞争格局，并影响长期支付、稳定币和银行负债结构。"
+    elif "independence" in text or "chairman" in text or "governors" in text:
+        why = "央行人事和独立性影响政策可信度。市场通常会重新评估未来政策反应函数和沟通风格。"
+        impact = "若市场认为政策可信度增强，长端利率风险溢价下降；若政治干扰预期升温，美元和债券波动可能上升。"
+    else:
+        why = f"{item.source} 的信息会影响市场对{item.tag}的定价，尤其是政策边际、风险偏好和跨资产资金流。"
+        impact = "若信息强化不确定性，通常压制权益估值、支撑防御资产；若信息缓和，则有利于风险资产修复。"
+    return {"event": item.title, "why": why, "asset_impact": impact}
+
+
 def openai_client():
     key = os.getenv("DEEPSEEK_API_KEY") or os.getenv("OPENAI_API_KEY")
     if not key:
@@ -125,7 +195,7 @@ def openai_client():
 
 def build_prompt(report_date: str, items: list[NewsItem]) -> str:
     news_lines = []
-    for idx, item in enumerate(items, 1):
+    for idx, item in enumerate(rank_news(items, 12), 1):
         news_lines.append(
             f"{idx}. [{item.source}/{item.tag}] {item.title}\n"
             f"   URL: {item.url}\n"
@@ -148,7 +218,11 @@ def build_prompt(report_date: str, items: list[NewsItem]) -> str:
   "stance": "风险偏好/中性观察/防御观察 三选一",
   "risk_level": "低/中/高 三选一",
   "highlights": ["三到五条"],
+  "market_context": "当日投资环境判断，说明风险偏好、利率、美元、流动性、增长或通胀的组合，250字以内",
   "macro": "宏观总览，200字以内",
+  "important_events": [
+    {{"event": "事件标题", "why": "为什么重要", "asset_impact": "对资产的可能影响"}}
+  ],
   "policy": [
     {{"region": "美国", "view": "...", "watch": "..."}},
     {{"region": "中国", "view": "...", "watch": "..."}},
@@ -156,11 +230,20 @@ def build_prompt(report_date: str, items: list[NewsItem]) -> str:
     {{"region": "日本", "view": "...", "watch": "..."}}
   ],
   "assets": [
-    {{"asset": "美股", "stance": "...", "reason": "..."}},
-    {{"asset": "A股/港股", "stance": "...", "reason": "..."}},
-    {{"asset": "美债", "stance": "...", "reason": "..."}},
-    {{"asset": "黄金", "stance": "...", "reason": "..."}},
-    {{"asset": "美元/人民币", "stance": "...", "reason": "..."}}
+    {{"asset": "美股", "stance": "超配/标配/低配/观察", "reason": "...", "trigger": "什么变化会改变判断"}},
+    {{"asset": "A股/港股", "stance": "超配/标配/低配/观察", "reason": "...", "trigger": "什么变化会改变判断"}},
+    {{"asset": "美债", "stance": "超配/标配/低配/观察", "reason": "...", "trigger": "什么变化会改变判断"}},
+    {{"asset": "黄金", "stance": "超配/标配/低配/观察", "reason": "...", "trigger": "什么变化会改变判断"}},
+    {{"asset": "美元/人民币", "stance": "超配/标配/低配/观察", "reason": "...", "trigger": "什么变化会改变判断"}}
+  ],
+  "allocation": [
+    {{"profile": "稳健型", "view": "配置建议，用区间和原则表达，不给个股"}},
+    {{"profile": "平衡型", "view": "配置建议，用区间和原则表达，不给个股"}},
+    {{"profile": "进取型", "view": "配置建议，用区间和原则表达，不给个股"}}
+  ],
+  "scenarios": [
+    {{"scenario": "基准情景", "probability": "高/中/低", "strategy": "..."}},
+    {{"scenario": "风险情景", "probability": "高/中/低", "strategy": "..."}}
   ],
   "actions": ["三到五条今日观察或行动清单"],
   "risks": ["三到五条风险提示"]
@@ -168,16 +251,19 @@ def build_prompt(report_date: str, items: list[NewsItem]) -> str:
 
 要求：
 - 冷静、克制、像专业研究助理，不要鸡血，不要夸大确定性。
-- 明确说明这是研究参考，不构成投资建议。
-- 不要编造具体行情点位；如无实时数据，用“观察”而不是“断言”。
+- 给出可执行的资产配置观点，但必须表达为“研究参考/组合原则”，不要给个股、不要承诺收益。
+- 不要编造具体行情点位；没有实时行情数据时，用“观察、等待确认、提高/降低风险暴露”表达。
+- 必须解释“为什么重要”，不要只复述新闻标题。
 """.strip()
 
 
 def fallback_report(report_date: str, items: list[NewsItem]) -> dict:
-    titles = [item.title for item in items[:4]]
+    ranked = rank_news(items, 6)
+    titles = [item.title for item in ranked[:4]]
+    important_events = [analyze_event(item) for item in ranked[:4]]
     return {
         "title": "宏观政策解读与全球资产配置策略日报",
-        "summary": "自动生成器已运行，但未调用模型或模型不可用。本报告先给出谨慎版宏观框架和信息源摘要。",
+        "summary": "今日自动生成器已完成公开信息抓取。模型不可用时，本报告按宏观研究框架输出谨慎版配置观点：先看政策边际，再看利率与美元，最后落到权益、债券、黄金和汇率的组合暴露。",
         "stance": "中性观察",
         "risk_level": "中",
         "highlights": titles or [
@@ -185,29 +271,42 @@ def fallback_report(report_date: str, items: list[NewsItem]) -> dict:
             "资产配置维持多元分散，等待更清晰的政策与数据确认。",
             "本页为自动化日报实验版，不构成投资建议。",
         ],
-        "macro": "当前日报处于自动化实验阶段。若模型密钥可用，系统会结合公开信息源生成完整政策解读；若模型不可用，则输出谨慎框架，提醒读者回到政策周期、流动性、增长和风险偏好四个变量。",
+        "market_context": "当前环境应按“政策分化 + 利率再定价 + 风险偏好摇摆”处理。美国仍是全球资产定价锚，欧元区和日本政策边际会影响美元、利率和套息交易，中国资产则更依赖政策兑现与信用修复。组合上不宜单边押注，应保留防御资产和再平衡空间。",
+        "macro": "日报优先追踪四个变量：主要央行政策边际、通胀和增长组合、美元与美债收益率、地缘与信用风险。没有实时行情时，不做点位判断，而是判断哪些变量正在改变资产的风险收益比。",
+        "important_events": important_events,
         "policy": [
-            {"region": "美国", "view": "关注美联储对通胀和就业的权衡。", "watch": "CPI、PCE、非农、FOMC 表态。"},
-            {"region": "中国", "view": "关注稳增长政策、信用扩张和地产链修复。", "watch": "社融、PMI、财政和房地产政策。"},
-            {"region": "欧洲", "view": "关注欧央行降息节奏与增长压力。", "watch": "通胀、工资、信贷和欧元走势。"},
-            {"region": "日本", "view": "关注货币政策正常化对日元和全球套息交易的影响。", "watch": "BOJ 表态、工资和日元波动。"},
+            {"region": "美国", "view": "美联储仍是全球风险资产的核心锚。若通胀粘性高于预期，估值扩张会受限；若就业明显降温，债券和黄金的防御价值上升。", "watch": "CPI、PCE、非农、FOMC 表态、美债收益率曲线。"},
+            {"region": "中国", "view": "中国资产的关键不是估值便宜，而是政策是否能转化为信用扩张、盈利修复和居民风险偏好恢复。", "watch": "社融、PMI、财政支出节奏、地产链政策和人民币稳定信号。"},
+            {"region": "欧洲", "view": "欧元区更偏增长压力与金融稳定观察，政策宽松若继续推进，可能支撑债券，但对欧元形成约束。", "watch": "通胀、工资、信贷、ECB 官员表态和欧元走势。"},
+            {"region": "日本", "view": "日本政策正常化会影响日元和全球套息交易。若日元快速波动，全球风险资产可能出现去杠杆压力。", "watch": "BOJ 表态、工资谈判、日债收益率和日元波动。"},
         ],
         "assets": [
-            {"asset": "美股", "stance": "结构观察", "reason": "盈利与估值仍需利率路径确认。"},
-            {"asset": "A股/港股", "stance": "政策修复", "reason": "估值修复需要基本面和信心共振。"},
-            {"asset": "美债", "stance": "等待拐点", "reason": "降息预期与通胀粘性仍在拉扯。"},
-            {"asset": "黄金", "stance": "战略配置", "reason": "实际利率、美元和地缘风险共同影响。"},
-            {"asset": "美元/人民币", "stance": "区间观察", "reason": "利差、结汇和政策稳定信号仍是主线。"},
+            {"asset": "美股", "stance": "标配/结构观察", "reason": "盈利韧性仍有支撑，但估值对利率敏感，适合偏质量和现金流，而不是追高贝塔。", "trigger": "若美债收益率下行且盈利上修，可提高风险暴露；若通胀反复，则降低估值敏感资产。"},
+            {"asset": "A股/港股", "stance": "观察/逢低分批", "reason": "政策修复预期存在，但需要信用、盈利和成交共同确认。港股弹性更大，波动也更高。", "trigger": "社融、地产销售、财政节奏和人民币企稳是提高仓位的确认信号。"},
+            {"asset": "美债", "stance": "标配偏多", "reason": "在增长放缓或风险事件上升时，美债仍是组合稳定器；但通胀粘性会限制久期收益。", "trigger": "若就业和通胀同步回落，可适度拉长久期；若通胀上行，控制久期。"},
+            {"asset": "黄金", "stance": "战略标配", "reason": "黄金适合作为真实利率、美元信用和地缘风险的对冲，不适合用短期涨跌做单一判断。", "trigger": "美元和实际利率同步上行会压制黄金；地缘风险或央行购金预期强化则支撑配置。"},
+            {"asset": "美元/人民币", "stance": "区间观察", "reason": "美元由美债利率和避险需求驱动，人民币则取决于中美利差、结汇和国内政策信心。", "trigger": "若美元走弱且中国信用数据改善，人民币压力缓和；反之保持汇率风险对冲。"},
+        ],
+        "allocation": [
+            {"profile": "稳健型", "view": "以现金、短久期债券和黄金作为底仓，权益保持低到中等暴露；重点是控制回撤，不追逐单日行情。"},
+            {"profile": "平衡型", "view": "权益、债券、黄金保持分散，权益内部偏质量资产和红利现金流；等待政策和盈利确认后再提高进攻性。"},
+            {"profile": "进取型", "view": "可以保留部分权益弹性，但需要用黄金、美元资产或债券对冲尾部风险；不建议在政策和数据未确认前满仓押方向。"},
+        ],
+        "scenarios": [
+            {"scenario": "基准情景", "probability": "中", "strategy": "政策边际温和、增长放缓但未失速，组合维持均衡：权益结构化、债券标配、黄金战略持有。"},
+            {"scenario": "风险情景", "probability": "中", "strategy": "若通胀反复、地缘冲突或流动性收紧，降低高估值权益，提高现金、黄金和高质量债券比例。"},
+            {"scenario": "修复情景", "probability": "低到中", "strategy": "若降息预期增强且中国信用修复，逐步提高权益暴露，优先选择盈利确定性和政策受益方向。"},
         ],
         "actions": [
-            "把当日重要政策事件和资产反应分开记录，避免用结果倒推原因。",
-            "关注美元、美债收益率和黄金是否同向异动。",
-            "对权益资产保持结构化观察，不把指数涨跌等同于整体机会。",
+            "先记录政策事件，再记录资产反应，避免用市场涨跌倒推原因。",
+            "每天跟踪美元、美债收益率、黄金和主要股指是否同向或背离。",
+            "权益仓位不要只看指数涨跌，要拆成估值、盈利、流动性和风险偏好四项。",
+            "若没有明确数据确认，组合操作以再平衡和风险控制为主。",
         ],
         "risks": [
-            "公开信息源抓取不完整。",
-            "模型输出可能存在遗漏或过度概括。",
-            "本报告不构成投资建议，市场决策需结合实时数据。",
+            "公开信息源可能不完整，且不包含实时行情报价。",
+            "模型或兜底框架可能遗漏突发事件和区域市场细节。",
+            "宏观判断不等于交易信号，市场决策需结合个人风险承受能力和实时数据。",
         ],
     }
 
@@ -239,13 +338,25 @@ def esc(value: object) -> str:
 
 
 def render_report_html(report_date: str, report: dict, items: list[NewsItem]) -> str:
+    event_cards = "\n".join(
+        f"<article><h3>{esc(x.get('event'))}</h3><p>{esc(x.get('why'))}</p><strong>{esc(x.get('asset_impact'))}</strong></article>"
+        for x in report.get("important_events", [])
+    )
     policy_rows = "\n".join(
         f"<tr><td><strong>{esc(x.get('region'))}</strong></td><td>{esc(x.get('view'))}</td><td>{esc(x.get('watch'))}</td></tr>"
         for x in report.get("policy", [])
     )
     asset_rows = "\n".join(
-        f"<tr><td><strong>{esc(x.get('asset'))}</strong></td><td>{esc(x.get('stance'))}</td><td>{esc(x.get('reason'))}</td></tr>"
+        f"<tr><td><strong>{esc(x.get('asset'))}</strong></td><td>{esc(x.get('stance'))}</td><td>{esc(x.get('reason'))}</td><td>{esc(x.get('trigger'))}</td></tr>"
         for x in report.get("assets", [])
+    )
+    allocation_rows = "\n".join(
+        f"<tr><td><strong>{esc(x.get('profile'))}</strong></td><td>{esc(x.get('view'))}</td></tr>"
+        for x in report.get("allocation", [])
+    )
+    scenario_cards = "\n".join(
+        f"<article><span>{esc(x.get('probability'))}</span><h3>{esc(x.get('scenario'))}</h3><p>{esc(x.get('strategy'))}</p></article>"
+        for x in report.get("scenarios", [])
     )
     highlights = "\n".join(f"<li>{esc(x)}</li>" for x in report.get("highlights", []))
     actions = "\n".join(f"<li>{esc(x)}</li>" for x in report.get("actions", []))
@@ -278,9 +389,13 @@ def render_report_html(report_date: str, report: dict, items: list[NewsItem]) ->
       </section>
       <section class="report-notice">本报告由自动化脚本生成，用于研究和内容生产辅助，不构成投资建议。</section>
       <section class="report-section"><h2>今日摘要</h2><p>{esc(report.get("summary"))}</p><ul>{highlights}</ul></section>
+      <section class="report-section"><h2>投资环境</h2><p>{esc(report.get("market_context"))}</p></section>
+      <section class="event-grid">{event_cards}</section>
       <section class="report-section"><h2>宏观总览</h2><p>{esc(report.get("macro"))}</p></section>
       <section class="report-section"><h2>政策解读</h2><table><thead><tr><th>区域</th><th>判断</th><th>观察点</th></tr></thead><tbody>{policy_rows}</tbody></table></section>
-      <section class="report-section"><h2>全球资产配置</h2><table><thead><tr><th>资产</th><th>方向</th><th>理由</th></tr></thead><tbody>{asset_rows}</tbody></table></section>
+      <section class="report-section"><h2>全球资产配置</h2><table><thead><tr><th>资产</th><th>方向</th><th>理由</th><th>触发条件</th></tr></thead><tbody>{asset_rows}</tbody></table></section>
+      <section class="report-section"><h2>组合建议</h2><table><thead><tr><th>类型</th><th>研究参考</th></tr></thead><tbody>{allocation_rows}</tbody></table></section>
+      <section class="scenario-grid">{scenario_cards}</section>
       <section class="report-grid">
         <div class="report-card"><h3>今日行动清单</h3><ul>{actions}</ul></div>
         <div class="report-card"><h3>风险提示</h3><ul>{risks}</ul></div>

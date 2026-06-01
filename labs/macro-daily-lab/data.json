@@ -1,18 +1,18 @@
 {
   "schema": "macro-daily-lab/v1",
-  "generated_at": "2026-06-01T15:06:55+08:00",
+  "generated_at": "2026-06-01T15:23:29+08:00",
   "latest": {
     "date": "2026-06-01",
     "title": "宏观政策解读与全球资产配置策略日报",
-    "summary": "自动生成器已运行，但未调用模型或模型不可用。本报告先给出谨慎版宏观框架和信息源摘要。",
+    "summary": "今日自动生成器已完成公开信息抓取。模型不可用时，本报告按宏观研究框架输出谨慎版配置观点：先看政策边际，再看利率与美元，最后落到权益、债券、黄金和汇率的组合暴露。",
     "path": "/labs/macro-daily-lab/reports/2026-06-01.html",
     "stance": "中性观察",
     "risk_level": "中",
     "highlights": [
-      "Federal Reserve Board issues enforcement actions with former employee of Atlantic Union Bank and former employee of Frost Bank",
       "Minutes of the Board's discount rate meeting on April 20 and 29, 2026",
       "Isabel Schnabel: From money market funds to stablecoins: lessons for central banks",
-      "Luis de Guindos: Interview with Expansión"
+      "Federal Reserve Board issues enforcement actions with former employee of Atlantic Union Bank and former employee of Frost Bank",
+      "Kevin Warsh takes oath of office as chairman and a member of the Board of Governors of the Federal Reserve System, and the Federal Open Market Committee unanimously selects Warsh as its chairman"
     ]
   },
   "reports": [
