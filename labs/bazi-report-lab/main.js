@@ -18,9 +18,6 @@ const chapterTitles = [
     '未完待续——'
 ];
 
-let reportPages = [];
-let currentPage = 0;
-
 document.addEventListener('DOMContentLoaded', () => {
     drawCoverPreview();
     setupPlaceSearch();
@@ -28,15 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         generateReport();
     });
-    document.getElementById('download-current').addEventListener('click', downloadCurrentPage);
-    document.getElementById('prev-page').addEventListener('click', () => showPage(currentPage - 1));
-    document.getElementById('next-page').addEventListener('click', () => showPage(currentPage + 1));
-    document.addEventListener('keydown', (event) => {
-        if (!reportPages.length) return;
-        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target?.tagName)) return;
-        if (event.key === 'ArrowLeft') showPage(currentPage - 1);
-        if (event.key === 'ArrowRight') showPage(currentPage + 1);
-    });
+    document.getElementById('download-current').addEventListener('click', downloadCoverImage);
     generateReport();
 });
 
@@ -707,86 +696,89 @@ function generateReport() {
 
     stage.innerHTML = '';
     nav.innerHTML = '';
-    reportPages = [];
-    currentPage = 0;
 
     document.getElementById('report-title').textContent = `${data.name}的八字报告`;
     document.getElementById('download-current').disabled = false;
+    drawCoverPreview(data, profile);
 
     chapterTitles.forEach((title, chapterIndex) => {
-        const firstPageIndex = pages.findIndex((page) => page.chapterIndex === chapterIndex);
-        if (firstPageIndex < 0) return;
+        if (!pages.some((page) => page.chapterIndex === chapterIndex)) return;
         const button = document.createElement('button');
         button.type = 'button';
         button.textContent = title;
-        button.addEventListener('click', () => showPage(firstPageIndex));
+        button.addEventListener('click', () => {
+            document.getElementById(`chapter-${chapterIndex}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
         nav.appendChild(button);
     });
 
-    pages.forEach((pageData, index) => {
-        const page = document.createElement('div');
-        page.className = 'report-page';
+    const grouped = groupPagesByChapter(pages);
+    grouped.forEach((chapterPages, chapterIndex) => {
+        if (!chapterPages?.length) return;
+        const section = document.createElement('section');
+        section.className = 'long-report-chapter';
+        section.id = `chapter-${chapterIndex}`;
 
-        const canvas = document.createElement('canvas');
-        canvas.width = 900;
-        canvas.height = 1280;
-        drawReportPage(canvas, pageData, index, data, profile, pages.length);
+        const heading = document.createElement('div');
+        heading.className = 'long-report-heading';
+        heading.innerHTML = `
+            <span>${String(chapterIndex + 1).padStart(2, '0')}</span>
+            <h3>${chapterTitles[chapterIndex]}</h3>
+            <p>${data.name} · ${data.date} ${data.time} · ${data.place}</p>
+        `;
+        section.appendChild(heading);
 
-        const tools = document.createElement('div');
-        tools.className = 'page-tools';
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = `${data.name}-${String(index + 1).padStart(2, '0')}-${pageData.title}.png`;
-        link.textContent = '下载这一页';
-        tools.appendChild(link);
+        if (chapterIndex === 0) {
+            section.appendChild(createProfileSummary(profile));
+        }
 
-        page.appendChild(canvas);
-        page.appendChild(tools);
-        stage.appendChild(page);
-        reportPages.push({ page, canvas, chapterIndex: pageData.chapterIndex });
+        chapterPages.forEach((pageData) => {
+            const block = document.createElement('article');
+            block.className = 'long-report-block';
+            const subtitle = document.createElement('h4');
+            subtitle.textContent = pageData.subtitle.replace(/ · 本章.*$/, '');
+            block.appendChild(subtitle);
+            pageData.lines.forEach((line) => {
+                const paragraph = document.createElement('p');
+                paragraph.textContent = line;
+                block.appendChild(paragraph);
+            });
+            section.appendChild(block);
+        });
+
+        stage.appendChild(section);
     });
-
-    showPage(0);
 }
 
-function showPage(index) {
-    if (!reportPages.length) return;
-    const pageIndex = Math.max(0, Math.min(index, reportPages.length - 1));
-    currentPage = pageIndex;
-    reportPages.forEach((item, itemIndex) => {
-        item.page.classList.toggle('active', itemIndex === pageIndex);
-    });
-    const buttons = document.querySelectorAll('#chapter-nav button');
-    buttons.forEach((button, buttonIndex) => {
-        button.classList.toggle('active', buttonIndex === reportPages[pageIndex]?.chapterIndex);
-    });
-    updatePager();
+function groupPagesByChapter(pages) {
+    return chapterTitles.map((_, chapterIndex) => pages.filter((page) => page.chapterIndex === chapterIndex));
 }
 
-function updatePager() {
-    const indicator = document.getElementById('page-indicator');
-    const prev = document.getElementById('prev-page');
-    const next = document.getElementById('next-page');
-    if (!indicator || !prev || !next) return;
-    indicator.textContent = `第 ${currentPage + 1} / ${reportPages.length} 页`;
-    prev.disabled = currentPage <= 0;
-    next.disabled = currentPage >= reportPages.length - 1;
+function createProfileSummary(profile) {
+    const summary = document.createElement('div');
+    summary.className = 'profile-summary';
+    profile.pillars.forEach((pillar) => {
+        const item = document.createElement('div');
+        item.innerHTML = `<span>${pillar.label}</span><strong style="color:${elementColors[pillar.element]}">${pillar.stem}${pillar.branch}</strong>`;
+        summary.appendChild(item);
+    });
+    return summary;
 }
 
-function downloadCurrentPage() {
-    const item = reportPages[currentPage];
-    if (!item) return;
+function downloadCoverImage() {
+    const canvas = document.getElementById('cover-preview');
+    if (!canvas) return;
     const link = document.createElement('a');
-    link.href = item.canvas.toDataURL('image/png');
-    link.download = `bazi-report-${String(currentPage + 1).padStart(2, '0')}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.download = 'bazi-report-cover.png';
     link.click();
 }
 
-function drawCoverPreview() {
+function drawCoverPreview(dataOverride = null, profileOverride = null) {
     const canvas = document.getElementById('cover-preview');
     if (!canvas) return;
-    const data = { name: '弓箭', date: '1997-09-01', time: '01:00', place: '南京市' };
-    const profile = calculateProfile({ ...data, sex: '男', calendar: '公历', focus: '个人系统' });
+    const data = dataOverride || { name: '弓箭', date: '1997-09-01', time: '01:00', place: '南京市' };
+    const profile = profileOverride || calculateProfile({ ...data, sex: '男', calendar: '公历', focus: '个人系统' });
     drawReportPage(canvas, {
         title: '八字概要',
         lines: [
