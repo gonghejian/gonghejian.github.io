@@ -6,6 +6,7 @@ categories: ["docs"]
 tags: ["阅读", "知识系统", "原则", "判断力"]
 author: "gong"
 source_url: "https://www.douban.com/note/631855308/"
+rewritten: true
 ---
 
 ![书与咖啡](https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=1600&q=80)

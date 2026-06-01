@@ -9,6 +9,7 @@ book_title: "How to Win Friends & Influence People"
 book_url: "https://book.douban.com/subject/1388210/"
 rating: "推荐"
 source_url: "https://book.douban.com/review/5350284/"
+rewritten: true
 ---
 
 ![会议桌上的笔记和咖啡](https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=80)
