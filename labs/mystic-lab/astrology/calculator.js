@@ -271,7 +271,9 @@ class AstrologyCalculator {
             -Math.cos(theta),
             Math.sin(theta) * Math.cos(eps) + Math.tan(phi) * Math.sin(eps)
         ));
-        ascendantLongitude = this.normalizeDegrees(ascendantLongitude);
+        // The raw horizon intersection from this formula points to the western horizon.
+        // Add 180 degrees to use the eastern horizon, which is the astrological ascendant.
+        ascendantLongitude = this.normalizeDegrees(ascendantLongitude + 180);
         
         const signIndex = Math.floor(ascendantLongitude / 30);
         const signDegree = ascendantLongitude % 30;
