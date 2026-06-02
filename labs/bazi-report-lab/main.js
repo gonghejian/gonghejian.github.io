@@ -740,13 +740,24 @@ function generateReport() {
             section.appendChild(createProfileSummary(profile));
         }
 
+        const mergedBlocks = [];
         chapterPages.forEach((pageData) => {
+            const cleanSubtitle = pageData.subtitle.replace(/ · \d+\/\d+(?:-\d+)?$/, '');
+            const lastBlock = mergedBlocks[mergedBlocks.length - 1];
+            if (lastBlock?.subtitle === cleanSubtitle) {
+                lastBlock.lines.push(...pageData.lines);
+                return;
+            }
+            mergedBlocks.push({ subtitle: cleanSubtitle, lines: [...pageData.lines] });
+        });
+
+        mergedBlocks.forEach((blockData) => {
             const block = document.createElement('article');
             block.className = 'long-report-block';
             const subtitle = document.createElement('h4');
-            subtitle.textContent = pageData.subtitle.replace(/ · 本章.*$/, '');
+            subtitle.textContent = blockData.subtitle;
             block.appendChild(subtitle);
-            pageData.lines.forEach((line) => {
+            blockData.lines.forEach((line) => {
                 const paragraph = document.createElement('p');
                 paragraph.textContent = line;
                 block.appendChild(paragraph);
