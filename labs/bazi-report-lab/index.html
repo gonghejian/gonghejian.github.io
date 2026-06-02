@@ -99,6 +99,11 @@
                             <p class="kicker">报告目录</p>
                             <h2 id="report-title">等待生成</h2>
                         </div>
+                        <div class="report-actions" aria-label="报告操作">
+                            <button class="ghost-button" id="save-image" type="button">保存长图</button>
+                            <button class="ghost-button" id="save-pdf" type="button">保存 PDF</button>
+                            <button class="ghost-button" id="show-qr" type="button">手机查看</button>
+                        </div>
                     </div>
 
                     <div class="chapter-nav" id="chapter-nav" aria-label="报告目录"></div>
@@ -108,6 +113,17 @@
                 </section>
             </section>
         </main>
+    </div>
+
+    <div class="share-modal" id="share-modal" aria-hidden="true">
+        <div class="share-card" role="dialog" aria-modal="true" aria-labelledby="share-title">
+            <button class="share-close" id="share-close" type="button" aria-label="关闭">×</button>
+            <p class="kicker">手机查看</p>
+            <h2 id="share-title">扫码继续阅读这份报告</h2>
+            <img id="share-qr" alt="报告二维码">
+            <input id="share-url" type="text" readonly>
+            <button class="primary-button" id="copy-share-url" type="button">复制链接</button>
+        </div>
     </div>
 
     <script src="../mystic-lab/data/cities.js"></script>

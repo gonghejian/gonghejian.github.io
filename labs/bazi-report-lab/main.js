@@ -21,6 +21,8 @@ const chapterTitles = [
 document.addEventListener('DOMContentLoaded', () => {
     drawCoverPreview();
     setupPlaceSearch();
+    hydrateFormFromUrl();
+    setupExportActions();
     document.getElementById('bazi-form').addEventListener('submit', (event) => {
         event.preventDefault();
         generateReport();
@@ -42,6 +44,39 @@ function getFormData() {
         longitude: Number(placeInput.dataset.lng || 118.796877),
         focus: document.getElementById('focus-question').value.trim() || '个人节奏与长期选择'
     };
+}
+
+function hydrateFormFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    if (!params.has('baziDate') && !params.has('baziName')) return;
+
+    const fieldMap = [
+        ['person-name', 'baziName'],
+        ['person-sex', 'baziSex'],
+        ['calendar-type', 'baziCalendar'],
+        ['birth-date', 'baziDate'],
+        ['birth-time', 'baziTime'],
+        ['birth-place', 'baziPlace'],
+        ['focus-question', 'baziFocus']
+    ];
+
+    fieldMap.forEach(([fieldId, paramName]) => {
+        const field = document.getElementById(fieldId);
+        const value = params.get(paramName);
+        if (field && value) field.value = value;
+    });
+
+    const placeInput = document.getElementById('birth-place');
+    const hint = document.getElementById('selected-place-info');
+    const lat = Number(params.get('baziLat'));
+    const lng = Number(params.get('baziLng'));
+    if (placeInput && Number.isFinite(lat) && Number.isFinite(lng)) {
+        placeInput.dataset.lat = String(lat);
+        placeInput.dataset.lng = String(lng);
+        if (hint) {
+            hint.textContent = `已定位：${placeInput.value}（${lat.toFixed(2)}, ${lng.toFixed(2)}）`;
+        }
+    }
 }
 
 function setupPlaceSearch() {
@@ -802,6 +837,105 @@ function createProfileSummary(profile) {
         summary.appendChild(item);
     });
     return summary;
+}
+
+function setupExportActions() {
+    document.getElementById('save-image')?.addEventListener('click', downloadReportImage);
+    document.getElementById('save-pdf')?.addEventListener('click', () => window.print());
+    document.getElementById('show-qr')?.addEventListener('click', openShareModal);
+    document.getElementById('share-close')?.addEventListener('click', closeShareModal);
+    document.getElementById('share-modal')?.addEventListener('click', (event) => {
+        if (event.target.id === 'share-modal') closeShareModal();
+    });
+    document.getElementById('copy-share-url')?.addEventListener('click', async (event) => {
+        const input = document.getElementById('share-url');
+        input.select();
+        try {
+            await navigator.clipboard.writeText(input.value);
+            event.target.textContent = '已复制';
+            setTimeout(() => {
+                event.target.textContent = '复制链接';
+            }, 1400);
+        } catch (error) {
+            document.execCommand('copy');
+        }
+    });
+}
+
+function buildShareUrl() {
+    const data = getFormData();
+    const url = new URL(window.location.href);
+    url.hash = '';
+    url.search = '';
+    const params = url.searchParams;
+    params.set('baziName', data.name);
+    params.set('baziSex', data.sex);
+    params.set('baziCalendar', data.calendar);
+    params.set('baziDate', data.date);
+    params.set('baziTime', data.time);
+    params.set('baziPlace', data.place);
+    params.set('baziLat', String(data.latitude));
+    params.set('baziLng', String(data.longitude));
+    params.set('baziFocus', data.focus);
+    return url.toString();
+}
+
+function openShareModal() {
+    const shareUrl = buildShareUrl();
+    const modal = document.getElementById('share-modal');
+    const qr = document.getElementById('share-qr');
+    const input = document.getElementById('share-url');
+    input.value = shareUrl;
+    qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=18&data=${encodeURIComponent(shareUrl)}`;
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+}
+
+function closeShareModal() {
+    const modal = document.getElementById('share-modal');
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+}
+
+function downloadReportImage() {
+    const stage = document.getElementById('report-stage');
+    const title = document.getElementById('report-title').textContent.trim() || '八字报告';
+    const clone = stage.cloneNode(true);
+    const sandbox = document.createElement('div');
+    sandbox.className = 'export-measure';
+    sandbox.style.position = 'fixed';
+    sandbox.style.left = '-2000px';
+    sandbox.style.top = '0';
+    sandbox.style.width = '1080px';
+    sandbox.appendChild(clone);
+    document.body.appendChild(sandbox);
+
+    const height = Math.ceil(sandbox.scrollHeight + 80);
+    const content = clone.outerHTML;
+    document.body.removeChild(sandbox);
+
+    const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="${height}" viewBox="0 0 1080 ${height}">
+    <foreignObject width="1080" height="${height}">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="export-sheet">
+            <style>
+                *{box-sizing:border-box}body{margin:0}.export-sheet{width:1080px;min-height:${height}px;padding:40px;background:#f7f0df;color:#18202b;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}.report-stage{display:grid;gap:34px;width:100%;margin:0}.long-report-chapter{padding:50px 58px;border:1px solid rgba(24,32,43,.12);border-radius:8px;background:linear-gradient(90deg,rgba(181,54,45,.2) 3px,transparent 3px) left top/3px 100% no-repeat,linear-gradient(180deg,rgba(181,54,45,.035),transparent 220px),#fffdf8;box-shadow:0 18px 42px rgba(24,32,43,.055)}.long-report-heading{display:grid;gap:8px;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid rgba(24,32,43,.12)}.long-report-heading span{color:#b5362d;font-size:18px;font-weight:900}.long-report-heading h3{margin:0;font-family:"Songti SC","STSong","SimSun",serif;font-size:40px;font-weight:800;line-height:1.16}.long-report-heading p{margin:0;color:#68717f;font-size:14px}.profile-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 22px}.profile-summary div{min-height:86px;display:grid;place-items:center;border:1px solid rgba(24,32,43,.14);background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(247,240,223,.36))}.profile-summary span{color:#68717f;font-size:13px;font-weight:700}.profile-summary strong{display:block;font-family:"Songti SC","STSong","SimSun",serif;font-size:34px;line-height:1}.long-report-block{max-width:800px;margin:0 auto 34px;padding-bottom:32px;border-bottom:1px solid rgba(24,32,43,.08)}.long-report-block:last-child{margin-bottom:0;padding-bottom:0;border-bottom:0}.long-report-block h4{margin:0 0 18px;color:#b5362d;font-family:"Songti SC","STSong","SimSun",serif;font-size:24px;font-weight:800;line-height:1.35}.long-report-block p{margin:0 0 19px;color:#202b39;font-size:18px;line-height:2.08;text-align:justify}.long-report-block p:last-child{margin-bottom:0}
+            </style>
+            ${content}
+        </div>
+    </foreignObject>
+</svg>`;
+
+    const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${sanitizeFilename(title)}.svg`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+}
+
+function sanitizeFilename(value) {
+    return value.replace(/[\\/:*?"<>|]/g, '-').slice(0, 48) || '八字报告';
 }
 
 function downloadCoverImage() {
