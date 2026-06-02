@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         generateReport();
     });
-    document.getElementById('download-current').addEventListener('click', downloadCoverImage);
+    document.getElementById('download-current')?.addEventListener('click', downloadCoverImage);
     generateReport();
 });
 
@@ -693,12 +693,17 @@ function generateReport() {
     const pages = buildReportPages(data, profile);
     const stage = document.getElementById('report-stage');
     const nav = document.getElementById('chapter-nav');
+    const reportPanel = document.getElementById('report-panel');
+    const navButtons = [];
 
     stage.innerHTML = '';
     nav.innerHTML = '';
+    reportPanel.scrollTop = 0;
 
     document.getElementById('report-title').textContent = `${data.name}的八字报告`;
-    document.getElementById('download-current').disabled = false;
+    if (document.getElementById('download-current')) {
+        document.getElementById('download-current').disabled = false;
+    }
     drawCoverPreview(data, profile);
 
     chapterTitles.forEach((title, chapterIndex) => {
@@ -706,10 +711,13 @@ function generateReport() {
         const button = document.createElement('button');
         button.type = 'button';
         button.textContent = title;
+        button.dataset.chapterIndex = String(chapterIndex);
         button.addEventListener('click', () => {
+            navButtons.forEach((item) => item.classList.toggle('active', item === button));
             document.getElementById(`chapter-${chapterIndex}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
         nav.appendChild(button);
+        navButtons.push(button);
     });
 
     const grouped = groupPagesByChapter(pages);
@@ -748,6 +756,26 @@ function generateReport() {
 
         stage.appendChild(section);
     });
+
+    if (navButtons[0]) {
+        navButtons[0].classList.add('active');
+    }
+
+    const updateActiveChapter = () => {
+        const panelTop = reportPanel.getBoundingClientRect().top;
+        let activeIndex = navButtons[0]?.dataset.chapterIndex || '0';
+        stage.querySelectorAll('.long-report-chapter').forEach((section) => {
+            if (section.getBoundingClientRect().top - panelTop <= 190) {
+                activeIndex = section.id.replace('chapter-', '');
+            }
+        });
+        navButtons.forEach((button) => {
+            button.classList.toggle('active', button.dataset.chapterIndex === activeIndex);
+        });
+    };
+
+    reportPanel.onscroll = updateActiveChapter;
+    updateActiveChapter();
 }
 
 function groupPagesByChapter(pages) {
