@@ -31,6 +31,105 @@
     "source": "心理入门",
     "url": "https://book.douban.com/subject/35143794/",
     "summary": "用寓言故事的形式讲述心理咨询过程，帮助读者理解情绪、关系与自我接纳。"
+  },
+  {
+    "id": "daguo-dacheng",
+    "title": "大国大城",
+    "author": "陆铭",
+    "cover": "./covers/daguo-dacheng.svg",
+    "category": "城市与经济",
+    "year": 2016,
+    "source": "制度与空间观察",
+    "url": "https://book.douban.com/subject_search?search_text=大国大城",
+    "summary": "从城市化、区域发展和人口流动切入，理解中国经济增长、公共服务和空间结构之间的关系。"
+  },
+  {
+    "id": "shuniu",
+    "title": "枢纽",
+    "author": "施展",
+    "cover": "./covers/shuniu.svg",
+    "category": "中国与世界",
+    "year": 2018,
+    "source": "历史与地缘",
+    "url": "https://book.douban.com/subject_search?search_text=枢纽",
+    "summary": "从地理、历史和世界秩序的角度，重新理解中国在大陆、海洋和全球体系中的位置。"
+  },
+  {
+    "id": "zhongguo-lidai-zhengzhi-deshi",
+    "title": "中国历代政治得失",
+    "author": "钱穆",
+    "cover": "./covers/zhongguo-lidai-zhengzhi-deshi.svg",
+    "category": "政治制度",
+    "year": 1952,
+    "source": "经典政治史",
+    "url": "https://book.douban.com/subject_search?search_text=中国历代政治得失",
+    "summary": "以制度史视角梳理汉、唐、宋、明、清的政治结构，帮助读者理解中国传统政治的得与失。"
+  },
+  {
+    "id": "guns-germs-steel",
+    "title": "枪炮、病菌与钢铁：人类社会的命运",
+    "author": "贾雷德·戴蒙德",
+    "cover": "./covers/guns-germs-steel.svg",
+    "category": "全球史",
+    "year": 1997,
+    "source": "世界历史",
+    "url": "https://book.douban.com/subject_search?search_text=枪炮、病菌与钢铁",
+    "summary": "从地理环境、农业起源、技术扩散和疾病传播解释不同社会发展路径的差异。"
+  },
+  {
+    "id": "qingdai-difang-zhengfu",
+    "title": "清代地方政府",
+    "author": "瞿同祖",
+    "cover": "./covers/qingdai-difang-zhengfu.svg",
+    "category": "地方治理",
+    "year": 1962,
+    "source": "制度研究",
+    "url": "https://book.douban.com/subject_search?search_text=清代地方政府",
+    "summary": "研究清代州县政府的实际运作，观察正式制度、基层治理和社会秩序之间的张力。"
+  },
+  {
+    "id": "junzhulun-napoleon",
+    "title": "君主论：拿破仑批注版",
+    "author": "尼科洛·马基雅维利",
+    "cover": "./covers/junzhulun-napoleon.svg",
+    "category": "政治思想",
+    "year": 1532,
+    "source": "政治经典",
+    "url": "https://book.douban.com/subject_search?search_text=君主论 拿破仑批注版",
+    "summary": "以权力、秩序和统治技术为核心，观察现实政治中的判断、利益和行动逻辑。"
+  },
+  {
+    "id": "wenwuli-de-zaoqi-zhongguo",
+    "title": "文物里的早期中国",
+    "author": "李零",
+    "cover": "./covers/wenwuli-de-zaoqi-zhongguo.svg",
+    "category": "早期中国",
+    "year": 2023,
+    "source": "考古与文明",
+    "url": "https://book.douban.com/subject_search?search_text=文物里的早期中国",
+    "summary": "借助文物、考古材料和历史文本，进入早期中国的制度、礼制和文明形成过程。"
+  },
+  {
+    "id": "yapian-shuishou-qingmo-xinzheng",
+    "title": "鸦片税收与清末新政（修订版）",
+    "author": "周育民",
+    "cover": "./covers/yapian-shuishou-qingmo-xinzheng.svg",
+    "category": "财政与改革",
+    "year": 2023,
+    "source": "近代中国",
+    "url": "https://book.douban.com/subject_search?search_text=鸦片税收与清末新政",
+    "summary": "从财政收入、鸦片治理和晚清改革切入，理解清末国家能力、地方财政和制度转型。"
+  },
+  {
+    "id": "nihonjin-naze-sensou",
+    "title": "日本人为何选择了战争",
+    "author": "加藤阳子",
+    "cover": "./covers/nihonjin-naze-sensou.svg",
+    "category": "日本近代史",
+    "year": 2009,
+    "source": "战争与决策",
+    "url": "https://book.douban.com/subject_search?search_text=日本人为何选择了战争",
+    "summary": "通过近代日本关键战争决策，分析国家、军部、舆论和国际环境如何共同推向战争。"
   }
 ]
 
