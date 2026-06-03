@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="640" viewBox="0 0 480 640" role="img" aria-labelledby="title desc">
+  <title id="title">高效能人士的七个习惯</title>
+  <desc id="desc">A stylized local book cover for the reading lab.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eff6ff"/>
+      <stop offset="0.56" stop-color="#bfdbfe"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="640" fill="url(#bg)"/>
+  <rect x="42" y="42" width="396" height="554" rx="22" fill="rgba(255,255,255,0.28)" stroke="rgba(30,64,175,0.26)" stroke-width="2"/>
+  <g fill="none" stroke="#1e3a8a" stroke-linecap="round" opacity="0.48">
+    <path d="M88 118h264" stroke-width="9"/>
+    <path d="M88 150h180" stroke-width="9"/>
+    <path d="M96 468l68-76 54 48 92-126 72 86" stroke-width="14"/>
+  </g>
+  <text x="76" y="254" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="44" font-weight="800" fill="#172554">高效能人士</text>
+  <text x="76" y="318" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="44" font-weight="800" fill="#172554">的七个习惯</text>
+  <text x="78" y="536" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="24" font-weight="600" fill="#1e3a8a">史蒂芬·柯维</text>
+</svg>

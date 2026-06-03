@@ -406,6 +406,10 @@
                         {landingBooks.map((book, index) => (
                           <div key={book.id || index} className="landing-book-item">
                             <div className="landing-book-cover">
+                              <span className="landing-book-fallback-title">
+                                <strong>{book.title}</strong>
+                                <em>{book.author}</em>
+                              </span>
                               <img
                                 src={book.cover}
                                 alt={book.title}
