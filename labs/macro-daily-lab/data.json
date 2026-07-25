@@ -1,22 +1,28 @@
 {
   "schema": "macro-daily-lab/v1",
-  "generated_at": "2026-07-24T08:54:50+08:00",
+  "generated_at": "2026-07-25T08:59:00+08:00",
   "latest": {
-    "date": "2026-07-24",
-    "title": "宏观政策解读与全球资产配置策略日报（2026-07-24）",
-    "summary": "昨日欧央行公布7月议息决议，维持利率不变但释放偏鸽信号，同时欧元区银行信贷调查显示信贷标准进一步收紧。美联储6月贴现率会议纪要显示内部对通胀前景分歧加大，但整体仍倾向维持限制性政策。全球宏观环境呈现“美欧政策分化、信贷条件趋紧、增长动能放缓”的组合，风险资产短期承压，建议维持防御性配置。",
-    "path": "/labs/macro-daily-lab/reports/2026-07-24.html",
-    "stance": "防御观察",
+    "date": "2026-07-25",
+    "title": "宏观政策解读与全球资产配置策略日报",
+    "summary": "今日自动生成器已完成公开信息抓取。模型不可用时，本报告按宏观研究框架输出谨慎版配置观点：先看政策边际，再看利率与美元，最后落到权益、债券、黄金和汇率的组合暴露。",
+    "path": "/labs/macro-daily-lab/reports/2026-07-25.html",
+    "stance": "中性观察",
     "risk_level": "中",
     "highlights": [
-      "欧央行7月维持利率不变，拉加德讲话暗示未来可能暂停加息，欧元区信贷调查显示企业贷款需求创年内新低。",
-      "美联储6月贴现率会议纪要显示部分地区联储董事支持维持利率不变，内部对通胀粘性担忧上升。",
-      "美联储宣布成立货币政策执行特别工作组，旨在优化政策传导机制，短期影响有限但中期值得关注。",
-      "欧元区银行信贷标准连续第四个季度收紧，企业贷款需求大幅下降，反映实体经济融资条件恶化。",
-      "美联储联合其他监管机构发布银行检查中敏感信息处理指引，强化金融监管透明度，对银行股情绪略有压制。"
+      "ECB to extend use of climate factors in Eurosystem collateral framework to non-financial corporate credit claims",
+      "Minutes of the Board's discount rate meetings on June 8 and June 17, 2026",
+      "Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)",
+      "Results of the June 2026 survey on credit terms and conditions in euro-denominated securities financing and OTC derivatives markets (SESFOD)"
     ]
   },
   "reports": [
+    {
+      "date": "2026-07-25",
+      "title": "宏观政策解读与全球资产配置策略日报",
+      "path": "/labs/macro-daily-lab/reports/2026-07-25.html",
+      "stance": "中性观察",
+      "risk_level": "中"
+    },
     {
       "date": "2026-07-24",
       "title": "宏观政策解读与全球资产配置策略日报（2026-07-24）",
