@@ -1,11 +1,11 @@
 {
   "schema": "macro-daily-lab/v1",
-  "generated_at": "2026-07-25T08:59:00+08:00",
+  "generated_at": "2026-07-26T09:05:27+08:00",
   "latest": {
-    "date": "2026-07-25",
+    "date": "2026-07-26",
     "title": "宏观政策解读与全球资产配置策略日报",
     "summary": "今日自动生成器已完成公开信息抓取。模型不可用时，本报告按宏观研究框架输出谨慎版配置观点：先看政策边际，再看利率与美元，最后落到权益、债券、黄金和汇率的组合暴露。",
-    "path": "/labs/macro-daily-lab/reports/2026-07-25.html",
+    "path": "/labs/macro-daily-lab/reports/2026-07-26.html",
     "stance": "中性观察",
     "risk_level": "中",
     "highlights": [
@@ -16,6 +16,13 @@
     ]
   },
   "reports": [
+    {
+      "date": "2026-07-26",
+      "title": "宏观政策解读与全球资产配置策略日报",
+      "path": "/labs/macro-daily-lab/reports/2026-07-26.html",
+      "stance": "中性观察",
+      "risk_level": "中"
+    },
     {
       "date": "2026-07-25",
       "title": "宏观政策解读与全球资产配置策略日报",
