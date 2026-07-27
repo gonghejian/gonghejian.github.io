@@ -1,21 +1,29 @@
 {
   "schema": "macro-daily-lab/v1",
-  "generated_at": "2026-07-26T09:05:27+08:00",
+  "generated_at": "2026-07-27T09:07:00+08:00",
   "latest": {
-    "date": "2026-07-26",
-    "title": "宏观政策解读与全球资产配置策略日报",
-    "summary": "今日自动生成器已完成公开信息抓取。模型不可用时，本报告按宏观研究框架输出谨慎版配置观点：先看政策边际，再看利率与美元，最后落到权益、债券、黄金和汇率的组合暴露。",
-    "path": "/labs/macro-daily-lab/reports/2026-07-26.html",
+    "date": "2026-07-27",
+    "title": "宏观政策解读与全球资产配置策略日报（2026-07-27）",
+    "summary": "欧央行宣布将气候因素扩展至非金融企业信贷债权抵押框架，并启动央行增强回购便利，同时公布6月证券融资与场外衍生品市场信贷条件调查，显示融资条件边际收紧。美联储公布6月贴现率会议纪要，显示内部对利率路径存在分歧，同时宣布货币政策推进工作组领导层与目标。整体看，全球央行政策分化延续：欧央行侧重结构性工具与气候转型，美联储聚焦内部沟通与监管执行。市场风险偏好受制于流动性边际收紧与政策不确定性，建议维持中性观察。",
+    "path": "/labs/macro-daily-lab/reports/2026-07-27.html",
     "stance": "中性观察",
     "risk_level": "中",
     "highlights": [
-      "ECB to extend use of climate factors in Eurosystem collateral framework to non-financial corporate credit claims",
-      "Minutes of the Board's discount rate meetings on June 8 and June 17, 2026",
-      "Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)",
-      "Results of the June 2026 survey on credit terms and conditions in euro-denominated securities financing and OTC derivatives markets (SESFOD)"
+      "欧央行将气候因素纳入非金融企业信贷债权抵押框架，强化绿色转型政策导向。",
+      "欧央行启动央行增强回购便利，旨在缓解全球美元/欧元流动性压力。",
+      "美联储6月贴现率会议纪要显示，部分联储银行支持维持或上调贴现率，反映内部分歧。",
+      "美联储宣布货币政策推进工作组领导层与目标，聚焦支付系统与数据基础设施现代化。",
+      "欧央行6月信贷条件调查显示，证券融资与场外衍生品市场信用条件边际收紧。"
     ]
   },
   "reports": [
+    {
+      "date": "2026-07-27",
+      "title": "宏观政策解读与全球资产配置策略日报（2026-07-27）",
+      "path": "/labs/macro-daily-lab/reports/2026-07-27.html",
+      "stance": "中性观察",
+      "risk_level": "中"
+    },
     {
       "date": "2026-07-26",
       "title": "宏观政策解读与全球资产配置策略日报",
