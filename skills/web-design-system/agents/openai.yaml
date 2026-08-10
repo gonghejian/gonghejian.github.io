@@ -1,0 +1,4 @@
+interface:
+  display_name: "弓箭网页设计系统"
+  short_description: "统一官网、实验室与咨询型交付页面的设计判断和质量标准"
+  default_prompt: "Use $web-design-system to design or review this gonghejian.cn web experience."

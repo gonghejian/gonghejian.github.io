@@ -1,0 +1,436 @@
+body {
+    background: #edf0f3;
+}
+
+.interview-app {
+    position: relative;
+    min-height: 100vh;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.interview-app::before {
+    content: "";
+    position: absolute;
+    z-index: -2;
+    inset: 72px 0 0;
+    background-image:
+        linear-gradient(rgba(20, 40, 61, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 40, 61, 0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: linear-gradient(to bottom, #000 0, transparent 72%);
+}
+
+.interview-app::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 118px;
+    right: -180px;
+    width: 520px;
+    height: 520px;
+    border: 1px solid rgba(11, 87, 208, 0.12);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 72px rgba(11, 87, 208, 0.025),
+        0 0 0 144px rgba(11, 87, 208, 0.018);
+}
+
+.privacy-notice {
+    display: none;
+}
+
+.app-header {
+    border-bottom-color: rgba(20, 40, 61, 0.12);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.workspace {
+    width: min(1160px, calc(100% - 48px));
+    grid-template-columns: 232px minmax(0, 880px);
+    gap: 28px;
+    margin-top: 32px;
+}
+
+.stage-sidebar {
+    top: 108px;
+    padding: 24px 16px 20px;
+    border-radius: 16px;
+    background: #14283d;
+    box-shadow: 0 20px 50px rgba(20, 40, 61, 0.18);
+}
+
+.sidebar-label {
+    margin-bottom: 16px;
+    color: rgba(255, 255, 255, 0.52);
+    letter-spacing: 0.12em;
+}
+
+.stage-sidebar nav button {
+    color: rgba(255, 255, 255, 0.68);
+}
+
+.stage-sidebar nav button span {
+    background: rgba(255, 255, 255, 0.09);
+    color: rgba(255, 255, 255, 0.66);
+}
+
+.stage-sidebar nav button small {
+    color: rgba(255, 255, 255, 0.38);
+}
+
+.stage-sidebar nav button:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: #fff;
+}
+
+.stage-sidebar nav button.active {
+    background: #fff;
+    color: #14283d;
+}
+
+.stage-sidebar nav button.active span {
+    background: #0b57d0;
+    color: #fff;
+}
+
+.stage-sidebar nav button.active small {
+    color: #59718a;
+}
+
+.progress-block {
+    border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+.progress-block > div:first-child {
+    color: rgba(255, 255, 255, 0.58);
+}
+
+.progress-track {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.progress-track span {
+    background: #7db1ff;
+}
+
+.text-button {
+    color: #9fc4ff;
+}
+
+.local-note {
+    margin: 18px 12px 0;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.42);
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.interview-form {
+    width: 100%;
+}
+
+.form-section {
+    position: relative;
+    min-height: 664px;
+    padding-top: 66px;
+    overflow: hidden;
+    border-color: rgba(20, 40, 61, 0.12);
+    box-shadow:
+        0 1px 2px rgba(20, 40, 61, 0.04),
+        0 20px 54px rgba(20, 40, 61, 0.09);
+}
+
+.form-section::before {
+    content: "ENTERPRISE AI DISCOVERY  /  CONFIDENTIAL";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    padding: 0 48px;
+    border-bottom: 1px solid #e6e9ed;
+    background: #f7f8fa;
+    color: #7a838c;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.16em;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.section-heading {
+    position: relative;
+}
+
+.section-heading::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    width: 72px;
+    height: 2px;
+    background: #0b57d0;
+}
+
+.essential-fields {
+    max-width: 740px;
+}
+
+.optional-fields {
+    margin-top: 28px;
+    border-top: 1px solid var(--line);
+}
+
+.optional-fields summary {
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: #5f6368;
+    font-size: 12px;
+    font-weight: 650;
+    cursor: pointer;
+    list-style: none;
+}
+
+.optional-fields summary::-webkit-details-marker {
+    display: none;
+}
+
+.optional-fields summary::after {
+    content: "+";
+    order: 3;
+    width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #ccd2d8;
+    border-radius: 50%;
+    color: #0b57d0;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.optional-fields[open] summary::after {
+    content: "−";
+}
+
+.optional-fields summary span {
+    margin-left: auto;
+    color: #8a9096;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.optional-body {
+    padding: 4px 0 12px;
+}
+
+.optional-body > .field-grid,
+.optional-body > label,
+.optional-body > .choice-field {
+    margin-top: 16px;
+}
+
+.form-navigation {
+    padding: 0 4px;
+}
+
+.judgement-button {
+    color: var(--primary);
+}
+
+.score-sidebar {
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    right: 0;
+    width: min(400px, calc(100% - 24px));
+    height: 100%;
+    padding: 20px;
+    display: block;
+    overflow-y: auto;
+    background: #f3f5f7;
+    box-shadow: -18px 0 60px rgba(20, 40, 61, 0.2);
+    transform: translateX(105%);
+    transition: transform 0.24s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.judgement-open .score-sidebar {
+    transform: translateX(0);
+}
+
+.score-sidebar .score-card,
+.score-sidebar .evidence-card {
+    margin-top: 12px;
+}
+
+.inspector-header {
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 4px 16px;
+    border-bottom: 1px solid var(--line);
+}
+
+.inspector-header > div {
+    display: grid;
+    gap: 5px;
+}
+
+.inspector-header strong {
+    font-size: 18px;
+}
+
+.inspector-header span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.inspector-header button {
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: #e5e9ee;
+    color: #3c4043;
+    font-size: 24px;
+}
+
+.drawer-backdrop {
+    position: fixed;
+    z-index: 40;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: rgba(12, 24, 36, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.judgement-open .drawer-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media (max-width: 820px) {
+    .interview-app::after {
+        display: none;
+    }
+
+    .workspace {
+        width: calc(100% - 24px);
+        grid-template-columns: 1fr;
+    }
+
+    .stage-sidebar {
+        padding: 10px;
+        border-radius: 14px;
+    }
+
+    .stage-sidebar nav button span {
+        background: rgba(255, 255, 255, 0.12);
+    }
+
+    .progress-block {
+        border-top-color: rgba(255, 255, 255, 0.14);
+    }
+
+    .local-note {
+        display: none;
+    }
+
+    .judgement-button {
+        margin-left: auto;
+    }
+
+    .form-section::before {
+        padding: 0 24px;
+    }
+}
+
+@media (max-width: 560px) {
+    html,
+    body,
+    .interview-app {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .app-header {
+        padding: 12px;
+    }
+
+    .header-brand span {
+        display: none;
+    }
+
+    .header-actions {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 48px minmax(0, 1fr);
+        gap: 6px;
+        width: 100%;
+    }
+
+    .judgement-button {
+        margin-left: 0;
+    }
+
+    .header-actions .button {
+        min-width: 0;
+        min-height: 42px;
+        padding: 0 10px;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .timer {
+        min-width: 48px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .save-status {
+        display: none;
+    }
+
+    .optional-fields summary {
+        min-height: 56px;
+    }
+
+    .stage-sidebar nav {
+        width: 100%;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .stage-sidebar nav button {
+        width: auto;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .workspace,
+    .interview-form,
+    .form-section,
+    .stage-sidebar {
+        min-width: 0;
+        max-width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}

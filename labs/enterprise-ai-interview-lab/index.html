@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="用于企业 AI 初谈的结构化访谈、机会评分和会议纪要工具。">
+    <title>企业 AI 访谈台</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./focused.css">
+</head>
+<body>
+    <div class="interview-app">
+        <header class="app-header">
+            <div class="header-brand">
+                <a href="/labs/" class="back-link">弓箭 / 实验室</a>
+                <div>
+                    <strong>企业 AI 访谈台</strong>
+                    <span>从真实业务流程里，找到值得验证的 AI 场景</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <span id="saveStatus" class="save-status">尚未保存</span>
+                <button type="button" class="button ghost judgement-button" id="openJudgementButton" aria-expanded="false">查看判断</button>
+                <button type="button" class="button ghost" id="timerButton">开始计时</button>
+                <output id="timer" class="timer" aria-live="polite">30:00</output>
+                <button type="button" class="button primary" id="finishButton">结束访谈</button>
+            </div>
+        </header>
+
+        <div class="privacy-notice">
+            记录默认只保存在当前浏览器。不要填写未获授权的敏感数据，优先使用脱敏信息。
+        </div>
+
+        <main class="workspace">
+            <aside class="stage-sidebar" aria-label="访谈阶段">
+                <p class="sidebar-label">访谈阶段</p>
+                <nav id="stageNav">
+                    <button type="button" class="active" data-target="stage-background"><span>01</span>企业背景<small>3 分钟</small></button>
+                    <button type="button" data-target="stage-trigger"><span>02</span>目标与触发<small>5 分钟</small></button>
+                    <button type="button" data-target="stage-process"><span>03</span>流程还原<small>10 分钟</small></button>
+                    <button type="button" data-target="stage-risk"><span>04</span>成本与风险<small>7 分钟</small></button>
+                    <button type="button" data-target="stage-next"><span>05</span>意愿与下一步<small>5 分钟</small></button>
+                </nav>
+                <div class="progress-block">
+                    <div><span>记录进度</span><strong id="progressText">0%</strong></div>
+                    <div class="progress-track"><span id="progressBar"></span></div>
+                    <button type="button" class="text-button" id="newInterviewButton">新建一场访谈</button>
+                </div>
+                <p class="local-note">仅保存在当前浏览器<br>敏感信息请先脱敏</p>
+            </aside>
+
+            <form class="interview-form" id="interviewForm" novalidate>
+                <section class="form-section" id="stage-background">
+                    <div class="section-heading"><span>01</span><div><h1>企业背景</h1><p>先确认谁在现场，以及谁能推动下一步。</p></div></div>
+                    <div class="field-grid two essential-fields">
+                        <label>企业名称<input name="company" autocomplete="organization" placeholder="例如：某制造企业"></label>
+                        <label>访谈日期<input name="interviewDate" type="date"></label>
+                        <label>联系人<input name="contact" autocomplete="name" placeholder="姓名或称呼"></label>
+                        <label>职位<input name="role" placeholder="例如：运营负责人"></label>
+                    </div>
+                    <details class="optional-fields">
+                        <summary>补充企业与决策信息 <span>选填</span></summary>
+                        <div class="optional-body">
+                            <div class="field-grid two">
+                                <label>行业<input name="industry" placeholder="例如：制造 / 零售 / 专业服务"></label>
+                                <label>企业人数<input name="companySize" type="number" min="1" placeholder="约多少人"></label>
+                                <label>涉及部门<input name="department" placeholder="例如：销售运营部"></label>
+                                <label>内部推动者<input name="champion" placeholder="姓名 / 职位 / 暂无"></label>
+                            </div>
+                            <fieldset class="choice-field"><legend>联系人在决策中的角色</legend><div class="choice-row">
+                                <label><input type="radio" name="decisionRole" value="经济买家">经济买家</label>
+                                <label><input type="radio" name="decisionRole" value="项目负责人">项目负责人</label>
+                                <label><input type="radio" name="decisionRole" value="使用者">使用者</label>
+                                <label><input type="radio" name="decisionRole" value="影响者">影响者</label>
+                            </div></fieldset>
+                        </div>
+                    </details>
+                </section>
+
+                <section class="form-section" id="stage-trigger">
+                    <div class="section-heading"><span>02</span><div><h2>目标与触发</h2><p>判断“为什么是现在”，以及 90 天后什么变化才算值得。</p></div></div>
+                    <div class="prompt-card"><strong>主问题</strong><p>为什么现在开始考虑 AI？是什么具体事件触发了这次讨论？</p></div>
+                    <label>客户原话<textarea name="triggerQuote" rows="4" placeholder="尽量逐字记录客户的表达，不急着归纳。"></textarea></label>
+                    <label>90 天后的目标<textarea name="target90" rows="3" placeholder="如果这件事值得做，90 天后应该看到什么变化？"></textarea></label>
+                    <details class="optional-fields">
+                        <summary>追问影响与记录判断 <span>按需</span></summary>
+                        <div class="optional-body">
+                            <label>不处理的影响<textarea name="inactionCost" rows="3" placeholder="继续维持现状，会损失什么或承担什么风险？"></textarea></label>
+                            <label class="advisor-field">顾问判断<textarea name="triggerJudgement" rows="3" placeholder="触发是否真实、是否紧迫、目标是否可测量。"></textarea></label>
+                        </div>
+                    </details>
+                </section>
+
+                <section class="form-section" id="stage-process">
+                    <div class="section-heading"><span>03</span><div><h2>流程还原</h2><p>只深入一个真实流程，从输入一直追到输出。</p></div></div>
+                    <div class="field-grid two">
+                        <label>流程名称<input name="processName" placeholder="例如：销售线索整理"></label>
+                        <label>主要执行人<input name="processOwner" placeholder="角色及人数"></label>
+                    </div>
+                    <label>流程原话<textarea name="processQuote" rows="5" placeholder="请客户按实际顺序讲：收到什么 → 做哪些动作 → 交付什么。"></textarea></label>
+                    <div class="field-grid two">
+                        <label>输入<input name="processInput" placeholder="文档、消息、表格、系统数据……"></label>
+                        <label>输出<input name="processOutput" placeholder="报告、回复、记录、审批……"></label>
+                        <label>单次耗时<input name="duration" placeholder="例如：2 小时"></label>
+                        <label>发生频率<input name="frequency" placeholder="例如：每周 20 次"></label>
+                        <label>当前工具<input name="currentTools" placeholder="微信、Excel、CRM、ERP……"></label>
+                        <label>返工 / 等待 / 错误<input name="bottleneck" placeholder="最容易卡在哪里"></label>
+                    </div>
+                    <label class="advisor-field">顾问判断<textarea name="processJudgement" rows="4" placeholder="哪些步骤适合增强、自动化或必须保留人工审核？"></textarea></label>
+                </section>
+
+                <section class="form-section" id="stage-risk">
+                    <div class="section-heading"><span>04</span><div><h2>成本、数据与风险</h2><p>没有基线就标记待验证，不估算虚假的 ROI。</p></div></div>
+                    <div class="field-grid two">
+                        <label>涉及人数<input name="peopleCount" type="number" min="0" placeholder="多少人参与"></label>
+                        <label>人工成本 / 等待成本<input name="manualCost" placeholder="金额未知时写待验证"></label>
+                        <label>返工或错误情况<input name="errorCost" placeholder="频率、类型或影响"></label>
+                        <label>数据来源<input name="dataSource" placeholder="系统、文件、知识库、对话……"></label>
+                    </div>
+                    <fieldset class="choice-field"><legend>数据敏感程度</legend><div class="choice-row">
+                        <label><input type="radio" name="dataSensitivity" value="公开">公开</label>
+                        <label><input type="radio" name="dataSensitivity" value="内部">内部</label>
+                        <label><input type="radio" name="dataSensitivity" value="敏感">敏感</label>
+                        <label><input type="radio" name="dataSensitivity" value="禁止上传">禁止上传</label>
+                    </div></fieldset>
+                    <div class="field-grid two">
+                        <label>能否提供脱敏样本<select name="sampleAvailable"><option value="">待确认</option><option>可以</option><option>有条件可以</option><option>不可以</option></select></label>
+                        <label>必须人工审核的环节<input name="humanReview" placeholder="例如：对外报价、合同审批"></label>
+                    </div>
+                    <label>系统、权限或合规限制<textarea name="constraints" rows="3"></textarea></label>
+                    <label class="advisor-field">顾问判断<textarea name="riskJudgement" rows="3" placeholder="主要实施风险与待补证据。"></textarea></label>
+                </section>
+
+                <section class="form-section" id="stage-next">
+                    <div class="section-heading"><span>05</span><div><h2>意愿与下一步</h2><p>访谈必须落到明确的动作、负责人和日期。</p></div></div>
+                    <div class="field-grid two">
+                        <label>试点负责人<input name="pilotOwner" placeholder="姓名 / 职位 / 暂无"></label>
+                        <label>期望启动时间<input name="startWindow" placeholder="例如：30 天内"></label>
+                        <label>预算窗口<input name="budget" placeholder="金额、时间或待确认"></label>
+                        <label>下一次会议日期<input name="nextMeeting" type="date"></label>
+                    </div>
+                    <fieldset class="choice-field"><legend>建议下一步</legend><div class="choice-row action-choices">
+                        <label><input type="radio" name="nextStep" value="企业 AI 深度诊断">企业 AI 深度诊断</label>
+                        <label><input type="radio" name="nextStep" value="AI 战略与场景工作坊">场景工作坊</label>
+                        <label><input type="radio" name="nextStep" value="90 天试点">90 天试点</label>
+                        <label><input type="radio" name="nextStep" value="持续跟进">持续跟进</label>
+                        <label><input type="radio" name="nextStep" value="暂不推进">暂不推进</label>
+                    </div></fieldset>
+                    <div class="field-grid two">
+                        <label>下一动作<input name="nextAction" placeholder="例如：邀请销售负责人参加诊断"></label>
+                        <label>动作负责人<input name="actionOwner" placeholder="我方 / 客户方具体人员"></label>
+                    </div>
+                    <label>客户对下一步的原话<textarea name="nextQuote" rows="3"></textarea></label>
+                    <label class="advisor-field">最终判断<textarea name="finalJudgement" rows="3" placeholder="为什么推进、补证据或停止投入。"></textarea></label>
+                    <fieldset class="choice-field"><legend>匿名案例授权</legend><div class="choice-row">
+                        <label><input type="radio" name="casePermission" value="未授权" checked>未授权</label>
+                        <label><input type="radio" name="casePermission" value="可进一步询问">可进一步询问</label>
+                        <label><input type="radio" name="casePermission" value="已口头同意">已口头同意</label>
+                    </div></fieldset>
+                </section>
+                <div class="form-navigation">
+                    <button type="button" class="button ghost" id="previousStageButton" disabled>上一步</button>
+                    <span id="stagePosition">第 1 步，共 5 步</span>
+                    <button type="button" class="button primary" id="nextStageButton">下一步：目标与触发</button>
+                </div>
+            </form>
+
+            <aside class="score-sidebar" id="scoreSidebar" aria-label="实时判断面板">
+                <div class="inspector-header"><div><strong>实时判断</strong><span>根据访谈证据，而不是印象评分</span></div><button type="button" id="closeJudgementButton" aria-label="关闭判断面板">×</button></div>
+                <section class="score-card">
+                    <div class="score-heading"><div><span>客户机会</span><strong><output id="clientScore">0</output>/15</strong></div><b id="clientGrade">C 级</b></div>
+                    <div id="clientScores" class="score-list"></div>
+                    <p id="clientAdvice" class="score-advice">信息不足，暂不投入定制时间。</p>
+                </section>
+                <section class="score-card">
+                    <div class="score-heading"><div><span>业务场景</span><strong><output id="scenarioScore">0</output>/25</strong></div><b id="scenarioGrade">待补证据</b></div>
+                    <div id="scenarioScores" class="score-list"></div>
+                    <label class="risk-score">实施风险<select id="riskScore" name="riskScore"><option value="1">1 · 低</option><option value="2">2</option><option value="3" selected>3 · 中</option><option value="4">4</option><option value="5">5 · 高</option></select></label>
+                    <p id="scenarioAdvice" class="score-advice">先补足流程、数据和负责人证据。</p>
+                </section>
+                <section class="evidence-card">
+                    <span>当前缺少</span>
+                    <ul id="missingEvidence"><li>企业与目标信息</li></ul>
+                </section>
+            </aside>
+        </main>
+        <button type="button" class="drawer-backdrop" id="drawerBackdrop" aria-label="关闭判断面板"></button>
+    </div>
+
+    <dialog id="summaryDialog" class="summary-dialog">
+        <form method="dialog" class="dialog-header"><div><span>访谈纪要</span><strong id="summaryTitle">未命名企业</strong></div><button aria-label="关闭">×</button></form>
+        <div class="dialog-body">
+            <div id="summaryWarnings" class="summary-warnings" hidden></div>
+            <textarea id="summaryOutput" readonly aria-label="会议纪要"></textarea>
+        </div>
+        <div class="dialog-actions">
+            <button type="button" class="button ghost" id="copySummaryButton">复制纪要</button>
+            <button type="button" class="button ghost" id="downloadMarkdownButton">导出 Markdown</button>
+            <button type="button" class="button ghost" id="downloadJsonButton">导出 JSON</button>
+            <button type="button" class="button primary" id="confirmFinishButton">确认并保存</button>
+        </div>
+    </dialog>
+
+    <script src="./main.js"></script>
+</body>
+</html>
