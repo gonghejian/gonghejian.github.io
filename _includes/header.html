@@ -2,7 +2,7 @@
     <div class="container">
         <div class="header-content">
             <a href="{{ '/' | relative_url }}" class="site-title">
-                <img src="{{ '/favicon.ico' | relative_url }}" alt="Logo" class="site-logo" onerror="this.src='{{ '/ico.jpg' | relative_url }}'; this.onerror=null;">
+                <img src="{{ '/favicon.ico' | relative_url }}" alt="Logo" class="site-logo" onerror="this.hidden=true;">
                 <span class="site-title-text">{{ site.title }}</span>
             </a>
             <nav class="site-nav">
@@ -32,9 +32,6 @@
                     <svg class="theme-icon theme-icon-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                </button>
-                <button class="lang-toggle" id="langToggle" aria-label="切换语言">
-                    <span class="lang-text">中</span>
                 </button>
                 <button class="mobile-menu-toggle" aria-label="菜单">
                     <span></span>

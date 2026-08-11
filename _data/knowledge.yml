@@ -1,0 +1,31 @@
+categories:
+  - slug: ai-basics
+    index: "01"
+    title: AI基础与判断
+    description: 从基本概念到关键判断，建立不过度神化 AI 的理解框架。
+  - slug: startup-45
+    index: "02"
+    title: 创业经营记录
+    description: 记录从问题发现、用户访谈到真实交付与经营复盘。
+  - slug: enterprise-ai
+    index: "03"
+    title: 企业AI实战
+    description: 来自企业现场的需求、流程、诊断与落地方法。
+  - slug: products
+    index: "04"
+    title: 产品与工作流实验
+    description: AI 产品原型、工作流验证，以及值得保留的判断。
+  - slug: content-assets
+    index: "05"
+    title: 研究与表达
+    description: 将访谈、阅读和实践整理为可复用的研究与表达资产。
+
+popular_tags:
+  - Agent
+  - AI基础
+  - 用户访谈
+  - 企业AI
+  - 创业
+  - AI产品
+  - Web App
+  - 内容系统

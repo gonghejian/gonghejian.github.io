@@ -38,6 +38,18 @@ collections:
   projects:
     output: true
     permalink: /projects/:name/
+  knowledge:
+    output: true
+    permalink: /knowledge/:path/
+
+defaults:
+  - scope:
+      path: ""
+      type: knowledge
+    values:
+      layout: knowledge-article
+      custom_css: /assets/css/knowledge.css
+      body_class: knowledge-page
 
 # 导航菜单
 navigation:

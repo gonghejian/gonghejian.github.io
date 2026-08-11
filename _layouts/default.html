@@ -6,22 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
-    
-    <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-    
     {% seo %}
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
-    <link rel="icon" type="image/jpeg" href="{{ '/ico.jpg' | relative_url }}">
-    <link rel="apple-touch-icon" href="{{ '/ico.jpg' | relative_url }}">
+    <link rel="apple-touch-icon" href="{{ '/favicon.ico' | relative_url }}">
     
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    {% if page.custom_css %}
+    <link rel="stylesheet" href="{{ page.custom_css | relative_url }}">
+    {% endif %}
     <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
 </head>
-<body>
+<body{% if page.body_class %} class="{{ page.body_class }}"{% endif %}>
     {% include header.html %}
     
     <main class="main-content">
@@ -31,6 +29,9 @@
     {% include footer.html %}
     
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+    {% if page.custom_js %}
+    <script src="{{ page.custom_js | relative_url }}" defer></script>
+    {% endif %}
 </body>
 </html>
 

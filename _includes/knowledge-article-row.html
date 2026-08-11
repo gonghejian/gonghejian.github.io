@@ -1,0 +1,19 @@
+{% assign article_url = '/knowledge/' | append: include.article.category | append: '/' | append: include.article.slug | append: '/' %}
+{% assign category_data = site.data.knowledge.categories | where: 'slug', include.article.category | first %}
+{% capture article_search_text %}{{ include.article.title }} {{ include.article.summary }} {{ include.article.tags | join: ' ' }} {{ include.article.content }}{% endcapture %}
+<article class="knowledge-article-row"{% if include.searchable %} data-knowledge-item data-category="{{ include.article.category | escape }}" data-tags="{{ include.article.tags | join: '|' | escape }}" data-search="{{ article_search_text | strip_html | strip_newlines | escape }}"{% endif %}>
+    <div class="knowledge-article-date">
+        <time datetime="{{ include.article.updatedAt }}">{{ include.article.updatedAt | date: "%Y.%m.%d" }}</time>
+        <span>{{ category_data.title }}</span>
+    </div>
+    <div class="knowledge-article-copy">
+        <h3><a href="{{ article_url | relative_url }}">{{ include.article.title }}</a></h3>
+        <p>{{ include.article.summary }}</p>
+        <div class="knowledge-article-tags{% unless include.searchable %} knowledge-article-tags-quiet{% endunless %}" aria-label="文章标签">
+            {% for tag in include.article.tags %}<span>{{ tag }}</span>{% endfor %}
+        </div>
+    </div>
+    <a class="knowledge-article-open" href="{{ article_url | relative_url }}" aria-label="阅读《{{ include.article.title }}》">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+</article>

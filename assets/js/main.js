@@ -17,35 +17,6 @@ function initTheme() {
     }
 }
 
-// 语言切换功能
-function initLanguage() {
-    const langToggle = document.getElementById('langToggle');
-    const currentLang = localStorage.getItem('lang') || 'zh';
-    
-    // 应用保存的语言
-    if (currentLang === 'en') {
-        document.documentElement.setAttribute('lang', 'en');
-        if (langToggle) {
-            langToggle.querySelector('.lang-text').textContent = 'EN';
-        }
-    }
-    
-    if (langToggle) {
-        langToggle.addEventListener('click', function() {
-            const currentLang = document.documentElement.getAttribute('lang') || 'zh-CN';
-            const newLang = currentLang === 'zh-CN' ? 'en' : 'zh-CN';
-            const langText = newLang === 'en' ? 'EN' : '中';
-            
-            document.documentElement.setAttribute('lang', newLang);
-            localStorage.setItem('lang', newLang);
-            langToggle.querySelector('.lang-text').textContent = langText;
-            
-            // 这里可以添加实际的语言切换逻辑
-            // 例如：重新加载页面或更新文本内容
-        });
-    }
-}
-
 // 邮件订阅表单处理
 function initNewsletter() {
     const newsletterForm = document.getElementById('newsletterForm');
@@ -69,9 +40,8 @@ function initNewsletter() {
 
 // 移动端菜单切换
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化主题和语言
+    // 初始化主题
     initTheme();
-    initLanguage();
     initNewsletter();
     
     const menuToggle = document.querySelector('.mobile-menu-toggle');

@@ -1,0 +1,140 @@
+---
+layout: default
+title: 弓箭的企业AI现场工作簿
+description: 记录企业 AI 访谈、业务诊断、产品实验与创业交付的长期实践档案。
+permalink: /knowledge/
+custom_css: /assets/css/knowledge.css
+custom_js: /assets/js/knowledge.js
+body_class: knowledge-page
+---
+
+{% assign knowledge_articles = site.data.knowledge.articles %}
+{% assign recent_articles = knowledge_articles | knowledge_recently_updated: 5 %}
+
+<div class="knowledge-home">
+    <section class="knowledge-hero">
+        <div class="container knowledge-container">
+            <div class="knowledge-hero-grid">
+                <div class="knowledge-hero-copy">
+                    <p class="knowledge-kicker">弓箭 · 企业AI创业者 / 产品实验者</p>
+                    <h1>企业AI现场工作簿</h1>
+                    <p class="knowledge-lead">记录企业访谈、流程诊断、产品实验，以及从原型走向真实交付的判断。</p>
+                </div>
+                <aside class="knowledge-thesis" aria-label="弓箭的企业AI方法">
+                    <p class="knowledge-thesis-label">工作判断</p>
+                    <p class="knowledge-thesis-statement">不从模型开始，<br>从业务现场开始。</p>
+                </aside>
+            </div>
+
+            <div class="knowledge-method" aria-label="企业AI实践路径">
+                <span><small>01</small>访谈</span>
+                <i aria-hidden="true">→</i>
+                <span><small>02</small>诊断</span>
+                <i aria-hidden="true">→</i>
+                <span><small>03</small>原型</span>
+                <i aria-hidden="true">→</i>
+                <span><small>04</small>交付</span>
+            </div>
+
+            <form class="knowledge-search" id="knowledgeSearch" role="search" action="{{ '/knowledge/' | relative_url }}" method="get">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+                <label class="sr-only" for="knowledgeSearchInput">搜索知识库</label>
+                <input id="knowledgeSearchInput" name="q" type="search" autocomplete="off" placeholder="查找一份研究记录，例如：企业访谈" aria-describedby="knowledgeSearchHint">
+                <button type="submit">检索</button>
+            </form>
+            <p class="knowledge-search-hint" id="knowledgeSearchHint">覆盖标题、摘要、主题与正文</p>
+        </div>
+    </section>
+
+    <main class="knowledge-main container knowledge-container">
+        <section class="knowledge-section" id="knowledgeCategories" aria-labelledby="knowledge-categories-title">
+            <header class="knowledge-section-heading">
+                <div>
+                    <p class="knowledge-kicker">知识地图</p>
+                    <h2 id="knowledge-categories-title">从现场问题进入</h2>
+                </div>
+                <p>企业实战是主线，其余内容服务于判断、构建、经营与表达。</p>
+            </header>
+            <div class="knowledge-categories">
+                {% assign core_category = site.data.knowledge.categories | where: 'slug', 'enterprise-ai' | first %}
+                <div class="knowledge-category-core">
+                    <p class="knowledge-category-group-label">核心实践</p>
+                    {% include knowledge-category-card.html category=core_category articles=knowledge_articles variant='core' %}
+                </div>
+                <div class="knowledge-category-support">
+                    <p class="knowledge-category-group-label">支持方向</p>
+                {% for category in site.data.knowledge.categories %}
+                    {% unless category.slug == 'enterprise-ai' %}
+                        {% include knowledge-category-card.html category=category articles=knowledge_articles %}
+                    {% endunless %}
+                {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="knowledge-section knowledge-results" id="knowledge-results" aria-labelledby="knowledge-results-title" hidden>
+            <header class="knowledge-section-heading knowledge-results-heading">
+                <div>
+                    <p class="knowledge-kicker">Index</p>
+                    <h2 id="knowledge-results-title">检索结果</h2>
+                </div>
+                <button type="button" id="knowledgeClear" class="knowledge-clear">清除筛选</button>
+            </header>
+            <p class="knowledge-results-status" id="knowledgeResultsStatus" role="status" aria-live="polite"></p>
+            <div class="knowledge-article-list">
+                {% for article in knowledge_articles %}
+                    {% include knowledge-article-row.html article=article searchable=true %}
+                {% endfor %}
+            </div>
+            <div class="knowledge-empty" id="knowledgeEmpty" hidden>
+                <strong>没有找到相关记录</strong>
+                <p>换一个更短的关键词，或者从上面的五个方向继续浏览。</p>
+            </div>
+        </section>
+
+        <section class="knowledge-section" aria-labelledby="knowledge-recent-title">
+            <header class="knowledge-section-heading">
+                <div>
+                    <p class="knowledge-kicker">最近记录</p>
+                    <h2 id="knowledge-recent-title">最近研究记录</h2>
+                </div>
+                <p>{{ knowledge_articles.size }} 篇公开记录</p>
+            </header>
+            <div class="knowledge-article-list">
+                {% for article in recent_articles %}
+                    {% include knowledge-article-row.html article=article %}
+                {% else %}
+                    <div class="knowledge-section-empty">
+                        <strong>知识库正在整理中</strong>
+                        <p>第一批记录发布后，会按更新时间显示在这里。</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="knowledge-section knowledge-tag-section" aria-labelledby="knowledge-tags-title">
+            <header class="knowledge-section-heading">
+                <div>
+                    <p class="knowledge-kicker">主题</p>
+                    <h2 id="knowledge-tags-title">主题索引</h2>
+                </div>
+                <p>进入在企业现场与产品实验中反复出现的问题。</p>
+            </header>
+            <div class="knowledge-tags">
+                {% assign visible_tag_count = 0 %}
+                {% for tag in site.data.knowledge.popular_tags %}
+                    {% assign tagged_articles = knowledge_articles | knowledge_by_tag: tag %}
+                    {% if tagged_articles.size > 0 %}
+                    {% assign visible_tag_count = visible_tag_count | plus: 1 %}
+                    <a href="{{ '/knowledge/' | relative_url }}?tag={{ tag | url_encode }}">
+                        <span>{{ tag }}</span><small>{{ tagged_articles.size }}</small>
+                    </a>
+                    {% endif %}
+                {% endfor %}
+                {% if visible_tag_count == 0 %}
+                    <p class="knowledge-section-empty-inline">文章发布后，相关标签会出现在这里。</p>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+</div>

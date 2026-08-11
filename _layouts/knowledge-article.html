@@ -1,0 +1,30 @@
+---
+layout: default
+---
+{% assign category_data = site.data.knowledge.categories | where: 'slug', page.category | first %}
+<article class="knowledge-reading">
+    <div class="container knowledge-reading-container">
+        <nav class="knowledge-breadcrumb" aria-label="面包屑导航">
+            <a href="{{ '/knowledge/' | relative_url }}">知识库</a>
+            <span aria-hidden="true">/</span>
+            <a href="{{ '/knowledge/' | relative_url }}?category={{ page.category }}">{{ category_data.title }}</a>
+        </nav>
+        <div class="knowledge-reading-document">
+            <header class="knowledge-reading-header">
+                <p class="knowledge-reading-byline">弓箭 · {{ category_data.title }}</p>
+                <h1>{{ page.title }}</h1>
+                <p class="knowledge-reading-summary">{{ page.summary }}</p>
+                <div class="knowledge-reading-meta">
+                    <time datetime="{{ page.updatedAt }}">更新于 {{ page.updatedAt | date: "%Y年%m月%d日" }}</time>
+                    <div>{% for tag in page.tags %}<span>{{ tag }}</span>{% endfor %}</div>
+                </div>
+            </header>
+            <div class="knowledge-reading-body">
+                {{ content }}
+            </div>
+            <footer class="knowledge-reading-footer">
+                <a href="{{ '/knowledge/' | relative_url }}">返回知识库</a>
+            </footer>
+        </div>
+    </div>
+</article>

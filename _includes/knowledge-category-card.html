@@ -1,0 +1,13 @@
+{% assign category_articles = include.articles | knowledge_by_category: include.category.slug %}
+<a class="knowledge-category{% if include.variant == 'core' %} knowledge-category-primary{% endif %}" href="{{ '/knowledge/' | relative_url }}?category={{ include.category.slug }}" data-category-link="{{ include.category.slug }}">
+    <span class="knowledge-category-body">
+        <strong>{{ include.category.title }}</strong>
+        <span>{{ include.category.description }}</span>
+    </span>
+    <span class="knowledge-category-meta">
+        <span>{{ category_articles.size }} 篇记录</span>
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M4 10h11M11 6l4 4-4 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </span>
+</a>
