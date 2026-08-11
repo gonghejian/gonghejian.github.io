@@ -55,6 +55,8 @@ defaults:
 navigation:
   - title: 首页
     url: /
+  - title: 企业 AI
+    url: /knowledge/
   - title: 文章
     url: /docs/
   - title: 白皮书

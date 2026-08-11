@@ -1,0 +1,21 @@
+current_focus:
+  title: 企业 AI 转型实践
+  url: /knowledge/
+  description: 从真实业务问题出发，通过访谈、诊断、原型和交付，持续验证 AI 如何真正进入企业流程。
+  stages:
+    - 访谈
+    - 诊断
+    - 原型
+    - 交付
+
+core_labs:
+  - url: /labs/enterprise-ai-interview-lab/
+  - url: /labs/hotmoneynews-lab/
+
+legacy_context:
+  - slug: 项目管理的基础1工作会议和调研
+    reason: 从工作会议和调研开始，把信息变成结构，把结构变成共识。
+  - slug: 麦肯锡方法-事实为基础结构化思维
+    reason: 以事实定义问题，用结构化拆解找到可以行动的入口。
+  - slug: 咨询的奥秘-无论问题最初看起来怎么样它始终是人的问题
+    reason: 技术、流程和系统背后，最终仍然是人的认知、信任与改变。

@@ -2,8 +2,7 @@
 layout: default
 ---
 
-{% assign docs_posts = site.posts | where_exp: "post", "post.categories contains 'docs'" | sort: "date" | reverse %}
-{% assign projects = site.projects | sort: "order" %}
+{% assign current_focus = site.data.site_ia.current_focus %}
 
 <div class="home system-home">
     <section class="system-hero">
@@ -19,6 +18,24 @@ layout: default
                     <a class="system-action-primary" href="{{ '/whitepaper/' | relative_url }}">查看白皮书</a>
                     <a href="{{ '/docs/' | relative_url }}">阅读精选文章</a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="system-focus" aria-labelledby="current-focus-title">
+        <div class="container system-focus-inner">
+            <div class="system-focus-heading">
+                <p class="system-section-kicker">Current Focus / 当前主线</p>
+                <h2 id="current-focus-title">{{ current_focus.title }}</h2>
+            </div>
+            <div class="system-focus-body">
+                <p>{{ current_focus.description }}</p>
+                <ol class="system-focus-method" aria-label="企业 AI 实践路径">
+                    {% for stage in current_focus.stages %}
+                    <li><small>0{{ forloop.index }}</small><span>{{ stage }}</span></li>
+                    {% endfor %}
+                </ol>
+                <a class="system-focus-link" href="{{ current_focus.url | relative_url }}">进入「企业 AI 现场工作簿」<span aria-hidden="true">→</span></a>
             </div>
         </div>
     </section>
@@ -81,20 +98,24 @@ layout: default
         <div class="container">
             <div class="system-section-header system-section-header-row">
                 <div>
-                    <p class="system-section-kicker">Writing</p>
-                    <h2>精选记录</h2>
+                    <p class="system-section-kicker">Continuity / 长期积累</p>
+                    <h2>与今天相关的旧文</h2>
                 </div>
                 <a href="{{ '/docs/' | relative_url }}">全部文章</a>
             </div>
+            <p class="system-section-intro">今天企业 AI 实践所依赖的调研、拆解、沟通与交付能力，来自长期积累，而不是突然出现。</p>
             <div class="system-list">
-                {% for post in docs_posts limit: 6 %}
+                {% for curated in site.data.site_ia.legacy_context %}
+                {% assign post = site.posts | where: 'slug', curated.slug | first %}
+                {% if post %}
                 <article class="system-list-item">
                     <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%Y.%m.%d" }}</time>
                     <div>
                         <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-                        <p>{{ post.excerpt | default: post.content | strip_html | truncate: 108 }}</p>
+                        <p>{{ curated.reason }}</p>
                     </div>
                 </article>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>
@@ -117,26 +138,26 @@ layout: default
         <div class="container">
             <div class="system-section-header system-section-header-row">
                 <div>
-                    <p class="system-section-kicker">Lab</p>
-                    <h2>实验室</h2>
+                    <p class="system-section-kicker">Lab / 产品与验证</p>
+                    <h2>当前核心实验</h2>
                 </div>
                 <a href="{{ '/labs/' | relative_url }}">查看全部</a>
             </div>
-            <p class="system-section-intro">一些正在被验证的小工具、自动化流程和产品原型。</p>
-            <div class="system-grid system-grid-three">
-                {% for project in projects limit: 3 %}
+            <p class="system-section-intro">围绕企业 AI、业务诊断和商业判断，把方法做成可以试用、可以反馈的产品。</p>
+            <div class="system-core-projects">
+                {% for curated in site.data.site_ia.core_labs %}
+                {% assign project = site.projects | where: 'link', curated.url | first %}
+                {% if project %}
                 {% assign target_link = project.link | default: project.url %}
-                <article class="system-panel system-project">
-                    {% if project.icon %}<span class="system-project-icon">{{ project.icon }}</span>{% endif %}
-                    <h3>
-                        {% if project.external %}
-                        <a href="{{ target_link }}" target="_blank" rel="noopener noreferrer">{{ project.title }}</a>
-                        {% else %}
-                        <a href="{{ target_link | relative_url }}">{{ project.title }}</a>
-                        {% endif %}
-                    </h3>
-                    <p>{{ project.short_description | default: project.description }}</p>
+                <article class="system-core-project">
+                    <div>
+                        <span>{{ project.status }}</span>
+                        <h3><a href="{{ target_link | relative_url }}">{{ project.title }}</a></h3>
+                        <p>{{ project.short_description | default: project.description }}</p>
+                    </div>
+                    <a class="system-core-project-link" href="{{ target_link | relative_url }}" aria-label="进入{{ project.title }}">→</a>
                 </article>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>
@@ -147,7 +168,7 @@ layout: default
             <div class="system-about">
                 <p class="system-section-kicker">About</p>
                 <h2>关于弓箭</h2>
-                <p>我长期关注项目管理、阅读、训练、AI 工具和个人系统建设。过去的经验来自组织，未来的能力必须能脱离组织独立运转。这个网站记录的，就是这个转变过程。</p>
+                <p>过去的经验主要来自企业项目，长期关注项目管理、阅读、训练、AI 工具与个人系统。现在，我把这些积累带进企业 AI 的研究与产品实验。</p>
                 <a href="{{ '/about/' | relative_url }}">了解更多</a>
             </div>
         </div>
@@ -166,6 +187,101 @@ layout: default
 
 .system-hero-inner {
     max-width: 780px;
+}
+
+.system-focus {
+    --system-focus-blue: #3155a6;
+    padding: 56px 0 60px;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-secondary);
+}
+
+[data-theme="dark"] .system-focus {
+    --system-focus-blue: #9da7ff;
+}
+
+.system-focus-inner {
+    display: grid;
+    grid-template-columns: minmax(250px, .72fr) minmax(0, 1.28fr);
+    gap: 72px;
+    align-items: start;
+}
+
+.system-focus-heading {
+    padding-top: 3px;
+}
+
+.system-focus-heading .system-section-kicker {
+    color: var(--system-focus-blue);
+}
+
+.system-focus-heading h2 {
+    max-width: 340px;
+    margin: 0;
+    color: var(--color-text);
+    font-size: 35px;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.25;
+}
+
+.system-focus-body > p {
+    max-width: 650px;
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 17px;
+    line-height: 1.85;
+}
+
+.system-focus-method {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 30px 0 0;
+    padding: 0;
+    border-top: 1px solid var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    list-style: none;
+}
+
+.system-focus-method li {
+    display: flex;
+    gap: 9px;
+    align-items: baseline;
+    padding: 17px 14px 17px 0;
+    color: var(--color-text);
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.system-focus-method li + li {
+    padding-left: 14px;
+    border-left: 1px solid var(--color-border);
+}
+
+.system-focus-method small {
+    color: var(--color-text-secondary);
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+    font-size: 9px;
+    font-weight: 400;
+}
+
+.system-focus-link {
+    display: inline-flex;
+    gap: 24px;
+    align-items: center;
+    margin-top: 27px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--system-focus-blue);
+    color: var(--system-focus-blue);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.system-focus-link:hover {
+    color: var(--color-text);
+    border-bottom-color: var(--color-text);
 }
 
 .system-kicker,
@@ -430,6 +546,63 @@ layout: default
     line-height: 1;
 }
 
+.system-core-projects {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
+    border-top: 1px solid var(--color-text);
+}
+
+.system-core-project {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 28px;
+    gap: 22px;
+    min-height: 184px;
+    padding: 25px 0 28px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.system-core-project > div > span {
+    color: var(--color-primary);
+    font-size: 11px;
+    font-weight: 650;
+}
+
+.system-core-project h3 {
+    margin: 16px 0 0;
+    font-size: 21px;
+    font-weight: 680;
+    line-height: 1.4;
+}
+
+.system-core-project h3 a {
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+.system-core-project h3 a:hover {
+    color: var(--color-primary);
+}
+
+.system-core-project p {
+    max-width: 430px;
+    margin: 10px 0 0;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+    line-height: 1.75;
+}
+
+.system-core-project-link {
+    align-self: center;
+    color: var(--color-text-secondary);
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.system-core-project-link:hover {
+    color: var(--color-primary);
+}
+
 .system-about {
     max-width: 820px;
 }
@@ -442,6 +615,10 @@ layout: default
     .system-grid-four,
     .system-grid-three {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .system-focus-inner {
+        gap: 42px;
     }
 }
 
@@ -460,6 +637,33 @@ layout: default
 
     .system-description {
         font-size: var(--font-size-base);
+    }
+
+    .system-focus {
+        padding: 42px 0 46px;
+    }
+
+    .system-focus-inner {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .system-focus-heading h2 {
+        font-size: 30px;
+    }
+
+    .system-focus-body > p {
+        font-size: var(--font-size-base);
+    }
+
+    .system-focus-method li {
+        gap: 5px;
+        padding-right: 8px;
+        font-size: 13px;
+    }
+
+    .system-focus-method li + li {
+        padding-left: 8px;
     }
 
     .system-actions a {
@@ -483,6 +687,11 @@ layout: default
     .system-grid-four,
     .system-grid-three {
         grid-template-columns: 1fr;
+    }
+
+    .system-core-projects {
+        grid-template-columns: 1fr;
+        gap: 0;
     }
 
     .system-list-item {

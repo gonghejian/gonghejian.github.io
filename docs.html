@@ -10,12 +10,13 @@ permalink: /docs/
 
 <div class="docs-page">
     <div class="container">
-        <div class="docs-header">
+        <header class="docs-header">
+            <p class="docs-kicker">WRITING / 长期记录</p>
             <h1 class="docs-title">精选文章</h1>
             <p class="docs-description">
-                从旧文中挑出的 5 篇更容易被转发、讨论和再次阅读的文章。它们围绕人生取舍、情绪管理、写作启动、习惯建立和长期练习。
+                过去关于管理、阅读、写作与个人系统的长期记录，也构成今天进入企业 AI 现场的底层能力。
             </p>
-        </div>
+        </header>
 
         <nav class="docs-sections" aria-label="文章目录">
             <a class="docs-section-link active" href="{{ '/docs/' | relative_url }}">
@@ -32,220 +33,146 @@ permalink: /docs/
             </a>
         </nav>
 
-        {% if featured_posts.size > 0 %}
-        <div class="docs-toolbar">
-            <span class="docs-count">{{ featured_posts.size }} 篇精选 / {{ all_docs_posts.size }} 篇文章</span>
-        </div>
-
-        <div class="docs-list">
-            {% for post in featured_posts %}
-            <article class="docs-card">
-                <a class="docs-card-link" href="{{ post.url | relative_url }}" aria-label="{{ post.title }}"></a>
-                <div class="docs-card-main">
-                    <div class="docs-card-meta">
-                        <span>精选 {{ post.featured_order }}</span>
-                        <span class="docs-card-dot"></span>
-                        <time datetime="{{ post.date | date: '%Y-%m-%d' }}">
-                            {{ post.date | date: "%Y年%m月%d日" }}
-                        </time>
-                        {% if post.tags.size > 0 %}
-                        <span class="docs-card-dot"></span>
-                        <span>{{ post.tags.first }}</span>
-                        {% endif %}
-                    </div>
-                    <h2 class="docs-card-title">
-                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                    </h2>
-                    <p class="docs-card-excerpt">
-                        {% if post.featured_reason %}
-                            {{ post.featured_reason }}
-                        {% elsif post.excerpt %}
-                            {{ post.excerpt | strip_html | truncate: 120 }}
-                        {% else %}
-                            {{ post.content | strip_html | truncate: 120 }}
-                        {% endif %}
-                    </p>
+        <section class="docs-curated" aria-labelledby="curatedTitle">
+            <header class="docs-section-header">
+                <div>
+                    <p class="docs-section-index">01 / CONTEXT</p>
+                    <h2 id="curatedTitle">与今天的企业 AI 实践相关</h2>
                 </div>
-            </article>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="docs-empty">暂无精选文章。</div>
-        {% endif %}
+                <p>今天所依赖的调研、拆解、沟通和交付能力，来自长期积累，而不是突然出现。</p>
+            </header>
+
+            <div class="curated-list">
+                {% for curated in site.data.site_ia.legacy_context %}
+                {% assign post = site.posts | where: "slug", curated.slug | first %}
+                {% if post %}
+                <article class="curated-item">
+                    <p class="curated-order">0{{ forloop.index }}</p>
+                    <div>
+                        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                        <p>{{ curated.reason }}</p>
+                    </div>
+                    <a class="curated-enter" href="{{ post.url | relative_url }}" aria-label="阅读《{{ post.title }}》">阅读 →</a>
+                </article>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="docs-longterm" aria-labelledby="longtermTitle">
+            <header class="docs-section-header">
+                <div>
+                    <p class="docs-section-index">02 / LONG-TERM SELECTION</p>
+                    <h2 id="longtermTitle">长期精选</h2>
+                </div>
+                <p>围绕人生取舍、情绪管理、写作启动、习惯建立与长期训练的五篇代表记录。</p>
+            </header>
+
+            {% if featured_posts.size > 0 %}
+            <div class="docs-toolbar">
+                <span class="docs-count">{{ featured_posts.size }} 篇精选 / {{ all_docs_posts.size }} 篇文章</span>
+            </div>
+
+            <div class="docs-list">
+                {% for post in featured_posts %}
+                <article class="docs-card">
+                    <a class="docs-card-link" href="{{ post.url | relative_url }}" aria-label="{{ post.title }}"></a>
+                    <div class="docs-card-main">
+                        <div class="docs-card-meta">
+                            <span>精选 {{ post.featured_order }}</span>
+                            <span class="docs-card-dot"></span>
+                            <time datetime="{{ post.date | date: '%Y-%m-%d' }}">
+                                {{ post.date | date: "%Y年%m月%d日" }}
+                            </time>
+                            {% if post.tags.size > 0 %}
+                            <span class="docs-card-dot"></span>
+                            <span>{{ post.tags.first }}</span>
+                            {% endif %}
+                        </div>
+                        <h3 class="docs-card-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                        <p class="docs-card-excerpt">
+                            {% if post.featured_reason %}
+                                {{ post.featured_reason }}
+                            {% elsif post.excerpt %}
+                                {{ post.excerpt | strip_html | truncate: 120 }}
+                            {% else %}
+                                {{ post.content | strip_html | truncate: 120 }}
+                            {% endif %}
+                        </p>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="docs-empty">暂无精选文章。</div>
+            {% endif %}
+        </section>
     </div>
 </div>
 
 <style>
 .docs-page {
+    --docs-ink: var(--color-text);
+    --docs-muted: var(--color-text-secondary);
+    --docs-line: var(--color-border);
+    --docs-blue: #3155a6;
     padding: var(--spacing-xl) 0;
     min-height: calc(100vh - 200px);
     background: var(--color-bg);
 }
+[data-theme="dark"] .docs-page { --docs-blue: #9da7ff; }
 
-.docs-header {
-    max-width: var(--content-width);
-    margin-bottom: var(--spacing-lg);
-}
+.docs-header { max-width: 820px; margin-bottom: 48px; }
+.docs-kicker,
+.docs-section-index { margin: 0 0 12px; color: var(--docs-blue); font-size: 12px; font-weight: 750; letter-spacing: .12em; }
+.docs-title { margin: 0 0 var(--spacing-sm); color: var(--docs-ink); font-size: var(--font-size-h1); line-height: 1.15; font-weight: 700; }
+.docs-description { margin: 0; color: var(--docs-muted); font-size: var(--font-size-large); line-height: 1.8; }
 
-.docs-title {
-    font-size: var(--font-size-h1);
-    line-height: 1.15;
-    font-weight: 700;
-    color: var(--color-text);
-    margin-bottom: var(--spacing-sm);
-    letter-spacing: 0;
-}
-
-.docs-description {
-    font-size: var(--font-size-large);
-    line-height: 1.7;
-    color: var(--color-text-secondary);
-}
-
-.docs-toolbar {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: var(--spacing-md);
-}
-
-.docs-sections {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-lg);
-}
-
-.docs-section-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 56px;
-    padding: 0 var(--spacing-md);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    color: var(--color-text);
-    text-decoration: none;
-    background: var(--color-bg);
-    transition: var(--transition);
-}
-
+.docs-sections { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-sm); margin-bottom: 78px; }
+.docs-section-link { display: flex; align-items: center; justify-content: space-between; min-height: 54px; padding: 0 var(--spacing-md); border: 1px solid var(--docs-line); border-radius: 4px; color: var(--docs-ink); text-decoration: none; background: var(--color-bg); transition: var(--transition); }
 .docs-section-link:hover,
-.docs-section-link.active {
-    border-color: var(--color-primary);
-    background: var(--color-bg-secondary);
-}
+.docs-section-link.active { border-color: var(--docs-blue); background: var(--color-bg-secondary); }
+.docs-section-link span { font-size: var(--font-size-base); font-weight: 650; }
+.docs-section-link strong { color: var(--docs-muted); font-size: var(--font-size-small); }
 
-.docs-section-link span {
-    font-size: var(--font-size-base);
-    font-weight: 650;
-}
+.docs-section-header { display: grid; grid-template-columns: minmax(300px, .85fr) minmax(0, 1fr); gap: 48px; align-items: end; padding-top: 20px; margin-bottom: 30px; border-top: 2px solid var(--docs-ink); }
+.docs-section-header h2 { margin: 0; color: var(--docs-ink); font-size: 30px; line-height: 1.25; }
+.docs-section-header > p { max-width: 580px; margin: 0; color: var(--docs-muted); line-height: 1.8; }
 
-.docs-section-link strong {
-    font-size: var(--font-size-small);
-    color: var(--color-text-secondary);
-}
+.curated-list { border-top: 1px solid var(--docs-line); }
+.curated-item { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 26px; align-items: start; padding: 28px 0; border-bottom: 1px solid var(--docs-line); }
+.curated-order { margin: 3px 0 0; color: var(--docs-blue); font-size: 12px; font-weight: 750; letter-spacing: .08em; }
+.curated-item h3 { margin: 0 0 9px; font-size: 22px; line-height: 1.4; }
+.curated-item h3 a { color: var(--docs-ink); text-decoration: none; }
+.curated-item h3 a:hover { color: var(--docs-blue); }
+.curated-item div > p { max-width: 760px; margin: 0; color: var(--docs-muted); line-height: 1.75; }
+.curated-enter { margin-top: 3px; color: var(--docs-ink); font-size: 13px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+.curated-enter:hover { color: var(--docs-blue); }
 
-.docs-count {
-    font-size: var(--font-size-small);
-    color: var(--color-text-secondary);
-}
-
-.docs-list {
-    display: grid;
-    gap: var(--spacing-md);
-}
-
-.docs-card {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    padding: var(--spacing-md);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    background: var(--color-bg);
-    transition: var(--transition);
-}
-
-.docs-card:hover {
-    border-color: rgba(99, 102, 241, 0.35);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
-}
-
-.docs-card-link {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-}
-
-.docs-card-main {
-    position: relative;
-    z-index: 2;
-    pointer-events: none;
-}
-
-.docs-card-title {
-    margin: 0 0 var(--spacing-xs);
-    font-size: var(--font-size-h3);
-    line-height: 1.35;
-    font-weight: 650;
-    color: var(--color-text);
-}
-
-.docs-card-title a {
-    color: inherit;
-    text-decoration: none;
-    pointer-events: auto;
-}
-
-.docs-card-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: var(--spacing-xs);
-    font-size: var(--font-size-small);
-    color: var(--color-text-secondary);
-}
-
-.docs-card-dot {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--color-text-secondary);
-    opacity: 0.55;
-}
-
-.docs-card-excerpt {
-    margin: 0;
-    max-width: var(--content-width);
-    font-size: var(--font-size-base);
-    line-height: 1.8;
-    color: var(--color-text-secondary);
-}
-
-.docs-empty {
-    padding: var(--spacing-lg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    color: var(--color-text-secondary);
-    text-align: center;
-}
+.docs-longterm { margin-top: 96px; }
+.docs-toolbar { display: flex; justify-content: flex-end; margin-bottom: var(--spacing-md); }
+.docs-count { color: var(--docs-muted); font-size: var(--font-size-small); }
+.docs-list { display: grid; gap: var(--spacing-md); }
+.docs-card { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); padding: var(--spacing-md); border: 1px solid var(--docs-line); border-radius: var(--border-radius); background: var(--color-bg); transition: var(--transition); }
+.docs-card:hover { border-color: rgba(49, 85, 166, .35); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.docs-card-link { position: absolute; inset: 0; z-index: 1; }
+.docs-card-main { position: relative; z-index: 2; pointer-events: none; }
+.docs-card-title { margin: 0 0 var(--spacing-xs); color: var(--docs-ink); font-size: var(--font-size-h3); line-height: 1.35; font-weight: 650; }
+.docs-card-title a { color: inherit; text-decoration: none; pointer-events: auto; }
+.docs-card-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: var(--spacing-xs); color: var(--docs-muted); font-size: var(--font-size-small); }
+.docs-card-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--docs-muted); opacity: .55; }
+.docs-card-excerpt { max-width: var(--content-width); margin: 0; color: var(--docs-muted); font-size: var(--font-size-base); line-height: 1.8; }
+.docs-empty { padding: var(--spacing-lg); border: 1px solid var(--docs-line); color: var(--docs-muted); text-align: center; }
 
 @media (max-width: 768px) {
-    .docs-page {
-        padding: var(--spacing-lg) 0;
-    }
-
-    .docs-title {
-        font-size: var(--font-size-h2);
-    }
-
-    .docs-card {
-        padding: var(--spacing-sm);
-    }
-
-    .docs-sections {
-        grid-template-columns: 1fr;
-    }
+    .docs-page { padding: var(--spacing-lg) 0; }
+    .docs-title { font-size: var(--font-size-h2); }
+    .docs-sections { grid-template-columns: 1fr; margin-bottom: 58px; }
+    .docs-section-header { grid-template-columns: 1fr; gap: 12px; }
+    .docs-section-header h2 { font-size: 26px; }
+    .curated-item { grid-template-columns: 34px minmax(0, 1fr); gap: 14px; }
+    .curated-enter { grid-column: 2; margin-top: 0; }
+    .docs-longterm { margin-top: 70px; }
+    .docs-card { padding: var(--spacing-sm); }
 }
 </style>
