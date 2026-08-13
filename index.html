@@ -1,161 +1,103 @@
 ---
 layout: default
+title: 企业 AI 实践者
+description: 弓箭从企业项目现场进入 AI，持续研究真实业务问题、企业 AI 机会、产品原型与落地方法。
 ---
 
 {% assign current_focus = site.data.site_ia.current_focus %}
 
-<div class="home system-home">
-    <section class="system-hero">
-        <div class="container">
-            <div class="system-hero-inner">
-                <p class="system-kicker">AI Workflow / Personal System / One-person Business</p>
-                <h1 class="system-title">弓箭</h1>
-                <p class="system-subtitle">在 AI 时代，训练一种新的个人能力。</p>
-                <p class="system-description">
-                    我记录 AI 工具、知识系统、身体训练与一人公司实验。不是为了追热点，而是为了在组织之外，重新获得判断力、交付力和选择权。
-                </p>
-                <div class="system-actions">
-                    <a class="system-action-primary" href="{{ '/whitepaper/' | relative_url }}">查看白皮书</a>
-                    <a href="{{ '/docs/' | relative_url }}">阅读精选文章</a>
+<div class="credit-home">
+    <section class="credit-hero">
+        <div class="container credit-hero-grid">
+            <div class="credit-hero-main">
+                <p class="credit-kicker">弓箭｜企业 AI 实践者</p>
+                <h1>企业 AI，不从模型开始，<br>从真实业务开始。</h1>
+                <p class="credit-hero-lead">过去长期在企业一线做客户、项目、商务与交付。现在，我持续研究 AI 如何进入企业真实流程、岗位与业务场景。</p>
+                <div class="credit-actions">
+                    <a class="credit-action-primary" href="{{ '/knowledge/' | relative_url }}">查看企业 AI 实践</a>
+                    <a href="#currentPractice">了解我的工作方式</a>
                 </div>
             </div>
+            <aside class="credit-hero-proof" aria-label="实践基础">
+                <p>我不是从 AI 行业进入企业，<br><strong>而是从企业一线进入 AI。</strong></p>
+                <dl>
+                    <div><dt>企业经验</dt><dd>客户、项目、商务与交付</dd></div>
+                    <div><dt>当前实践</dt><dd>访谈、诊断、原型与验证</dd></div>
+                    <div><dt>公开证据</dt><dd>研究记录、工具与产品实验</dd></div>
+                </dl>
+            </aside>
         </div>
     </section>
 
-    <section class="system-focus" aria-labelledby="current-focus-title">
-        <div class="container system-focus-inner">
-            <div class="system-focus-heading">
-                <p class="system-section-kicker">Current Focus / 当前主线</p>
-                <h2 id="current-focus-title">{{ current_focus.title }}</h2>
-            </div>
-            <div class="system-focus-body">
-                <p>{{ current_focus.description }}</p>
-                <ol class="system-focus-method" aria-label="企业 AI 实践路径">
-                    {% for stage in current_focus.stages %}
-                    <li><small>0{{ forloop.index }}</small><span>{{ stage }}</span></li>
-                    {% endfor %}
-                </ol>
-                <a class="system-focus-link" href="{{ current_focus.url | relative_url }}">进入「企业 AI 现场工作簿」<span aria-hidden="true">→</span></a>
-            </div>
-        </div>
-    </section>
-
-    <section class="system-section">
+    <section class="credit-section credit-focus" id="currentPractice" aria-labelledby="focusTitle">
         <div class="container">
-            <div class="system-section-header">
-                <p class="system-section-kicker">Risks</p>
-                <h2>现代职场人的四个风险</h2>
-            </div>
-            <div class="system-grid system-grid-four">
-                <article class="system-panel">
-                    <span>01</span>
-                    <h3>AI 改写工作方式</h3>
-                    <p>很多人仍停留在工具体验，没有把 AI 接入研究、写作、项目管理和交付流程。</p>
-                </article>
-                <article class="system-panel">
-                    <span>02</span>
-                    <h3>长期依赖组织</h3>
-                    <p>在平台内有资源和身份，离开组织后却缺少独立获客、独立交付和独立复盘能力。</p>
-                </article>
-                <article class="system-panel">
-                    <span>03</span>
-                    <h3>知识没有出口</h3>
-                    <p>读了很多书，做了很多笔记，但没有变成文章、产品、决策或可复用的方法。</p>
-                </article>
-                <article class="system-panel">
-                    <span>04</span>
-                    <h3>身体状态下滑</h3>
-                    <p>睡眠、训练、饮食和恢复失控，会持续侵蚀判断力、执行力和情绪稳定性。</p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <section class="system-section">
-        <div class="container">
-            <div class="system-section-header">
-                <p class="system-section-kicker">System</p>
-                <h2>我正在构建的个人系统</h2>
-            </div>
-            <div class="system-grid system-grid-three">
-                <article class="system-panel system-panel-strong">
-                    <h3>AI 工作流</h3>
-                    <p>用 AI 重构写作、研究、项目管理、自动化和内容生产，把工具变成稳定流程。</p>
-                </article>
-                <article class="system-panel system-panel-strong">
-                    <h3>知识与表达系统</h3>
-                    <p>让阅读、笔记、项目经验和真实问题形成出口，沉淀为文章、白皮书和产品原型。</p>
-                </article>
-                <article class="system-panel system-panel-strong">
-                    <h3>身体与纪律系统</h3>
-                    <p>用训练、饮食、睡眠和恢复维护长期输出能力，让身体成为判断力的底座。</p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <section class="system-section">
-        <div class="container">
-            <div class="system-section-header system-section-header-row">
+            <header class="credit-section-heading">
                 <div>
-                    <p class="system-section-kicker">Continuity / 长期积累</p>
-                    <h2>与今天相关的旧文</h2>
+                    <p class="credit-kicker">CURRENT FOCUS / 当前实践</p>
+                    <h2 id="focusTitle">让 AI 进入一段具体工作。</h2>
                 </div>
-                <a href="{{ '/docs/' | relative_url }}">全部文章</a>
-            </div>
-            <p class="system-section-intro">今天企业 AI 实践所依赖的调研、拆解、沟通与交付能力，来自长期积累，而不是突然出现。</p>
-            <div class="system-list">
-                {% for curated in site.data.site_ia.legacy_context %}
-                {% assign post = site.posts | where: 'slug', curated.slug | first %}
-                {% if post %}
-                <article class="system-list-item">
-                    <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%Y.%m.%d" }}</time>
-                    <div>
-                        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-                        <p>{{ curated.reason }}</p>
-                    </div>
-                </article>
-                {% endif %}
-                {% endfor %}
+                <p>我目前从企业访谈和业务流程开始，寻找那些能够减少成本、提升效率或创造收入，而且可以被真实验证的 AI 场景。</p>
+            </header>
+
+            <ol class="credit-flow" aria-label="企业 AI 实践流程">
+                <li><small>01</small><strong>企业访谈</strong><span>还原角色、目标与约束</span></li>
+                <li><small>02</small><strong>问题发现</strong><span>找到高频损耗和关键堵点</span></li>
+                <li><small>03</small><strong>机会诊断</strong><span>判断数据、价值与风险</span></li>
+                <li><small>04</small><strong>场景设计</strong><span>设计 AI 与人的协作方式</span></li>
+                <li><small>05</small><strong>Demo 验证</strong><span>用最小原型验证关键假设</span></li>
+                <li><small>06</small><strong>企业验证</strong><span>进入流程接收真实反馈</span></li>
+                <li><small>07</small><strong>结果复盘</strong><span>只保留能够创造价值的方案</span></li>
+            </ol>
+
+            <div class="credit-directions" aria-label="当前研究方向">
+                <article><h3>销售 AI</h3><p>客户研究、销售准备、商机分析与跟进。</p></article>
+                <article><h3>知识 AI</h3><p>企业知识库、内部问答、客服与 SOP。</p></article>
+                <article><h3>流程 AI</h3><p>重复任务、数据处理、订单与文档流转。</p></article>
+                <article><h3>管理 AI</h3><p>会议、项目、分析与辅助决策。</p></article>
             </div>
         </div>
     </section>
 
-    <section class="system-section system-callout-section">
+    <section class="credit-section" aria-labelledby="judgmentTitle">
         <div class="container">
-            <article class="system-callout">
+            <header class="credit-section-heading">
                 <div>
-                    <p class="system-section-kicker">Whitepaper</p>
-                    <h2>AI 时代个人系统白皮书</h2>
-                    <p>一份写给中高端职场人的 20 页行动手册。它不是 AI 工具清单，而是一套关于工作流、知识出口、身体底盘和个人商业化的系统框架。</p>
+                    <p class="credit-kicker">JUDGMENT / 判断</p>
+                    <h2 id="judgmentTitle">我最近形成的一些判断</h2>
                 </div>
-                <a href="{{ '/whitepaper/' | relative_url }}">查看白皮书</a>
-            </article>
+                <p>不追逐抽象的 AI 概念，先回答企业为什么要做、从哪里开始，以及怎样判断有没有价值。</p>
+            </header>
+            <div class="credit-judgments">
+                <blockquote>企业 AI 最容易落地的第一批场景，往往不是最先进的，而是 ROI 最容易算清楚的。</blockquote>
+                <blockquote>自动化程度越高不代表价值越高，很多企业第一阶段更适合人机协同。</blockquote>
+                <blockquote>很多所谓 AI 项目，真正需要改造的不是模型，而是原来的工作流程。</blockquote>
+                <blockquote>老板最终不会为 Token 付钱，而会为成本下降、收入增长和效率提升付钱。</blockquote>
+            </div>
         </div>
     </section>
 
-    <section class="system-section">
+    <section class="credit-section credit-builds" id="builds" aria-labelledby="buildsTitle">
         <div class="container">
-            <div class="system-section-header system-section-header-row">
+            <header class="credit-section-heading credit-section-heading-row">
                 <div>
-                    <p class="system-section-kicker">Lab / 产品与验证</p>
-                    <h2>当前核心实验</h2>
+                    <p class="credit-kicker">BUILD / 产品与验证</p>
+                    <h2 id="buildsTitle">我正在做的东西</h2>
                 </div>
-                <a href="{{ '/labs/' | relative_url }}">查看全部</a>
-            </div>
-            <p class="system-section-intro">围绕企业 AI、业务诊断和商业判断，把方法做成可以试用、可以反馈的产品。</p>
-            <div class="system-core-projects">
+                <a href="{{ '/labs/' | relative_url }}">查看全部实验 →</a>
+            </header>
+            <p class="credit-section-intro">文章证明我会想，作品证明我能把判断做成可以试用、可以反馈的产品。状态如实标记，不把实验包装成客户案例。</p>
+            <div class="credit-build-list">
                 {% for curated in site.data.site_ia.core_labs %}
                 {% assign project = site.projects | where: 'link', curated.url | first %}
                 {% if project %}
                 {% assign target_link = project.link | default: project.url %}
-                <article class="system-core-project">
+                <article class="credit-build">
+                    <div class="credit-build-meta"><span>{{ project.status }}</span><small>0{{ forloop.index }}</small></div>
                     <div>
-                        <span>{{ project.status }}</span>
                         <h3><a href="{{ target_link | relative_url }}">{{ project.title }}</a></h3>
                         <p>{{ project.short_description | default: project.description }}</p>
                     </div>
-                    <a class="system-core-project-link" href="{{ target_link | relative_url }}" aria-label="进入{{ project.title }}">→</a>
+                    <a class="credit-build-open" href="{{ target_link | relative_url }}" aria-label="进入{{ project.title }}">进入实验 →</a>
                 </article>
                 {% endif %}
                 {% endfor %}
@@ -163,540 +105,239 @@ layout: default
         </div>
     </section>
 
-    <section class="system-section system-section-last">
-        <div class="container">
-            <div class="system-about">
-                <p class="system-section-kicker">About</p>
-                <h2>关于弓箭</h2>
-                <p>过去的经验主要来自企业项目，长期关注项目管理、阅读、训练、AI 工具与个人系统。现在，我把这些积累带进企业 AI 的研究与产品实验。</p>
-                <a href="{{ '/about/' | relative_url }}">了解更多</a>
+    <section class="credit-section credit-method-section" aria-labelledby="methodTitle">
+        <div class="container credit-method-grid">
+            <header>
+                <p class="credit-kicker">METHOD / 工作方法</p>
+                <h2 id="methodTitle">我怎么判断一个企业 AI 项目值不值得做</h2>
+                <p>方法不是为了包装“独家理论”，而是让每一步都有可检查的证据。</p>
+            </header>
+            <ol class="credit-method">
+                <li><small>01</small><div><strong>业务访谈</strong><span>先看真实工作，不从模型开始。</span></div></li>
+                <li><small>02</small><div><strong>机会诊断</strong><span>判断频率、成本、数据、价值与风险。</span></div></li>
+                <li><small>03</small><div><strong>场景设计</strong><span>设计 AI 与人的协作方式。</span></div></li>
+                <li><small>04</small><div><strong>Demo 验证</strong><span>快速做出能够验证价值的原型。</span></div></li>
+                <li><small>05</small><div><strong>真实落地</strong><span>进入业务流程，再用结果决定是否继续。</span></div></li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="credit-section credit-why" aria-labelledby="whyTitle">
+        <div class="container credit-why-grid">
+            <div>
+                <p class="credit-kicker">WHY ME / 为什么是我</p>
+                <h2 id="whyTitle">从企业项目现场，走向企业 AI 实践。</h2>
             </div>
+            <div class="credit-why-copy">
+                <p>我过去的工作长期围绕企业项目展开，涉及项目管理、商务协同、团队协作与结果交付。面对的一直是真实约束：客户需求、合同、人员、成本、系统、流程和组织协调。</p>
+                <p>因此，我看 AI 的标准不是模型先进不先进，而是企业会不会用、有没有价值、能不能真正落地。</p>
+                <a href="{{ '/about/' | relative_url }}">了解弓箭 →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="credit-section" aria-labelledby="historyTitle">
+        <div class="container">
+            <header class="credit-section-heading credit-section-heading-row">
+                <div>
+                    <p class="credit-kicker">SELECTED THINKING / 过往精选</p>
+                    <h2 id="historyTitle">今天的能力，不是突然出现的。</h2>
+                </div>
+                <a href="{{ '/docs/' | relative_url }}">查看全部文章 →</a>
+            </header>
+            <p class="credit-section-intro">企业 AI 实践所依赖的调研、拆解、沟通与交付能力，来自过去对项目、管理和咨询的长期积累。</p>
+            <div class="credit-history-list">
+                {% for curated in site.data.site_ia.legacy_context %}
+                {% assign post = site.posts | where: 'slug', curated.slug | first %}
+                {% if post %}
+                <article>
+                    <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%Y.%m.%d" }}</time>
+                    <div><h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3><p>{{ curated.reason }}</p></div>
+                    <a href="{{ post.url | relative_url }}" aria-label="阅读《{{ post.title }}》">阅读 →</a>
+                </article>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="credit-section credit-foundation" aria-labelledby="foundationTitle">
+        <div class="container credit-foundation-grid">
+            <div>
+                <p class="credit-kicker">LONG-TERM FOUNDATION / 长期底层</p>
+                <h2 id="foundationTitle">企业 AI 是当前主线，个人系统是长期底座。</h2>
+                <p>我仍然持续研究工作流、知识与表达、身体与纪律。它们共同支撑长期判断、稳定交付和独立行动。</p>
+            </div>
+            <a href="{{ '/whitepaper/' | relative_url }}"><span>AI 时代个人系统白皮书</span><strong>阅读底层框架 →</strong></a>
         </div>
     </section>
 </div>
 
 <style>
-.system-home {
-    background: var(--color-bg);
+.credit-home {
+    --credit-ink: #111827;
+    --credit-muted: #64748b;
+    --credit-line: #dbe1e8;
+    --credit-paper: #ffffff;
+    --credit-soft: #f4f7fb;
+    --credit-blue: #3155a6;
+    color: var(--credit-ink);
+    background: var(--credit-paper);
 }
 
-.system-hero {
-    padding: 88px 0 56px;
-    background: var(--color-bg);
+[data-theme="dark"] .credit-home {
+    --credit-ink: #eef1f5;
+    --credit-muted: #a0aaba;
+    --credit-line: #2d3542;
+    --credit-paper: #10141b;
+    --credit-soft: #151b24;
+    --credit-blue: #9da7ff;
 }
 
-.system-hero-inner {
-    max-width: 780px;
-}
-
-.system-focus {
-    --system-focus-blue: #3155a6;
-    padding: 56px 0 60px;
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-bg-secondary);
-}
-
-[data-theme="dark"] .system-focus {
-    --system-focus-blue: #9da7ff;
-}
-
-.system-focus-inner {
-    display: grid;
-    grid-template-columns: minmax(250px, .72fr) minmax(0, 1.28fr);
-    gap: 72px;
-    align-items: start;
-}
-
-.system-focus-heading {
-    padding-top: 3px;
-}
-
-.system-focus-heading .system-section-kicker {
-    color: var(--system-focus-blue);
-}
-
-.system-focus-heading h2 {
-    max-width: 340px;
-    margin: 0;
-    color: var(--color-text);
-    font-size: 35px;
+.credit-kicker {
+    margin: 0 0 14px;
+    color: var(--credit-blue);
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: -0.035em;
-    line-height: 1.25;
-}
-
-.system-focus-body > p {
-    max-width: 650px;
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: 17px;
-    line-height: 1.85;
-}
-
-.system-focus-method {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    margin: 30px 0 0;
-    padding: 0;
-    border-top: 1px solid var(--color-text);
-    border-bottom: 1px solid var(--color-border);
-    list-style: none;
-}
-
-.system-focus-method li {
-    display: flex;
-    gap: 9px;
-    align-items: baseline;
-    padding: 17px 14px 17px 0;
-    color: var(--color-text);
-    font-size: 14px;
-    font-weight: 650;
-}
-
-.system-focus-method li + li {
-    padding-left: 14px;
-    border-left: 1px solid var(--color-border);
-}
-
-.system-focus-method small {
-    color: var(--color-text-secondary);
-    font-family: 'SF Mono', Monaco, Consolas, monospace;
-    font-size: 9px;
-    font-weight: 400;
-}
-
-.system-focus-link {
-    display: inline-flex;
-    gap: 24px;
-    align-items: center;
-    margin-top: 27px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--system-focus-blue);
-    color: var(--system-focus-blue);
-    font-size: 14px;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.system-focus-link:hover {
-    color: var(--color-text);
-    border-bottom-color: var(--color-text);
-}
-
-.system-kicker,
-.system-section-kicker {
-    margin: 0 0 var(--spacing-xs);
-    color: var(--color-text-secondary);
-    font-family: 'SF Mono', Monaco, Consolas, monospace;
-    font-size: 12px;
-    line-height: 1.6;
-    letter-spacing: 0;
+    letter-spacing: .06em;
     text-transform: uppercase;
 }
 
-.system-title {
-    margin: 0;
-    color: var(--color-text);
-    font-size: 56px;
-    line-height: 1.1;
-    font-weight: 720;
-    letter-spacing: 0;
+.credit-hero { padding: 94px 0 82px; }
+.credit-hero-grid { display: grid; grid-template-columns: minmax(0, 1.42fr) minmax(300px, .58fr); gap: 84px; align-items: end; }
+.credit-hero-main h1 { max-width: 860px; margin: 0; font-size: clamp(48px, 5.8vw, 76px); font-weight: 680; letter-spacing: -.055em; line-height: 1.1; }
+.credit-hero-lead { max-width: 720px; margin: 30px 0 0; color: var(--credit-muted); font-size: 18px; line-height: 1.9; }
+.credit-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.credit-actions a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 17px; border: 1px solid var(--credit-line); border-radius: 4px; color: var(--credit-ink); font-size: 14px; font-weight: 700; text-decoration: none; }
+.credit-actions .credit-action-primary { border-color: var(--credit-ink); background: var(--credit-ink); color: var(--credit-paper); }
+.credit-actions a:hover { border-color: var(--credit-blue); color: var(--credit-blue); }
+.credit-actions .credit-action-primary:hover { background: var(--credit-blue); color: #fff; }
+
+.credit-hero-proof { padding: 24px 0 0 28px; border-left: 2px solid var(--credit-blue); }
+.credit-hero-proof > p { margin: 0; color: var(--credit-muted); font-size: 15px; line-height: 1.8; }
+.credit-hero-proof > p strong { color: var(--credit-ink); font-size: 20px; }
+.credit-hero-proof dl { margin: 31px 0 0; }
+.credit-hero-proof dl div { padding: 14px 0; border-top: 1px solid var(--credit-line); }
+.credit-hero-proof dt { color: var(--credit-ink); font-size: 13px; font-weight: 700; }
+.credit-hero-proof dd { margin: 5px 0 0; color: var(--credit-muted); font-size: 12px; }
+
+.credit-section { padding: 82px 0; border-top: 1px solid var(--credit-line); }
+.credit-focus,
+.credit-method-section,
+.credit-foundation { background: var(--credit-soft); }
+.credit-section-heading { display: grid; grid-template-columns: minmax(300px, .85fr) minmax(0, 1fr); gap: 64px; align-items: end; margin-bottom: 42px; }
+.credit-section-heading h2,
+.credit-method-grid h2,
+.credit-why h2,
+.credit-foundation h2 { max-width: 660px; margin: 0; font-size: clamp(30px, 3.3vw, 44px); font-weight: 660; letter-spacing: -.045em; line-height: 1.2; }
+.credit-section-heading > p,
+.credit-method-grid header > p:last-child { max-width: 590px; margin: 0; color: var(--credit-muted); line-height: 1.85; }
+.credit-section-heading-row { grid-template-columns: minmax(0, 1fr) auto; }
+.credit-section-heading-row > a { align-self: end; color: var(--credit-ink); font-size: 13px; font-weight: 700; text-decoration: none; }
+.credit-section-heading-row > a:hover { color: var(--credit-blue); }
+.credit-section-intro { max-width: 700px; margin: -18px 0 34px; color: var(--credit-muted); line-height: 1.85; }
+
+.credit-flow { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); margin: 0; padding: 0; border-top: 1px solid var(--credit-ink); border-bottom: 1px solid var(--credit-line); list-style: none; }
+.credit-flow li { min-height: 168px; padding: 19px 14px 20px 0; }
+.credit-flow li + li { padding-left: 14px; border-left: 1px solid var(--credit-line); }
+.credit-flow small,
+.credit-flow strong,
+.credit-flow span { display: block; }
+.credit-flow small { color: var(--credit-muted); font: 10px "SFMono-Regular", Consolas, monospace; }
+.credit-flow strong { margin-top: 28px; font-size: 16px; }
+.credit-flow span { margin-top: 8px; color: var(--credit-muted); font-size: 12px; line-height: 1.65; }
+
+.credit-directions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 52px; border-top: 1px solid var(--credit-line); }
+.credit-directions article { padding: 24px 22px 4px 0; }
+.credit-directions article + article { padding-left: 22px; border-left: 1px solid var(--credit-line); }
+.credit-directions h3 { margin: 0; font-size: 18px; }
+.credit-directions p { margin: 9px 0 0; color: var(--credit-muted); font-size: 13px; line-height: 1.7; }
+
+.credit-judgments { border-top: 2px solid var(--credit-ink); }
+.credit-judgments blockquote { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 18px; margin: 0; padding: 25px 0; border-bottom: 1px solid var(--credit-line); color: var(--credit-ink); font-size: 20px; font-weight: 560; line-height: 1.65; }
+.credit-judgments blockquote::before { content: "—"; color: var(--credit-blue); }
+
+.credit-build-list { border-top: 2px solid var(--credit-ink); }
+.credit-build { display: grid; grid-template-columns: 130px minmax(0, 1fr) auto; gap: 34px; align-items: start; padding: 30px 0; border-bottom: 1px solid var(--credit-line); }
+.credit-build-meta { display: flex; flex-direction: column; gap: 9px; color: var(--credit-blue); font-size: 12px; font-weight: 700; }
+.credit-build-meta small { color: var(--credit-muted); font: 10px "SFMono-Regular", Consolas, monospace; }
+.credit-build h3 { margin: 0; font-size: 25px; line-height: 1.35; }
+.credit-build h3 a { color: var(--credit-ink); text-decoration: none; }
+.credit-build h3 a:hover { color: var(--credit-blue); }
+.credit-build p { max-width: 660px; margin: 10px 0 0; color: var(--credit-muted); line-height: 1.8; }
+.credit-build-open { margin-top: 5px; color: var(--credit-ink); font-size: 13px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+.credit-build-open:hover { color: var(--credit-blue); }
+
+.credit-method-grid { display: grid; grid-template-columns: minmax(300px, .78fr) minmax(0, 1.22fr); gap: 86px; }
+.credit-method-grid header > p:last-child { margin-top: 20px; }
+.credit-method { margin: 0; padding: 0; border-top: 2px solid var(--credit-ink); list-style: none; }
+.credit-method li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--credit-line); }
+.credit-method small { color: var(--credit-blue); font: 10px "SFMono-Regular", Consolas, monospace; }
+.credit-method strong,
+.credit-method span { display: block; }
+.credit-method strong { font-size: 18px; }
+.credit-method span { margin-top: 6px; color: var(--credit-muted); font-size: 13px; line-height: 1.7; }
+
+.credit-why-grid { display: grid; grid-template-columns: minmax(320px, .85fr) minmax(0, 1.15fr); gap: 80px; }
+.credit-why-copy { max-width: 680px; }
+.credit-why-copy p { margin: 0; color: var(--credit-muted); font-size: 16px; line-height: 1.9; }
+.credit-why-copy p + p { margin-top: 18px; }
+.credit-why-copy a { display: inline-flex; margin-top: 26px; color: var(--credit-ink); font-size: 14px; font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--credit-ink); }
+.credit-why-copy a:hover { color: var(--credit-blue); border-color: currentColor; }
+
+.credit-history-list { border-top: 2px solid var(--credit-ink); }
+.credit-history-list article { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; gap: 28px; align-items: start; padding: 25px 0; border-bottom: 1px solid var(--credit-line); }
+.credit-history-list time { color: var(--credit-muted); font: 11px "SFMono-Regular", Consolas, monospace; }
+.credit-history-list h3 { margin: 0; font-size: 18px; line-height: 1.45; }
+.credit-history-list h3 a { color: var(--credit-ink); text-decoration: none; }
+.credit-history-list h3 a:hover { color: var(--credit-blue); }
+.credit-history-list p { margin: 7px 0 0; color: var(--credit-muted); font-size: 13px; line-height: 1.7; }
+.credit-history-list article > a { color: var(--credit-ink); font-size: 12px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+
+.credit-foundation-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); gap: 72px; align-items: end; }
+.credit-foundation-grid > div > p:last-child { max-width: 700px; margin: 20px 0 0; color: var(--credit-muted); line-height: 1.85; }
+.credit-foundation-grid > a { display: flex; flex-direction: column; gap: 26px; padding: 24px 0; border-top: 2px solid var(--credit-ink); border-bottom: 1px solid var(--credit-line); color: var(--credit-ink); text-decoration: none; }
+.credit-foundation-grid > a span { font-size: 20px; font-weight: 680; }
+.credit-foundation-grid > a strong { color: var(--credit-blue); font-size: 13px; }
+
+.credit-home a:focus-visible { outline: 2px solid var(--credit-blue); outline-offset: 5px; }
+
+@media (max-width: 980px) {
+    .credit-hero-grid { grid-template-columns: minmax(0, 1.25fr) minmax(260px, .75fr); gap: 48px; }
+    .credit-flow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .credit-flow li:nth-child(5) { border-left: 0; }
+    .credit-flow li:nth-child(n + 5) { border-top: 1px solid var(--credit-line); }
 }
 
-.system-subtitle {
-    margin: var(--spacing-sm) 0 0;
-    color: var(--color-text);
-    font-size: 28px;
-    line-height: 1.4;
-    font-weight: 650;
-}
-
-.system-description {
-    max-width: 720px;
-    margin: var(--spacing-sm) 0 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-large);
-    line-height: 1.85;
-}
-
-.system-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-    margin-top: var(--spacing-md);
-}
-
-.system-actions a,
-.system-callout a,
-.system-about a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 40px;
-    padding: 0 var(--spacing-sm);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    color: var(--color-text);
-    text-decoration: none;
-    font-size: var(--font-size-small);
-    font-weight: 650;
-    transition: var(--transition);
-}
-
-.system-actions a:hover,
-.system-callout a:hover,
-.system-about a:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-    background: var(--color-bg-secondary);
-}
-
-.system-actions .system-action-primary,
-.system-callout a {
-    border-color: var(--color-text);
-    background: var(--color-text);
-    color: var(--color-bg);
-}
-
-.system-actions .system-action-primary:hover,
-.system-callout a:hover {
-    border-color: var(--color-primary);
-    background: var(--color-primary);
-    color: var(--color-bg);
-}
-
-.system-section {
-    padding: var(--spacing-lg) 0;
-    border-top: 1px solid var(--color-border);
-}
-
-.system-section-last {
-    padding-bottom: var(--spacing-xl);
-}
-
-.system-section-header {
-    max-width: 720px;
-    margin-bottom: var(--spacing-md);
-}
-
-.system-section-header-row {
-    max-width: none;
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: var(--spacing-md);
-}
-
-.system-section-header h2,
-.system-callout h2,
-.system-about h2 {
-    margin: 0;
-    color: var(--color-text);
-    font-size: var(--font-size-h3);
-    line-height: 1.35;
-    font-weight: 680;
-}
-
-.system-section-header a {
-    flex-shrink: 0;
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    font-size: var(--font-size-small);
-    transition: var(--transition);
-}
-
-.system-section-header a:hover {
-    color: var(--color-primary);
-}
-
-.system-section-intro {
-    max-width: 640px;
-    margin: calc(var(--spacing-md) * -0.5) 0 var(--spacing-md);
-    color: var(--color-text-secondary);
-    line-height: 1.8;
-}
-
-.system-grid {
-    display: grid;
-    gap: var(--spacing-md);
-}
-
-.system-grid-four {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.system-grid-three {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.system-panel {
-    min-height: 176px;
-    padding: var(--spacing-sm);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    background: var(--color-bg);
-}
-
-.system-panel span {
-    display: block;
-    margin-bottom: var(--spacing-sm);
-    color: var(--color-text-secondary);
-    font-family: 'SF Mono', Monaco, Consolas, monospace;
-    font-size: 12px;
-    line-height: 1;
-}
-
-.system-panel h3 {
-    margin: 0;
-    color: var(--color-text);
-    font-size: var(--font-size-large);
-    line-height: 1.45;
-    font-weight: 650;
-}
-
-.system-panel p {
-    margin: var(--spacing-xs) 0 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-base);
-    line-height: 1.75;
-}
-
-.system-panel-strong {
-    min-height: 148px;
-    background: var(--color-bg-secondary);
-}
-
-.system-list {
-    display: grid;
-    gap: var(--spacing-sm);
-}
-
-.system-list-item {
-    display: grid;
-    grid-template-columns: 108px minmax(0, 1fr);
-    gap: var(--spacing-md);
-    padding: var(--spacing-sm) 0;
-}
-
-.system-list-item + .system-list-item {
-    border-top: 1px solid var(--color-border);
-}
-
-.system-list-item time {
-    color: var(--color-text-secondary);
-    font-family: 'SF Mono', Monaco, Consolas, monospace;
-    font-size: var(--font-size-small);
-    line-height: 1.7;
-}
-
-.system-list-item h3 {
-    margin: 0;
-    font-size: var(--font-size-large);
-    line-height: 1.45;
-    font-weight: 650;
-}
-
-.system-list-item h3 a,
-.system-project h3 a {
-    color: var(--color-text);
-    text-decoration: none;
-    transition: var(--transition);
-}
-
-.system-list-item h3 a:hover,
-.system-project h3 a:hover {
-    color: var(--color-primary);
-}
-
-.system-list-item p {
-    margin: var(--spacing-xs) 0 0;
-    color: var(--color-text-secondary);
-    line-height: 1.75;
-}
-
-.system-callout {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-lg);
-    padding: var(--spacing-md);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    background: var(--color-bg-secondary);
-}
-
-.system-callout p,
-.system-about p {
-    max-width: 760px;
-    margin: var(--spacing-sm) 0 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-base);
-    line-height: 1.8;
-}
-
-.system-project {
-    min-height: 168px;
-}
-
-.system-project-icon {
-    display: block;
-    margin-bottom: var(--spacing-sm);
-    font-size: 24px;
-    line-height: 1;
-}
-
-.system-core-projects {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 40px;
-    border-top: 1px solid var(--color-text);
-}
-
-.system-core-project {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 28px;
-    gap: 22px;
-    min-height: 184px;
-    padding: 25px 0 28px;
-    border-bottom: 1px solid var(--color-border);
-}
-
-.system-core-project > div > span {
-    color: var(--color-primary);
-    font-size: 11px;
-    font-weight: 650;
-}
-
-.system-core-project h3 {
-    margin: 16px 0 0;
-    font-size: 21px;
-    font-weight: 680;
-    line-height: 1.4;
-}
-
-.system-core-project h3 a {
-    color: var(--color-text);
-    text-decoration: none;
-}
-
-.system-core-project h3 a:hover {
-    color: var(--color-primary);
-}
-
-.system-core-project p {
-    max-width: 430px;
-    margin: 10px 0 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-base);
-    line-height: 1.75;
-}
-
-.system-core-project-link {
-    align-self: center;
-    color: var(--color-text-secondary);
-    font-size: 20px;
-    text-decoration: none;
-}
-
-.system-core-project-link:hover {
-    color: var(--color-primary);
-}
-
-.system-about {
-    max-width: 820px;
-}
-
-.system-about a {
-    margin-top: var(--spacing-md);
-}
-
-@media (max-width: 900px) {
-    .system-grid-four,
-    .system-grid-three {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .system-focus-inner {
-        gap: 42px;
-    }
-}
-
-@media (max-width: 768px) {
-    .system-hero {
-        padding: 56px 0 36px;
-    }
-
-    .system-title {
-        font-size: 40px;
-    }
-
-    .system-subtitle {
-        font-size: 22px;
-    }
-
-    .system-description {
-        font-size: var(--font-size-base);
-    }
-
-    .system-focus {
-        padding: 42px 0 46px;
-    }
-
-    .system-focus-inner {
-        grid-template-columns: 1fr;
-        gap: 24px;
-    }
-
-    .system-focus-heading h2 {
-        font-size: 30px;
-    }
-
-    .system-focus-body > p {
-        font-size: var(--font-size-base);
-    }
-
-    .system-focus-method li {
-        gap: 5px;
-        padding-right: 8px;
-        font-size: 13px;
-    }
-
-    .system-focus-method li + li {
-        padding-left: 8px;
-    }
-
-    .system-actions a {
-        flex: 1 1 auto;
-    }
-
-    .system-section {
-        padding: var(--spacing-md) 0;
-    }
-
-    .system-section-header-row,
-    .system-callout {
-        display: block;
-    }
-
-    .system-section-header-row a,
-    .system-callout a {
-        margin-top: var(--spacing-sm);
-    }
-
-    .system-grid-four,
-    .system-grid-three {
-        grid-template-columns: 1fr;
-    }
-
-    .system-core-projects {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-
-    .system-list-item {
-        grid-template-columns: 1fr;
-        gap: 2px;
-    }
+@media (max-width: 760px) {
+    .credit-hero { padding: 56px 0 48px; }
+    .credit-hero-grid,
+    .credit-section-heading,
+    .credit-method-grid,
+    .credit-why-grid,
+    .credit-foundation-grid { grid-template-columns: 1fr; gap: 34px; }
+    .credit-hero-main h1 { font-size: clamp(39px, 11vw, 51px); }
+    .credit-hero-lead { margin-top: 22px; font-size: 16px; line-height: 1.8; }
+    .credit-actions a { flex: 1 1 100%; justify-content: center; }
+    .credit-hero-proof { padding-left: 20px; }
+    .credit-section { padding: 58px 0; }
+    .credit-section-heading { margin-bottom: 30px; }
+    .credit-section-heading-row { display: block; }
+    .credit-section-heading-row > a { display: inline-flex; margin-top: 18px; }
+    .credit-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .credit-flow li { min-height: 145px; }
+    .credit-flow li:nth-child(odd) { padding-left: 0; border-left: 0; }
+    .credit-flow li:nth-child(n + 3) { border-top: 1px solid var(--credit-line); }
+    .credit-directions { grid-template-columns: 1fr; margin-top: 38px; }
+    .credit-directions article,
+    .credit-directions article + article { padding: 20px 0; border-left: 0; border-bottom: 1px solid var(--credit-line); }
+    .credit-judgments blockquote { grid-template-columns: 24px minmax(0, 1fr); gap: 10px; font-size: 17px; }
+    .credit-build { grid-template-columns: 1fr; gap: 17px; }
+    .credit-build-meta { flex-direction: row; justify-content: space-between; }
+    .credit-build-open { margin-top: 0; }
+    .credit-method-grid { gap: 30px; }
+    .credit-history-list article { grid-template-columns: 1fr; gap: 10px; }
+    .credit-history-list article > a { margin-top: 4px; }
 }
 </style>
