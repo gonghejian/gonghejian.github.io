@@ -1,22 +1,28 @@
 {
   "schema": "macro-daily-lab/v1",
-  "generated_at": "2026-10-14T10:03:16+08:00",
+  "generated_at": "2026-10-15T09:53:00+08:00",
   "latest": {
-    "date": "2026-10-14",
-    "title": "宏观政策解读与全球资产配置策略日报（2026-10-14）",
-    "summary": "美联储9月FOMC纪要及贴现率会议纪要显示内部对后续宽松节奏仍存分歧，政策进入数据依赖的观察期；欧元区信贷条件调查与ECB官员讲话指向融资条件边际改善但AI投资叙事升温。整体环境偏向中性观察：利率高位回落方向未变但路径反复，美元与流动性缺乏单边驱动，风险资产宜维持均衡并等待确认。",
-    "path": "/labs/macro-daily-lab/reports/2026-10-14.html",
+    "date": "2026-10-15",
+    "title": "宏观政策解读与全球资产配置策略日报",
+    "summary": "今日自动生成器已完成公开信息抓取。模型不可用时，本报告按宏观研究框架输出谨慎版配置观点：先看政策边际，再看利率与美元，最后落到权益、债券、黄金和汇率的组合暴露。",
+    "path": "/labs/macro-daily-lab/reports/2026-10-15.html",
     "stance": "中性观察",
     "risk_level": "中",
     "highlights": [
-      "美联储公布9月15-16日FOMC会议纪要，市场据此校准年内剩余时间的降息路径与内部分歧程度",
-      "美联储公布8-9月贴现率会议纪要，地区联储对贴现率调整的分歧反映实体经济与信贷条件的区域差异",
-      "ECB发布9月SESFOD信贷条件调查，欧元区证券融资与OTC衍生品市场的抵押品与融资条件变化值得跟踪",
-      "ECB首席经济学家Lane就欧洲AI机遇发表讲话，暗示政策层对生产率与投资周期的关注上升",
-      "美联储对American Express采取执法行动，提示金融合规与反洗钱监管仍处高压状态"
+      "Minutes of the Board's discount rate meetings on August 17, September 9, and September 16, 2026",
+      "Results of the September 2026 survey on credit terms and conditions in euro-denominated securities financing and OTC derivatives markets (SESFOD)",
+      "Federal Reserve Board releases results of the 2025 Survey of Consumer Finances, which provides the public and policymakers with detailed insights into the economic condition of American families",
+      "Federal Reserve Board announces enforcement action against American Express Company to address, among other things, the firm’s failure to sufficiently detect and report certain suspicious activity related to money laundering"
     ]
   },
   "reports": [
+    {
+      "date": "2026-10-15",
+      "title": "宏观政策解读与全球资产配置策略日报",
+      "path": "/labs/macro-daily-lab/reports/2026-10-15.html",
+      "stance": "中性观察",
+      "risk_level": "中"
+    },
     {
       "date": "2026-10-14",
       "title": "宏观政策解读与全球资产配置策略日报（2026-10-14）",
@@ -427,13 +433,6 @@
       "date": "2026-08-17",
       "title": "宏观政策解读与全球资产配置策略日报（2026-08-17）",
       "path": "/labs/macro-daily-lab/reports/2026-08-17.html",
-      "stance": "中性观察",
-      "risk_level": "中"
-    },
-    {
-      "date": "2026-08-16",
-      "title": "宏观政策解读与全球资产配置策略日报（2026-08-16）",
-      "path": "/labs/macro-daily-lab/reports/2026-08-16.html",
       "stance": "中性观察",
       "risk_level": "中"
     }
